@@ -1,4 +1,4 @@
-from domain.db_session import Base
+from declarative_base import Base
 from sqlalchemy import Column, Integer, Text
 
 
@@ -24,8 +24,10 @@ class User(Base):
 
     surname = Column(
         Text,
+        nullable=True,
     )
 
     password = Column(
-        Text
+        Text,
+        nullable=True,
     )
