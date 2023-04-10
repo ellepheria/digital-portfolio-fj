@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine
 import sqlalchemy.orm as orm
-from __all_models import *
-from declarative_base import Base
+from domain.__all_models import *
+from domain.declarative_base import Base
+from sqlalchemy.orm import Session
 
 __factory = None
 
@@ -11,31 +12,6 @@ DATABASE = {
     "database_name": "db",
     "url": "localhost",
 }
-
-
-def global_init(database: dict):
-    global __factory
-
-    if __factory:
-        return
-
-    if not check_dict_to_correctness(dictionary):
-        raise Exception("Неправильное подключение к базе данных")
-
-    engine = create_engine(f"postgresql+psycopg2://"
-                           f"{dictionary['user']}:"
-                           f"{dictionary['password']}@"
-                           f"{dictionary['url']}/"
-                           f"{dictionary['database_name']}", echo=True)
-    engine.connect()
-
-    Base.metadata.create_all(engine)
-    __factory = orm.sessionmaker(bind=engine)
-
-
-def create_session() -> orm.sessionmaker:
-    global __factory
-    return __factory
 
 
 def check_dict_to_correctness(dictionary: dict):
@@ -50,11 +26,25 @@ def check_dict_to_correctness(dictionary: dict):
     return False
 
 
+def global_init():
+    global __factory
+    if not check_dict_to_correctness(DATABASE):
+        raise Exception("Неправильное подключение к базе данных")
+
+    engine = create_engine(f"postgresql+psycopg2://"
+                           f"{DATABASE['user']}:"
+                           f"{DATABASE['password']}@"
+                           f"{DATABASE['url']}/"
+                           f"{DATABASE['database_name']}", echo=True)
+
+    Base.metadata.create_all(engine)
+    __factory = orm.sessionmaker(bind=engine)
+
+
+def create_session() -> Session:
+    global __factory
+    return __factory()
+
+
 if __name__ == "__main__":
-    dictionary = DATABASE = {
-        "user": "postgres",
-        "password": "",
-        "database_name": "db",
-        "url": "localhost",
-    }
-    global_init(dictionary)
+    global_init()

@@ -1,4 +1,4 @@
-from declarative_base import Base
+from domain.declarative_base import Base
 from sqlalchemy import Column, Integer, Text
 
 
@@ -31,3 +31,6 @@ class User(Base):
         Text,
         nullable=True,
     )
+
+    def __str__(self):
+        return f'id: {self.id} username: {self.username} email: {self.email} surname: {self.surname}'
