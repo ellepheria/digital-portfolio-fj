@@ -61,7 +61,7 @@ export default {
         return; //тут надо обрабатывать ошибки
       }
 
-      return this.$router.go({ name: 'catalog' });
+      return this.$router.push({ path: '/' });
     },
   },
 }

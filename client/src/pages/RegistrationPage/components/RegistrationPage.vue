@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form id="form" class="registration_form" @submit.prevent>
+    <form id="form" class="registration_form" @submit.prevent="registrationFormSubmit">
       <input
           v-model="email"
           class="input login"
@@ -30,19 +30,12 @@
           id="remember_me"
           checked
       >
-      <label for="remember_me">Запомнить?</label>
-      <button
-          class="confirm_button"
-          @click="registrationFormSubmit"
-      >click me</button>
     </form>
   </div>
 </template>
 
 <script>
 import ConfirmButton from "@/UI/ConfirmButton/ConfirmButton.vue";
-import axios from "axios";
-
 
 export default {
   name: "RegistrationPage",
@@ -74,8 +67,11 @@ export default {
         return; //тут надо обрабатывать ошибки
       }
 
-      return this.$router.go({ name: 'catalog' });
+      return this.$router.push({ path: './auth' });
     },
+    logout() {
+      this.$store.dispatch('auth/logout')
+    }
   },
 }
 </script>
@@ -88,14 +84,6 @@ export default {
   justify-content: center;
   margin: auto;
   height: 100vh;
-}
-
-.confirm_button {
-  align-self: flex-end;
-  margin-top: 10px;
-  padding: 10px 10px;
-  border: 1px solid;
-  border-radius: 15px;
 }
 
 .input {
