@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURI = 'http://192.168.0.5:8080/'
+const baseURI = 'http://127.0.0.1:5000/'
 
 export {
     baseURI
