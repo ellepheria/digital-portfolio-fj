@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RegistrationPage from "@/pages/RegistrationPage";
+import { registrationRoutes } from "@/pages/RegistrationPage";
+import { authorizationRoutes } from "@/pages/AuthorizationPage";
 
 const routes = [
-  {path: '/registration', component: RegistrationPage},
+    ...registrationRoutes,
+    ...authorizationRoutes,
 ]
 
 const router = createRouter({
