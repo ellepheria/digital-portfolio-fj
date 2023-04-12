@@ -28,12 +28,12 @@ export default {
     actions: {
         async login({ commit }, { login, password, rememberMe }) {
             try {
-                const { data } = await $http.post('/login', {
+                const { data } = await $http.post('http://127.0.0.1:5000/login', {
                     login,
                     password,
                 });
 
-                const token = data.access_token;
+                const token = data['access_token'];
 
                 rememberMe ? setToken('local', token, $http) : setToken('session', token, $http);
 
@@ -46,13 +46,14 @@ export default {
         },
         async register({ commit }, { email, username, password }) {
             try {
-                const { data } = await $http.post('/register', {
+                const { data } = await $http.post('http://127.0.0.1:5000/register', {
                     email,
                     username,
                     password,
                 });
 
-                const token = data.access_token;
+                const token = data['access_token'];
+                console.log(token)
 
                 setToken('local', token, $http);
 
