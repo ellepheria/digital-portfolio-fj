@@ -5,27 +5,24 @@
           v-model="login"
           class="input login"
           type="text"
-          placeholder="Email">
-      <input
-          v-model="username"
-          class="input username"
-          type="text"
-          placeholder="Username">
+          placeholder="Email/Username">
       <input
           @input="password = $event.target.value"
           v-model="password"
           class="input password"
           type="password"
-          placeholder="Password">
+          placeholder="Пароль">
       <input
           type="checkbox"
           class="checkbox"
-          v-model="check"
+          v-model="rememberMe"
+          id="remember_me"
           checked
       >
+      <label for="remember_me">Запомнить?</label>
       <button
           class="confirm_button"
-          @click="registrationFormSubmit"
+          @click="authorizationFormSubmit"
       >click me</button>
     </form>
   </div>
@@ -34,33 +31,50 @@
 <script>
 import ConfirmButton from "@/UI/ConfirmButton/ConfirmButton.vue";
 
+
+
 export default {
-  name: "RegistrationForm",
+  name: "AuthorizationPage",
   components: {
     ConfirmButton,
   },
   data() {
     return {
       login: '',
-      username: '',
       password: '',
-      check: true
+      rememberMe: true
     }
   },
   methods: {
-    registrationFormSubmit(e) {
-      console.log(e)
+    async authorizationFormSubmit() {
+      const { login, password, rememberMe} = this;
+      console.log(login);
+      console.log(password);
+      console.log(rememberMe);
+      const { data } = await this.$store.dispatch('auth/login', {
+        login,
+        password,
+        rememberMe,
+      });
+
+      if (!data) {
+        return; //тут надо обрабатывать ошибки
+      }
+
+      return this.$router.push({ path: '/' });
     },
-  }
+  },
 }
 </script>
 
 <style scoped>
 .registration_form {
-  max-width: 70%;
+  max-width: 35%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin: auto;
+  height: 100vh;
 
 }
 
