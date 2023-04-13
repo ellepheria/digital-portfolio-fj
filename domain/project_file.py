@@ -21,3 +21,6 @@ class ProjectFile(Base):
         Text,
         unique=True,
     )
+
+    def __str__(self):
+        return f'id: {self.id}, project_id: {self.project_id}, file_path: {self.file_path}'

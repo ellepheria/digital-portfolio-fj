@@ -34,7 +34,7 @@ class Project(Base):
 
     rating = Column(
         Integer,
-        nullable=False,
+        default=lambda: 0,
     )
 
     cover_path = Column(
@@ -46,3 +46,8 @@ class Project(Base):
         ARRAY(Integer, dimensions=5),
         nullable=True,
     )
+
+    def __str__(self):
+        return f'id: {self.id}, title: {self.title}, user_id: {self.user_id}, description: {self.description}, ' \
+               f'github: {self.github_link}, rating: {self.rating}, cover_path: {self.cover_path}, ' \
+               f'added_links: {self.added_links}'

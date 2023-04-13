@@ -1,5 +1,7 @@
+from sqlalchemy.orm import relationship
+
 from domain.declarative_base import Base
-from sqlalchemy import Column, Integer, Text, ForeignKey
+from sqlalchemy import Column, Integer, ForeignKey, Text
 
 
 class Profile(Base):
@@ -57,3 +59,10 @@ class Profile(Base):
         Text,
         nullable=True,
     )
+
+    user = relationship("User", backref="profiles")
+
+    def __str__(self):
+        return f'user_id: {self.user_id}, username: {self.username}, name: {self.name}, surname: {self.surname},' \
+               f'about: {self.about}, technologies: {self.technologies}, age: {self.age},' \
+               f'phone_number: {self.phone_number}, education: {self.education}, social_networks: {self.social_networks}'

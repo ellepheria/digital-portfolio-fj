@@ -20,3 +20,6 @@ class ProfileFile(Base):
         Text,
         nullable=True,
     )
+
+    def __str__(self):
+        return f'profile_id: {self.profile_id}, photo_path: {self.photo_path}, cover_path: {self.cover_path}'

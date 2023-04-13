@@ -33,3 +33,7 @@ class Comment(Base):
         ForeignKey("profiles.username"),
         nullable=False,
     )
+
+    def __str__(self):
+        return f'id: {self.id}, project_id: {self.project_id}, text: {self.text}, user_id: {self.user_id}, ' \
+               f'username: {self.username}'
