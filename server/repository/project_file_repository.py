@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from domain import db_session
-from domain.project_file import ProjectFile
+from server.domain import db_session
+from server.domain.project_file import ProjectFile
 
 
 class IProjectFileRepository(ABC):

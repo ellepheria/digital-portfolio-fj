@@ -1,14 +1,13 @@
 from sqlalchemy import create_engine
 import sqlalchemy.orm as orm
-from domain.__all_models import *
-from domain.declarative_base import Base
+from server.domain.declarative_base import Base
 from sqlalchemy.orm import Session
 
 __factory = None
 
 DATABASE = {
     "user": "postgres",
-    "password": "",
+    "password": "posgres",
     "database_name": "db",
     "url": "localhost",
 }

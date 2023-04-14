@@ -1,7 +1,0 @@
-from repository.comment_repository import CommentRepository
-from repository.liked_project_repository import LikedProjectRepository
-from repository.profile_repository import ProfileRepository
-from repository.profile_file_repository import ProfileFileRepository
-from repository.project_file_repository import ProjectFileRepository
-from repository.project_repository import ProjectRepository
-from repository.user_repository import UserRepository
