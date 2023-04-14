@@ -1,5 +1,5 @@
-from domain import db_session
-from domain.project import Project
+from server.domain import db_session
+from server.domain.project import Project
 
 from abc import ABC, abstractmethod
 

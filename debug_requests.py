@@ -1,6 +1,6 @@
-from domain import db_session
-from domain.__all_models import *
-from repository.__all_repository import *
+from server.domain import db_session
+from server.domain.__all_models import *
+from server.repository.__all_repository import *
 
 if __name__ == '__main__':
     db_session.global_init()

@@ -26,3 +26,4 @@ def login():
 
 if __name__ == '__main__':
     db_session.global_init()
+    app.run()

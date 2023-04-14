@@ -1,5 +1,5 @@
-from domain import db_session
-from domain.liked_project import LikedProject
+from server.domain import db_session
+from server.domain.liked_project import LikedProject
 from abc import ABC, abstractmethod
 
 

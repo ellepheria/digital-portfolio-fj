@@ -23,13 +23,10 @@
           class="input password"
           type="password"
           placeholder="Подтвердите пароль">
-      <input
-          type="checkbox"
-          class="checkbox"
-          v-model="check"
-          id="remember_me"
-          checked
+      <button
+      type="submit"
       >
+        Submit</button>
     </form>
   </div>
 </template>

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from domain import db_session
-from domain.profile_file import ProfileFile
+from server.domain import db_session
+from server.domain.profile_file import ProfileFile
 
 
 class IProfileFileRepository(ABC):

@@ -1,5 +1,5 @@
-from domain import db_session
-from domain.user import User
+from server.domain import db_session
+from server.domain.user import User
 
 from abc import ABC, abstractmethod
 
