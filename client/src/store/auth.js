@@ -26,10 +26,10 @@ export default {
         },
     },
     actions: {
-        async login({ commit }, { login, password, rememberMe }) {
+        async login({ commit }, { username, password, rememberMe }) {
             try {
-                const { data } = await $http.post('http://127.0.0.1:5000/login', {
-                    login,
+                const { data } = await $http.post('http://127.0.0.1:5000/api/login', {
+                    username,
                     password,
                 });
 
@@ -46,7 +46,7 @@ export default {
         },
         async register({ commit }, { email, username, password }) {
             try {
-                const { data } = await $http.post('http://127.0.0.1:5000/register', {
+                const { data } = await $http.post('http://127.0.0.1:5000/api/register', {
                     email,
                     username,
                     password,
