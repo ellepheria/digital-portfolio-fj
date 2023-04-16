@@ -1,7 +1,7 @@
 from datetime import timedelta
 from flask import Flask, jsonify, request
 from flask_jwt_extended import create_access_token
-import bcrypt
+from passlib.hash import bcrypt
 from server.domain import db_session
 from server.domain.user import User
 from server.repository.user_repository import UserRepository
@@ -24,7 +24,6 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     params = request.json
-    # user = User.authenticate(**params)
     user = user_repository.get_user_by_username(User(**params).username)
     if not bcrypt.verify(params.password, user.password):
         raise Exception('No user with this password')
