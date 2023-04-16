@@ -18,6 +18,10 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
+    def get_user_by_email(self, email: str):
+        pass
+
+    @abstractmethod
     def add(self, user: User):
         pass
 
@@ -30,19 +34,24 @@ class IUserRepository(ABC):
         pass
 
 
-class UserRepository(IUserRepository):
 
+
+class UserRepository(IUserRepository):
     def get_all(self):
         session = db_session.create_session()
         return session.query(User).all()
+
+    def get_user(self, user_id: int):
+        session = db_session.create_session()
+        return session.query(User).filter(User.id == user_id).first()
 
     def get_user_by_username(self, username: str):
         session = db_session.create_session()
         return session.query(User).filter(username == User.username).first()
 
-    def get_user(self, user_id: int):
+    def get_user_by_email(self, email: str):
         session = db_session.create_session()
-        return session.query(User).filter(User.id == user_id).first()
+        return session.query(User).filter(email == User.email).first()
 
     def add(self, user: User):
         session = db_session.create_session()
