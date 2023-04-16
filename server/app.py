@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import Flask, jsonify, request
 from flask_jwt_extended import create_access_token
 import bcrypt
@@ -16,7 +17,7 @@ def register():
     params = request.json
     user = User(**params)
     user_repository.add(user)
-    token = create_access_token(identity=[user.username, user.password])
+    token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
     return {'access_token': token}
 
 
@@ -28,7 +29,7 @@ def login():
     if not bcrypt.verify(params.password, user.password):
         raise Exception('No user with this password')
     else:
-        token = create_access_token(identity=[user.username, user.password])
+        token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
         return {'access_token': token}
 
 

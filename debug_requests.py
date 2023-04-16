@@ -13,7 +13,7 @@ if __name__ == '__main__':
     project_file_repository = ProjectFileRepository()
     # user = User(username="deni", email="deni@gmail.com", surname="", password="1234")
     # user_repository.add(user)
-    # print(user_repository.get_user_by_username('deni'))
+    print(user_repository.get_user_by_username('deni'))
     # profile = Profile(user_id=1, username='fearppen', name='fearppen', education='URFU')
     # profile_repository.add(profile)
     # project = Project(title="DigitalPortfolio", user_id=1, rating=1, description="1234", cover_path='repository/project')
