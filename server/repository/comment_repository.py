@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from domain import db_session
-from domain.comment import Comment
+from server.domain import db_session
+from server.domain.comment import Comment
 
 
 class ICommentRepository(ABC):

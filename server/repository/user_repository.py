@@ -1,5 +1,5 @@
-from domain import db_session
-from domain.user import User
+from server.domain import db_session
+from server.domain.user import User
 
 from abc import ABC, abstractmethod
 
@@ -11,6 +11,14 @@ class IUserRepository(ABC):
 
     @abstractmethod
     def get_user(self, user_id: int):
+        pass
+
+    @abstractmethod
+    def get_user_by_username(self, username: str):
+        pass
+
+    @abstractmethod
+    def get_user_by_email(self, email: str):
         pass
 
     @abstractmethod
@@ -26,8 +34,9 @@ class IUserRepository(ABC):
         pass
 
 
-class UserRepository(IUserRepository):
 
+
+class UserRepository(IUserRepository):
     def get_all(self):
         session = db_session.create_session()
         return session.query(User).all()
@@ -35,6 +44,14 @@ class UserRepository(IUserRepository):
     def get_user(self, user_id: int):
         session = db_session.create_session()
         return session.query(User).filter(User.id == user_id).first()
+
+    def get_user_by_username(self, username: str):
+        session = db_session.create_session()
+        return session.query(User).filter(username == User.username).first()
+
+    def get_user_by_email(self, email: str):
+        session = db_session.create_session()
+        return session.query(User).filter(email == User.email).first()
 
     def add(self, user: User):
         session = db_session.create_session()
