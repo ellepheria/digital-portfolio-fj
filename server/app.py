@@ -1,3 +1,4 @@
+import re
 from datetime import timedelta
 from flask import Flask, jsonify, request
 from flask_jwt_extended import create_access_token
@@ -24,12 +25,23 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     params = request.json
-    user = user_repository.get_user_by_username(User(**params).username)
-    if not bcrypt.verify(params.password, user.password):
-        raise Exception('No user with this password')
+    pattern = r"^[-\w\.]+@([-\w]+\.)+[-\w]{2,4}$"
+
+    # Проверка на email
+    if re.match(pattern, params.login) is not None:
+        user = user_repository.get_user_by_email(User(**params).email)
+        if not bcrypt.verify(params.password, user.password):
+            raise Exception('No user with this password')
+        else:
+            token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
+            return {'access_token': token}
     else:
-        token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
-        return {'access_token': token}
+        user = user_repository.get_user_by_username(User(**params).username)
+        if not bcrypt.verify(params.password, user.password):
+            raise Exception('No user with this password')
+        else:
+            token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
+            return {'access_token': token}
 
 
 if __name__ == '__main__':
