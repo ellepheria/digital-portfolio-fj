@@ -30,6 +30,10 @@
           id="remember_me"
           checked
       >
+      <button
+      @click="registrationFormSubmit">
+        submit
+      </button>
     </form>
   </div>
 </template>
