@@ -29,6 +29,10 @@ class IUserRepository(ABC):
     def delete(self, user_id: int):
         pass
 
+    @abstractmethod
+    def get_user_by_username(self, username: str):
+        pass
+
 
 class UserRepository(IUserRepository):
 
@@ -36,13 +40,13 @@ class UserRepository(IUserRepository):
         session = db_session.create_session()
         return session.query(User).all()
 
-    def get_user_by_username(self, username: str):
-        session = db_session.create_session()
-        return session.query(User).filter(username == User.username).first()
-
     def get_user(self, user_id: int):
         session = db_session.create_session()
         return session.query(User).filter(User.id == user_id).first()
+
+    def get_user_by_username(self, username: str):
+        session = db_session.create_session()
+        return session.query(User).filter(username == User.username).first()
 
     def add(self, user: User):
         session = db_session.create_session()

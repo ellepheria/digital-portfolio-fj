@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, request
+from flask_jwt_extended import create_access_token
+import bcrypt
 from server.domain import db_session
 from server.domain.user import User
 from server.repository.user_repository import UserRepository
@@ -14,16 +16,20 @@ def register():
     params = request.json
     user = User(**params)
     user_repository.add(user)
-    token = user.get_token()
+    token = create_access_token(identity=[user.username, user.password])
     return {'access_token': token}
 
 
 @app.route('/login', methods=['POST'])
 def login():
     params = request.json
-    user = User.authenticate(**params)
-    token = user.get_token()
-    return {'access_token': token}
+    # user = User.authenticate(**params)
+    user = user_repository.get_user_by_username(User(**params).username)
+    if not bcrypt.verify(params.password, user.password):
+        raise Exception('No user with this password')
+    else:
+        token = create_access_token(identity=[user.username, user.password])
+        return {'access_token': token}
 
 
 if __name__ == '__main__':

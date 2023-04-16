@@ -1,4 +1,6 @@
 from server.domain import db_session
+from server.domain.__all_models import *
+from server.repository.__all_repository import *
 
 if __name__ == '__main__':
     db_session.global_init()
@@ -9,9 +11,9 @@ if __name__ == '__main__':
     liked_project_repository = LikedProjectRepository()
     profile_file_repository = ProfileFileRepository()
     project_file_repository = ProjectFileRepository()
-    # user = User(username="fearppen", email="antoncahchylin@gmail.com", surname="", password="123")
+    # user = User(username="deni", email="deni@gmail.com", surname="", password="1234")
     # user_repository.add(user)
-    # print(user_repository.get_user_by_username('fearppen'))
+    # print(user_repository.get_user_by_username('deni'))
     # profile = Profile(user_id=1, username='fearppen', name='fearppen', education='URFU')
     # profile_repository.add(profile)
     # project = Project(title="DigitalPortfolio", user_id=1, rating=1, description="1234", cover_path='repository/project')
