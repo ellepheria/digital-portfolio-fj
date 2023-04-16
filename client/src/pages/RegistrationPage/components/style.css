@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav-bar {
+    height: 110px;
+    width: 100%;
+    border-bottom: 3px solid #D9D9D9;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    margin: 14px 46px;
+    height: 58px;
+    width: 253px;
+    font-size: 50px;
+    line-height: 160%;
+    color: #6ACED0;
+}
+
+.auth-button {
+    text-align: center;
+    width: 190px;
+    height: 50px;
+    border-radius: 80px;
+    border: none;
+    background: #2ccdd1;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 160%;
+    margin-top: 20px;
+    margin-right: 62px;
+}
+
+.auth-button:hover {
+    cursor: pointer;
+    background: #208875;
+}
+
+.main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.page-logo-container {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50px);
+    margin: 0 auto;
+    width: 500px;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 160%;
+    color: #6ACED0;
+}
+
+.registration-form {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #C3C3C3;
+    border-radius: 80px;
+    width: 594px;
+    height: 620px;
+    padding: 0 134px;
+    margin: 0 auto;
+}
+
+.form-title {
+    color: #000;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 160%;
+    margin-bottom: 35px;
+    margin-top: 40px;
+}
+
+.form-fields__field {
+    font-weight: 500;
+    font-size: 18px;
+    width: 100%;
+    height: 50px;
+    border: #fff;
+    border-radius: 80px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.registration-button {
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    border-radius: 80px;
+    border: none;
+    background: #2ccdd1;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 160%;
+}
+
+.registration-button:hover {
+    cursor: pointer;
+    background: #208875;
+}
+
+.footer {
+    text-align: center;
+    border-top: 3px solid #D9D9D9;
+    padding-top: 15px;
+    height: 50px;
+    width: 100%;
+}

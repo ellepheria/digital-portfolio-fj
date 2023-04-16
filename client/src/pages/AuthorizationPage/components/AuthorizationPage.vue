@@ -4,7 +4,7 @@
       <div class="logo">
         Future Job
       </div>
-      <button class="registration" @click="this.$router.push('/registration')">
+      <button class="registration-button" @click="this.$router.push('/registration')">
         Регистрация
       </button>
     </div>
@@ -35,7 +35,10 @@
                   type="checkbox"
                   class="remember_me"
                   checked>
-              <div class="remember_me__label">Запомнить?</div>
+              <div
+                  class="remember_me__label"
+                  @click="rememberMe=!rememberMe"
+              >Запомнить?</div>
             </div>
             <button class="auth-button" @click="authorizationFormSubmit">
               Вход

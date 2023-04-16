@@ -1,34 +1,55 @@
 <template>
-  <div>
-    <form id="form" class="registration_form" @submit.prevent="registrationFormSubmit">
-      <input
-          v-model="email"
-          class="input login"
-          type="text"
-          placeholder="Email">
-      <input
-          v-model="username"
-          class="input username"
-          type="text"
-          placeholder="Username">
-      <input
-          @input="password = $event.target.value"
-          v-model="password"
-          class="input password"
-          type="password"
-          placeholder="Пароль">
-      <input
-          @input="confirmPassword = $event.target.value"
-          v-model="confirmPassword"
-          class="input password"
-          type="password"
-          placeholder="Подтвердите пароль">
-      <button
-      type="submit">
-        Submit
+  <div class="container">
+    <div class="nav-bar">
+      <div class="logo">
+        Future Job
+      </div>
+      <button class="auth-button" @click="this.$router.push('/auth')">
+        Вход
       </button>
-    </form>
+    </div>
+    <div class="main">
+      <div class="page-logo-container">
+        Future Job
+      </div>
+      <div class="registration-form">
+        <h1 class="form-title">
+          Регистрация
+        </h1>
+        <div class="form-fields">
+          <input
+              v-model="email"
+              type="email"
+              placeholder="Email"
+              class="form-fields__field">
+          <input
+              v-model="username"
+              type="text"
+              placeholder="Username"
+              class="form-fields__field">
+          <input
+              v-model="password"
+              type="password"
+              placeholder="Введите пароль"
+              class="form-fields__field">
+          <input
+              v-model="confirmPassword"
+              type="password"
+              placeholder="Подтвердите пароль"
+              class="form-fields__field">
+        </div>
+        <div class="form-buttons">
+          <button class="registration-button" @click="registrationFormSubmit">
+            Далее
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      Работает на OpenSource: <a href="https://github.com/ellepheria/digital-portfolio-fj">GitHub</a>
+    </div>
   </div>
+
 </template>
 
 <script src="./index.js"></script>

@@ -28,29 +28,35 @@ def login():
     params = request.json
     pattern = r"^[-\w\.]+@([-\w]+\.)+[-\w]{2,4}$"
 
+    print(params)
+
     # Проверка на email
     if re.match(pattern, params['login']) is not None:
         user_data = {
             'email': params['login'],
             'password': params['password']
         }
-        user = user_repository.get_user_by_email(User(**user_data).email)
-        if params['password'] != user.password:
-            raise Exception('No user with this password')
+        if user := user_repository.get_user_by_email(User(**user_data).email):
+            if params['password'] != user.password:
+                raise Exception('No user with this password')
+            else:
+                token = create_access_token(identity=[user.username, user.password])
+                return {'access_token': token}
         else:
-            token = create_access_token(identity=[user.username, user.password])
-            return {'access_token': token}
+            raise Exception('No user with this email')
     else:
         user_data = {
             'username': params['login'],
             'password': params['password']
         }
-        user = user_repository.get_user_by_username(User(**user_data).username)
-        if params['password'] != user.password:
-            raise Exception('No user with this password')
+        if user := user_repository.get_user_by_username(User(**user_data).username):
+            if params['password'] != user.password:
+                raise Exception('No user with this password')
+            else:
+                token = create_access_token(identity=[user.username, user.password])
+                return {'access_token': token}
         else:
-            token = create_access_token(identity=[user.username, user.password])
-            return {'access_token': token}
+            raise Exception('No user with this username')
 
 
 if __name__ == '__main__':
