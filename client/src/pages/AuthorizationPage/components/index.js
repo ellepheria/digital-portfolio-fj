@@ -1,5 +1,4 @@
 import ConfirmButton from "@/UI/ConfirmButton/ConfirmButton.vue";
-
 export default {
     name: "AuthorizationPage",
     components: {

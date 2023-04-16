@@ -6,6 +6,9 @@ export const registrationRoutes = [
     {
         path: '/registration',
         name: 'RegistrationPage',
-        component: () => import("@/pages/RegistrationPage")
+        component: () => import("@/pages/RegistrationPage"),
+        meta: {
+            title: 'Registration'
+        }
     },
 ]

@@ -5,6 +5,9 @@ export const authorizationRoutes = [
     {
         path: '/auth',
         name: 'AuthorizationPage',
-        component: () => import("@/pages/AuthorizationPage")
+        component: () => import("@/pages/AuthorizationPage"),
+        meta: {
+            title: 'Login'
+        }
     },
 ]

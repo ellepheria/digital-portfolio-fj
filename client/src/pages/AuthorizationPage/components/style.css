@@ -4,9 +4,16 @@
     font-family: 'Inter', sans-serif;
 }
 
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .nav-bar {
     height: 110px;
-    width: 1920px;
+    width: 100%;
     border-bottom: 3px solid #D9D9D9;
     display: flex;
     justify-content: space-between;
@@ -31,21 +38,39 @@
     font-weight: 400;
     font-size: 22px;
     line-height: 160%;
-    margin-top: 30px;
+    margin-top: 20px;
     margin-right: 62px;
 }
 
 .main {
-    padding: 144px 203px 206px 1123px;
-    height: 900px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
-.auth-form-container {
+.page-logo-container {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50px);
+    margin: 0 auto;
+    width: 500px;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 160%;
+    color: #6ACED0;
+}
+
+.auth-form {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     background: #C3C3C3;
     border-radius: 80px;
     width: 594px;
     height: 620px;
     padding: 80px 134px 61px;
+    margin: 0 auto;
 }
 
 .form-title {
@@ -114,4 +139,6 @@
     text-align: center;
     border-top: 3px solid #D9D9D9;
     padding-top: 15px;
+    height: 50px;
+    width: 100%;
 }
