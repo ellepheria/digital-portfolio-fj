@@ -18,7 +18,7 @@ def register():
     params = request.json
     user = User(**params)
     user_repository.add(user)
-    token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
+    token = create_access_token(identity=[user.username, user.password])
     return {'access_token': token}
 
 
@@ -33,14 +33,14 @@ def login():
         if not bcrypt.verify(params.password, user.password):
             raise Exception('No user with this password')
         else:
-            token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
+            token = create_access_token(identity=[user.username, user.password])
             return {'access_token': token}
     else:
         user = user_repository.get_user_by_username(User(**params).username)
         if not bcrypt.verify(params.password, user.password):
             raise Exception('No user with this password')
         else:
-            token = create_access_token(identity=[user.username, user.password], expire_delta=timedelta(24))
+            token = create_access_token(identity=[user.username, user.password])
             return {'access_token': token}
 
 
