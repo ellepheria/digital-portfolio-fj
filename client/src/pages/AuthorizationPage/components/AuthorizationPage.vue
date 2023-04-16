@@ -18,7 +18,7 @@
           </h1>
           <div class="form-fields">
             <input
-                v-model="username"
+                v-model="login"
                 type="text"
                 placeholder="Email/Username"
                 class="form-fields__field">

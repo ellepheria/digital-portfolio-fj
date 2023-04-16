@@ -26,10 +26,10 @@ export default {
         },
     },
     actions: {
-        async login({ commit }, { username, password, rememberMe }) {
+        async login({ commit }, { login, password, rememberMe }) {
             try {
                 const { data } = await $http.post('http://127.0.0.1:5000/login', {
-                    username,
+                    login,
                     password,
                 });
 

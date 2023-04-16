@@ -6,16 +6,16 @@ export default {
     },
     data() {
         return {
-            username: '',
+            login: '',
             password: '',
             rememberMe: true
         }
     },
     methods: {
         async authorizationFormSubmit() {
-            const { username, password, rememberMe} = this;
+            const { login, password, rememberMe} = this;
             const { data } = await this.$store.dispatch('auth/login', {
-                username,
+                login,
                 password,
                 rememberMe,
             });
