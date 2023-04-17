@@ -18,6 +18,7 @@ user_repository = UserRepository()
 def register():
     params = request.json
     user = User(**params)
+    print(user)
     user_repository.add(user)
     token = create_access_token(identity=[user.username, user.password])
     return {'access_token': token}

@@ -56,6 +56,7 @@ class UserRepository(IUserRepository):
     def add(self, user: User):
         session = db_session.create_session()
         session.add(user)
+        session.expunge_all()
         session.commit()
 
     def update(self, new_user: User, user_id: int):

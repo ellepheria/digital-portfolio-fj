@@ -1,5 +1,3 @@
-import bcrypt
-from sqlalchemy.orm import declarative_base
 from server.domain.declarative_base import Base
 from sqlalchemy import Column, Integer, Text
 
@@ -37,8 +35,3 @@ class User(Base):
 
     def __str__(self):
         return f'id: {self.id} username: {self.username} email: {self.email} surname: {self.surname}'
-
-
-
-
-
