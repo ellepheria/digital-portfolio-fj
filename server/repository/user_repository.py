@@ -34,9 +34,8 @@ class IUserRepository(ABC):
         pass
 
 
-
-
 class UserRepository(IUserRepository):
+
     def get_all(self):
         session = db_session.create_session()
         return session.query(User).all()
@@ -66,9 +65,11 @@ class UserRepository(IUserRepository):
         user.password = new_user.password
         user.email = new_user.email
         user.surname = new_user.surname
+        session.expunge_all()
         session.commit()
 
     def delete(self, user_id: int):
         session = db_session.create_session()
         session.delete(session.query(User).filter(User.id == user_id).first())
+        session.expunge_all()
         session.commit()

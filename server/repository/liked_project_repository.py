@@ -26,9 +26,11 @@ class LikedProjectRepository(ILikedObjectRepository):
     def delete(self, liked_project_id: int):
         session = db_session.create_session()
         session.delete(session.query(LikedProject).filter(liked_project_id == LikedProject.liked_project_id).first())
+        session.expunge_all()
         session.commit()
 
     def add(self, liked_project: LikedProject):
         session = db_session.create_session()
         session.add(liked_project)
+        session.expunge_all()
         session.commit()
