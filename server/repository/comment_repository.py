@@ -34,13 +34,11 @@ class CommentRepository(ICommentRepository):
     def add(self, new_comment: Comment):
         session = db_session.create_session()
         session.add(new_comment)
-        session.expunge_all()
         session.commit()
 
     def delete(self, comment_id: int):
         session = db_session.create_session()
         session.delete(session.query(Comment).filter(comment_id == Comment.id).first())
-        session.expunge_all()
         session.commit()
 
     def update(self, new_comment: Comment, comment_id: int):
@@ -50,7 +48,6 @@ class CommentRepository(ICommentRepository):
         comment.text = new_comment.text
         comment.user_id = new_comment.user_id
         comment.username = new_comment.username
-        session.expunge_all()
         session.commit()
 
     def get_comment(self, comment_id: int):

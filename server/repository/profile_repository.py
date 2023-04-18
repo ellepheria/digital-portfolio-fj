@@ -48,17 +48,14 @@ class ProfileRepository(IProfileRepository):
         profile.phone_number = new_profile.phone_number
         profile.education = new_profile.education
         profile.social_networks = new_profile.social_networks
-        session.expunge_all()
         session.commit()
 
     def delete(self, profile_id: int):
         session = db_session.create_session()
         session.delete(session.query(Profile).filter(profile_id == Profile.user_id).first())
-        session.expunge_all()
         session.commit()
 
     def add(self, profile: Profile):
         session = db_session.create_session()
         session.add(profile)
-        session.expunge_all()
         session.commit()

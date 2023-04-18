@@ -55,7 +55,6 @@ class UserRepository(IUserRepository):
     def add(self, user: User):
         session = db_session.create_session()
         session.add(user)
-        session.expunge_all()
         session.commit()
 
     def update(self, new_user: User, user_id: int):
@@ -65,11 +64,9 @@ class UserRepository(IUserRepository):
         user.password = new_user.password
         user.email = new_user.email
         user.surname = new_user.surname
-        session.expunge_all()
         session.commit()
 
     def delete(self, user_id: int):
         session = db_session.create_session()
         session.delete(session.query(User).filter(User.id == user_id).first())
-        session.expunge_all()
         session.commit()

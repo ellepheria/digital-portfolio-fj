@@ -38,7 +38,6 @@ class ProjectRepository(IProjectRepository):
     def add(self, project: Project):
         session = db_session.create_session()
         session.add(project)
-        session.expunge_all()
         session.commit()
 
     def update(self, new_project: Project, project_id: int):
@@ -50,11 +49,9 @@ class ProjectRepository(IProjectRepository):
         project.rating = new_project.rating
         project.cover_path = new_project.cover_path
         project.added_links = new_project.added_links
-        session.expunge_all()
         session.commit()
 
     def delete(self, project_id: int):
         session = db_session.create_session()
         session.delete(session.query(Project).filter(project_id == Project.id).first())
-        session.expunge_all()
         session.commit()

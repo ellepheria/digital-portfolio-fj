@@ -1,4 +1,5 @@
 from server.domain import db_session
+from server.repository.__all_repository import *
 
 if __name__ == '__main__':
     db_session.global_init()
@@ -24,3 +25,5 @@ if __name__ == '__main__':
     # profile_file_repository.add(profile_file)
     # project_file = ProjectFile(project_id=1, file_path='.1py4')
     # project_file_repository.add(project_file)
+    for i in user_repository.get_all():
+        print(i)

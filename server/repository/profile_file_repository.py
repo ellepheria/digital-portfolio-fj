@@ -33,17 +33,14 @@ class ProfileFileRepository(IProfileFileRepository):
         profile_file = session.query(ProfileFile).filter(profile_id == ProfileFile.profile_id).first()
         profile_file.photo_path = new_profile_file.photo_path
         profile_file.cover_path = new_profile_file.cover_path
-        session.expunge_all()
         session.commit()
 
     def delete(self, profile_id: int):
         session = db_session.create_session()
         session.delete(session.query(ProfileFile).filter(profile_id == ProfileFile.profile_id).first())
-        session.expunge_all()
         session.commit()
 
     def add(self, new_profile_file: ProfileFile):
         session = db_session.create_session()
         session.add(new_profile_file)
-        session.expunge_all()
         session.commit()
