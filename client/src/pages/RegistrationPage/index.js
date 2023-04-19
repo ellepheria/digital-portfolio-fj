@@ -8,7 +8,7 @@ export const registrationRoutes = [
         name: 'RegistrationPage',
         component: () => import("@/pages/RegistrationPage"),
         meta: {
-            title: 'Registration'
+            title: 'Регистрация'
         }
     },
 ]

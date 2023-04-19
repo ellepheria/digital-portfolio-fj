@@ -25,7 +25,7 @@ export default {
                 return; //тут надо обрабатывать ошибки
             }
 
-            return this.$router.push({ path: './auth' });
+            return this.$router.push({ path: `/${username}/edit` });
         },
         logout() {
             this.$store.dispatch('auth/logout')

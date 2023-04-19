@@ -7,7 +7,7 @@ export const authorizationRoutes = [
         name: 'AuthorizationPage',
         component: () => import("@/pages/AuthorizationPage"),
         meta: {
-            title: 'Login'
+            title: 'Вход'
         }
     },
 ]
