@@ -10,7 +10,11 @@ class IProfileRepository(ABC):
         pass
 
     @abstractmethod
-    def get_profile(self, profile_id: int):
+    def get_profile_by_id(self, profile_id: int):
+        pass
+
+    @abstractmethod
+    def get_profile_by_username(self, username: str):
         pass
 
     @abstractmethod
@@ -32,9 +36,13 @@ class ProfileRepository(IProfileRepository):
         session = db_session.create_session()
         return session.query(Profile).all()
 
-    def get_profile(self, profile_id: int):
+    def get_profile_by_id(self, profile_id: int):
         session = db_session.create_session()
         return session.query(Profile).filter(profile_id == Profile.user_id).first()
+
+    def get_profile_by_username(self, username: str):
+        session = db_session.create_session()
+        return session.query(Profile).filter(username == Profile.username).first()
 
     def update(self, profile_id: int, new_profile: Profile):
         session = db_session.create_session()
