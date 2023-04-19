@@ -25,7 +25,9 @@ export default {
     },
     mutations: {
         ['UPDATE']: (state, newData) => {
-            state.currentData = newData;
+            for (let key in newData) {
+                state.currentData[key] = newData[key];
+            }
         }
     },
     actions: {
