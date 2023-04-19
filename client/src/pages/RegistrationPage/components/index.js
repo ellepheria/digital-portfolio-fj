@@ -1,10 +1,5 @@
-import ConfirmButton from "@/UI/ConfirmButton/ConfirmButton.vue";
-
 export default {
     name: "RegistrationPage",
-    components: {
-        ConfirmButton,
-    },
     data() {
         return {
             email: '',
