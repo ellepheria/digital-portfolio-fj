@@ -10,7 +10,6 @@ app = Flask(__name__)
 CORS(app)
 jwt = JWTManager(app)
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
-jwt = JWTManager(app)
 user_repository = UserRepository()
 
 
@@ -27,8 +26,6 @@ def register():
 def login():
     params = request.json
     pattern = r"^[-\w\.]+@([-\w]+\.)+[-\w]{2,4}$"
-
-    print(params)
 
     # Проверка на email
     if re.match(pattern, params['login']) is not None:
