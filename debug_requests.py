@@ -1,4 +1,6 @@
 from server.domain import db_session
+from server.domain.profile import Profile
+from server.domain.user import User
 from server.repository.__all_repository import *
 
 if __name__ == '__main__':
@@ -10,11 +12,11 @@ if __name__ == '__main__':
     liked_project_repository = LikedProjectRepository()
     profile_file_repository = ProfileFileRepository()
     project_file_repository = ProjectFileRepository()
-    # user = User(username="fearppen", email="antoncahchylin@gmail.com", surname="", password="123")
-    # user_repository.add(user)
+    #user = User(username="den123", email="den11233@gmail.com", surname="", password="123")
+    #user_repository.add(user)
     # print(user_repository.get_user_by_username('fearppen'))
-    # profile = Profile(user_id=1, username='fearppen', name='fearppen', education='URFU')
-    # profile_repository.add(profile)
+    #profile = Profile(user_id=30, username='den12345', name='den12345', education='URFU')
+    #profile_repository.add(profile)
     # project = Project(title="DigitalPortfolio", user_id=1, rating=1, description="1234", cover_path='repository/project')
     # project_repository.add(project)
     # comment = Comment(project_id=1, text='good', user_id=1, username='fearppen')
@@ -25,5 +27,13 @@ if __name__ == '__main__':
     # profile_file_repository.add(profile_file)
     # project_file = ProjectFile(project_id=1, file_path='.1py4')
     # project_file_repository.add(project_file)
-    for i in user_repository.get_all():
+    ''' for i in user_repository.get_all():
         print(i)
+
+    profile = Profile(user_id=13, username='sot', name='sot')
+    profile_repository.add(profile)
+    print(profile)
+    '''
+    user = user_repository.get_user_by_username('jopa')
+    profile = Profile(user_id=user.id, username=user.username, name=user.username)
+    profile_repository.add(profile)

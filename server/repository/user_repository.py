@@ -22,6 +22,10 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
+    def get_user_by_id(self, user_id: int):
+        pass
+
+    @abstractmethod
     def add(self, user: User):
         pass
 
@@ -51,6 +55,10 @@ class UserRepository(IUserRepository):
     def get_user_by_email(self, email: str):
         session = db_session.create_session()
         return session.query(User).filter(email == User.email).first()
+
+    def get_user_by_id(self, user_id: int):
+        session = db_session.create_session()
+        return session.query(User).filter(user_id == User.id).first()
 
     def add(self, user: User):
         session = db_session.create_session()

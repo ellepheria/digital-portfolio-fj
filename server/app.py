@@ -1,8 +1,9 @@
 import re
 from flask import Flask, jsonify, request
-from flask_jwt_extended import create_access_token, JWTManager
+from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from server.domain import db_session
 from server.domain.user import User
+from server.domain.profile import Profile
 from server.repository.user_repository import UserRepository
 from server.repository.profile_repository import ProfileRepository
 from flask_cors import CORS
@@ -12,14 +13,23 @@ CORS(app)
 jwt = JWTManager(app)
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
 user_repository = UserRepository()
+profile_repository = ProfileRepository()
 
 
 @app.route('/register', methods=['POST'])
 def register():
     params = request.json
+
     user = User(**params)
+
     token = create_access_token(identity=[user.username, user.password])
+
     user_repository.add(user)
+
+    new_user = user_repository.get_user_by_username(params['username'])
+    profile = Profile(user_id=new_user.id, username=params['username'], name=params['username'])
+    profile_repository.add(profile)
+
     return {'access_token': token}
 
 
@@ -36,12 +46,12 @@ def login():
         }
         if user := user_repository.get_user_by_email(User(**user_data).email):
             if params['password'] != user.password:
-                raise Exception('No user with this password')
+                return {"error": "No user with this password"}
             else:
                 token = create_access_token(identity=[user.username, user.password])
                 return {'access_token': token, 'username': user.username}
         else:
-            raise Exception('No user with this email')
+            return {"error": "No user with this email in database"}
     else:
         user_data = {
             'username': params['login'],
@@ -49,17 +59,27 @@ def login():
         }
         if user := user_repository.get_user_by_username(User(**user_data).username):
             if params['password'] != user.password:
-                raise Exception('No user with this password')
+                return {"error": "No user with this password"}
             else:
                 token = create_access_token(identity=[user.username, user.password])
                 return {'access_token': token, 'username': user.username}
         else:
-            raise Exception('No user with this username')
+            return {"error": "No user with this username in database"}
 
 @app.route('/get_user/str:<username>', methods=['GET'])
 def get_user(username):
-    profile_repository = ProfileRepository()
     return profile_repository.get_profile_by_username(username)
+
+@app.route('/profile_edit', methods=['POST'])
+@jwt_required()
+def profile_edit():
+    user = get_jwt_identity()
+    if user is not None:
+        params = request.json
+        profile = profile_repository.get_profile_by_username(params.username)
+        profile_repository.update(profile.user_id, Profile(**params))
+    else:
+        return {"error": "No user with this token"}
 
 
 if __name__ == '__main__':
