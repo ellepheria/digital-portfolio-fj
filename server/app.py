@@ -4,6 +4,7 @@ from flask_jwt_extended import create_access_token, JWTManager
 from server.domain import db_session
 from server.domain.user import User
 from server.repository.user_repository import UserRepository
+from server.repository.profile_repository import ProfileRepository
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -38,7 +39,7 @@ def login():
                 raise Exception('No user with this password')
             else:
                 token = create_access_token(identity=[user.username, user.password])
-                return {'access_token': token}
+                return {'access_token': token, 'username': user.username}
         else:
             raise Exception('No user with this email')
     else:
@@ -51,9 +52,14 @@ def login():
                 raise Exception('No user with this password')
             else:
                 token = create_access_token(identity=[user.username, user.password])
-                return {'access_token': token}
+                return {'access_token': token, 'username': user.username}
         else:
             raise Exception('No user with this username')
+
+@app.route('/get_user/str:<username>', methods=['GET'])
+def get_user(username):
+    profile_repository = ProfileRepository()
+    return profile_repository.get_profile_by_username(username)
 
 
 if __name__ == '__main__':
