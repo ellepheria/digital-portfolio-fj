@@ -27,13 +27,5 @@ if __name__ == '__main__':
     # profile_file_repository.add(profile_file)
     # project_file = ProjectFile(project_id=1, file_path='.1py4')
     # project_file_repository.add(project_file)
-    ''' for i in user_repository.get_all():
+    for i in user_repository.get_all():
         print(i)
-
-    profile = Profile(user_id=13, username='sot', name='sot')
-    profile_repository.add(profile)
-    print(profile)
-    '''
-    user = user_repository.get_user_by_username('jopa')
-    profile = Profile(user_id=user.id, username=user.username, name=user.username)
-    profile_repository.add(profile)
