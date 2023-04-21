@@ -68,7 +68,7 @@ def login():
 
 @app.route('/get_user/str:<username>', methods=['GET'])
 def get_user(username):
-    return profile_repository.get_profile_by_username(username)
+    return jsonify(profile_repository.get_profile_by_username(username))
 
 @app.route('/profile_edit', methods=['POST'])
 @jwt_required()
