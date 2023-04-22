@@ -9,8 +9,7 @@ export default {
             surname: '',
             username: '',
             age: '',
-            type_of_activity: '',
-            phone: '',
+            phone_number: '',
             about: '',
             education: '',
             technologies: '',
@@ -22,11 +21,19 @@ export default {
             const data = state.currentData;
             return data;
         },
+        getUsername(state) {
+            return state.currentData.username;
+        }
     },
     mutations: {
         ['UPDATE']: (state, newData) => {
             for (let key in newData) {
                 state.currentData[key] = newData[key];
+            }
+        },
+        ['CLEAR']: (state) => {
+            for (let key in state.currentData) {
+                state.currentData[key] = '';
             }
         }
     },
@@ -52,6 +59,12 @@ export default {
                 console.log(e);
             }
             return;
-        }
+        },
+        setLocalData({ commit }, data) {
+          commit('UPDATE', data);
+        },
+        clearProfileState({ commit }) {
+            commit('CLEAR');
+        },
     }
 }

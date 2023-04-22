@@ -19,8 +19,7 @@ export default {
             if (!data) {
                 return; //тут надо обрабатывать ошибки
             } else {
-              const profileData = this.$store.dispatch('profile/getCurrentProfileData', data.username);
-              await this.$store.dispatch('profile/editData', profileData);
+              this.$store.dispatch('profile/getCurrentProfileData', data.username);
             }
 
             return this.$router.push({ path: `/${data.username}/edit` });

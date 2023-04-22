@@ -7,7 +7,7 @@ export const setToken = (type = 'local', token, $http) => {
         localStorage.setItem('token', token);
     }
 
-    $http.defaults.headers.common['Authorization'] = `${token}`;
+    $http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     return token;
 };
@@ -23,7 +23,7 @@ export const getToken = ($http) => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 
     if (token) {
-        $http.defaults.headers.common['Authorization'] = `${token}`;
+        $http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 
     return token;

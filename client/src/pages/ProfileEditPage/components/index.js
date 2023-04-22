@@ -6,8 +6,7 @@ export default {
             surname: '',
             username: '',
             age: '',
-            type_of_activity: '',
-            phone: '',
+            phone_number: '',
             about: '',
             education: '',
             technologies: '',
@@ -25,7 +24,7 @@ export default {
             this.updateProfileData(data);
         },
         updateProfileData(data) {
-            for (let key in this.$data) {
+            for (let key in data) {
                 this[key] = data[key];
             }
         },
@@ -36,5 +35,9 @@ export default {
             }
             return data;
         }
+    },
+    mounted() {
+        const data = this.$store.getters['profile/getCurrentData'];
+        this.updateProfileData(data);
     }
 }

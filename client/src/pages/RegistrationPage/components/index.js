@@ -25,10 +25,9 @@ export default {
                 return; //тут надо обрабатывать ошибки
             }
 
+            this.$store.dispatch('profile/clearProfileState');
+            this.$store.dispatch('profile/setLocalData', {username: this.username})
             return this.$router.push({ path: `/${username}/edit` });
         },
-        logout() {
-            this.$store.dispatch('auth/logout')
-        }
     },
 }
