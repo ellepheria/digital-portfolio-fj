@@ -39,6 +39,11 @@ class Profile(Base):
         nullable=True,
     )
 
+    type_career = Column(
+        Text,
+        nullable=True
+    )
+
     age = Column(
         Integer,
         nullable=True,
