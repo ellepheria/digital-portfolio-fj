@@ -1,59 +1,12 @@
 <template>
   <div class="container">
-    <div class="nav-bar">
-      <div class="logo">
-        Future Job
-      </div>
-      <button class="registration-button" @click="this.$router.push('/registration')">
-        Регистрация
-      </button>
-    </div>
+    <Header></Header>
     <div class="main">
-      <div class="page-logo-container">
-        Future Job
-      </div>
-        <div class="auth-form">
-          <h1 class="form-title">
-            Авторизация
-          </h1>
-          <div class="form-fields">
-            <input
-                v-model="login"
-                type="text"
-                placeholder="Email/Username"
-                class="form-fields__field">
-            <input
-                v-model="password"
-                type="password"
-                placeholder="Введите пароль"
-                class="form-fields__field">
-          </div>
-          <div class="form-buttons">
-            <div class="remember-me-container">
-              <input
-                  v-model="rememberMe"
-                  type="checkbox"
-                  class="remember_me"
-                  checked>
-              <div
-                  class="remember_me__label"
-                  @click="rememberMe=!rememberMe"
-              >Запомнить?</div>
-            </div>
-            <button class="auth-button" @click="authorizationFormSubmit">
-              Вход
-            </button>
-          </div>
-          <a href="/forgot-password" class="forgot-password">
-            Забыли пароль?
-          </a>
-      </div>
+      <PageLogo></PageLogo>
+      <AuthForm></AuthForm>
     </div>
-    <div class="footer">
-      Работает на OpenSource: <a href="https://github.com/ellepheria/digital-portfolio-fj">GitHub</a>
-    </div>
+    <Footer></Footer>
   </div>
-
 </template>
 
 <script src="./index.js"></script>

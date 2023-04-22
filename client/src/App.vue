@@ -9,3 +9,6 @@
   box-sizing: border-box;
 }
 </style>
+<script setup>
+import Header from "@/UI/Header/components/Header.vue";
+</script>

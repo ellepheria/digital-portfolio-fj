@@ -1,5 +1,8 @@
+import * as ui from "@/UI";
+
 export default {
     name: "RegistrationPage",
+    components: {...ui},
     data() {
         return {
             email: '',

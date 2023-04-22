@@ -1,17 +1,8 @@
 <template>
   <div class="container">
-    <div class="nav-bar">
-      <div class="logo">
-        Future Job
-      </div>
-      <button class="auth-button" @click="this.$router.push('/auth')">
-        Вход
-      </button>
-    </div>
+    <Header></Header>
     <div class="main">
-      <div class="page-logo-container">
-        Future Job
-      </div>
+      <PageLogo></PageLogo>
       <div class="registration-form">
         <h1 class="form-title">
           Регистрация
@@ -45,11 +36,8 @@
         </div>
       </div>
     </div>
-    <div class="footer">
-      Работает на OpenSource: <a href="https://github.com/ellepheria/digital-portfolio-fj">GitHub</a>
-    </div>
+    <Footer></Footer>
   </div>
-
 </template>
 
 <script src="./index.js"></script>
