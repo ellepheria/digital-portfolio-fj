@@ -1,5 +1,8 @@
+import * as ui from "@/UI"
+
 export default {
     name: "ProfileEditPage",
+    components: {...ui},
     data() {
         return {
             name: '',
@@ -11,6 +14,7 @@ export default {
             education: '',
             technologies: '',
             social_networks: '',
+            type_career: '',
         }
     },
     methods: {

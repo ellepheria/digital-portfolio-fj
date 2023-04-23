@@ -1,15 +1,15 @@
 import * as ui from "@/UI";
+import RegistrationForm from "@/modules/RegistrationForm/components/RegistrationForm.vue";
 
 export default {
     name: "RegistrationPage",
-    components: {...ui},
+    components: {RegistrationForm, ...ui},
     data() {
         return {
             email: '',
             username: '',
             password: '',
             confirmPassword: '',
-            check: true
         }
     },
     methods: {

@@ -25,6 +25,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('auth/logout');
+      this.$store.dispatch('profile/clearProfileState');
       this.$router.push('/auth');
     },
   },

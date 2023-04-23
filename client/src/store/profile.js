@@ -14,6 +14,7 @@ export default {
             education: '',
             technologies: '',
             social_networks: '',
+            type_career: '',
         },
     },
     getters: {
