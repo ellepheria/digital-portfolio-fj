@@ -39,7 +39,7 @@ class Profile(Base):
         nullable=True,
     )
 
-    type_career = Column(
+    type_of_activity = Column(
         Text,
         nullable=True
     )

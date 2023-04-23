@@ -66,9 +66,21 @@ def login():
         else:
             return {"error": "No user with this username in database"}
 
-@app.route('/get_user/str:<username>', methods=['GET'])
-def get_user(username):
-    return jsonify(profile_repository.get_profile_by_username(username))
+@app.route('/get_profile/str:<username>', methods=['GET'])
+def get_profile(username):
+    profile = user_repository.get_user_by_username(username)
+    return {
+        'username': profile.username,
+        'name': profile.name,
+        'surname': profile.surname,
+        'about': profile.about,
+        'technologies' : profile.technologies,
+        'type_of_activity' : profile.type_of_activity,
+        'age' : profile.age,
+        'phone_number' : profile.phone_number,
+        'education' : profile.education,
+        'social_networks' : profile.social_networks
+    }
 
 @app.route('/profile_edit', methods=['POST'])
 @jwt_required()
@@ -76,8 +88,11 @@ def profile_edit():
     user = get_jwt_identity()
     if user is not None:
         params = request.json
+
         profile = profile_repository.get_profile_by_username(params.username)
+
         profile_repository.update(profile.user_id, Profile(**params))
+        return {"status":"success"}
     else:
         return {"error": "No user with this token"}
 
