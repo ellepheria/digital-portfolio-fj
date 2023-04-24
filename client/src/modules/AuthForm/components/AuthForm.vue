@@ -153,5 +153,8 @@ export default {
 
 .forgot-password {
   margin: 0 90px;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
 }
 </style>
