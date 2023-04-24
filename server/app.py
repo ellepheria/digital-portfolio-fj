@@ -66,6 +66,7 @@ def login():
         else:
             return {"error": "No user with this username in database"}
 
+
 @app.route('/get_profile/<username>', methods=['GET'])
 def get_profile(username):
     profile = profile_repository.get_profile_by_username(username)
@@ -81,6 +82,7 @@ def get_profile(username):
         'education' : profile.education,
         'social_networks' : profile.social_networks
     }
+
 
 @app.route('/profile_edit', methods=['POST'])
 @jwt_required()

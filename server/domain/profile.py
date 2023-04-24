@@ -16,7 +16,7 @@ class Profile(Base):
     username = Column(
         Text,
         unique=True,
-        nullable=False
+        nullable=False,
     )
 
     name = Column(
@@ -69,5 +69,6 @@ class Profile(Base):
 
     def __str__(self):
         return f'user_id: {self.user_id}, username: {self.username}, name: {self.name}, surname: {self.surname},' \
-               f'about: {self.about}, technologies: {self.technologies}, age: {self.age},' \
-               f'phone_number: {self.phone_number}, education: {self.education}, social_networks: {self.social_networks}'
+               f'about: {self.about}, technologies: {self.technologies}, type_of_activity: {self.type_of_activity} ' \
+               f'age: {self.age}, phone_number: {self.phone_number}, education: {self.education},' \
+               f' social_networks: {self.social_networks}'
