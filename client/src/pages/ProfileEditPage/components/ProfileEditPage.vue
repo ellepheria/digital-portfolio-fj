@@ -17,7 +17,7 @@
               required>
           <input
             type="text"
-            v-model="type_career"
+            v-model="type_of_activity"
             placeholder="Род деятельности">
         </div>
         <div class="block">

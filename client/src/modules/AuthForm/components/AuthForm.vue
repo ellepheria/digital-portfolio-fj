@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     async authorizationFormSubmit() {
-      const { login, password, rememberMe} = this;
+      const { login, password, rememberMe } = this;
       const { data } = await this.$store.dispatch('auth/login', {
         login,
         password,

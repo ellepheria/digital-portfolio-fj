@@ -1,5 +1,5 @@
 import * as ui from "@/UI";
-import AuthForm from "@/modules/AuthForm/components/AuthForm.vue";
+import AuthForm from "@/modules/AuthForm";
 
 export default {
     name: "AuthorizationPage",

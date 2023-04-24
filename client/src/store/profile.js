@@ -1,5 +1,5 @@
 import $http from "@/api";
-import {baseURI} from "@/api";
+import { baseURI } from "@/api";
 
 export default {
     namespaced: true,
@@ -14,7 +14,7 @@ export default {
             education: '',
             technologies: '',
             social_networks: '',
-            type_career: '',
+            type_of_activity: '',
         },
     },
     getters: {

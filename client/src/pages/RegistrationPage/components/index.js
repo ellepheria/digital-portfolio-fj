@@ -1,5 +1,5 @@
 import * as ui from "@/UI";
-import RegistrationForm from "@/modules/RegistrationForm/components/RegistrationForm.vue";
+import RegistrationForm from "@/modules/RegistrationForm";
 
 export default {
     name: "RegistrationPage",
