@@ -40,8 +40,8 @@ export default {
             return data;
         }
     },
-    mounted() {
-        const data = this.$store.getters['profile/getCurrentData'];
+    async created() {
+        const data = await this.$store.dispatch('profile/getCurrentProfileData');
         this.updateProfileData(data);
     }
 }

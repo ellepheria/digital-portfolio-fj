@@ -3,6 +3,7 @@ import {
     setToken,
     deleteToken,
     getToken,
+    deleteUsername,
 } from "@/helpers";
 import {baseURI} from "@/api";
 
@@ -57,6 +58,7 @@ export default {
         },
         logout({ commit }) {
             deleteToken($http);
+            deleteUsername();
             commit('LOGOUT');
             return;
         },

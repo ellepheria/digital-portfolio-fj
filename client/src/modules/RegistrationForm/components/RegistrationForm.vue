@@ -35,6 +35,7 @@
 
 <script>
 import * as ui from "@/UI";
+import { setUsername } from "@/helpers";
 
 export default {
   name: "RegistrationForm",
@@ -63,8 +64,7 @@ export default {
         return; //тут надо обрабатывать ошибки
       }
 
-      this.$store.dispatch('profile/clearProfileState');
-      this.$store.dispatch('profile/setLocalData', {username: this.username})
+      setUsername(this.username);
       return this.$router.push({ path: `/${username}/edit` });
     },
   },

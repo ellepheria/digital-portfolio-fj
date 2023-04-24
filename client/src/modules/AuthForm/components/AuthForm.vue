@@ -40,6 +40,7 @@
 
 <script>
 import * as ui from "@/UI";
+import { setUsername } from "@/helpers";
 
 export default {
   name: "AuthForm",
@@ -63,7 +64,7 @@ export default {
       if (!data) {
         return; //тут надо обрабатывать ошибки
       } else {
-        this.$store.dispatch('profile/getCurrentProfileData', data.username);
+        setUsername(data.username);
       }
 
       return this.$router.push({ path: `/${data.username}/edit` });

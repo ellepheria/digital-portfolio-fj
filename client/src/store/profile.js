@@ -1,5 +1,6 @@
 import $http from "@/api";
 import { baseURI } from "@/api";
+import { getUsername, setUsername } from "@/helpers";
 
 export default {
     namespaced: true,
@@ -22,9 +23,6 @@ export default {
             const data = state.currentData;
             return data;
         },
-        getUsername(state) {
-            return state.currentData.username;
-        }
     },
     mutations: {
         ['UPDATE']: (state, newData) => {
@@ -44,6 +42,7 @@ export default {
                 const { data } = await $http.post(baseURI + 'profile_edit', newData);
                 if (data) {
                     commit('UPDATE', newData);
+                    setUsername(newData.username);
                 }
             } catch (e) {
                 console.log(e);
@@ -51,7 +50,7 @@ export default {
         },
         async getCurrentProfileData({ commit }, username) {
             try {
-                const { data } = await $http.get(baseURI + `get_profile/${username}`);
+                const { data } = await $http.get(baseURI + `get_profile/${getUsername()}`);
                 if (data) {
                     commit('UPDATE', data);
                     return data;
