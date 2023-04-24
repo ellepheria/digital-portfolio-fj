@@ -12,11 +12,11 @@ if __name__ == '__main__':
     liked_project_repository = LikedProjectRepository()
     profile_file_repository = ProfileFileRepository()
     project_file_repository = ProjectFileRepository()
-    #user = User(username="den123", email="den11233@gmail.com", surname="", password="123")
-    #user_repository.add(user)
+    # user = User(username="den123", email="den11233@gmail.com", surname="", password="123")
+    # user_repository.add(user)
     # print(user_repository.get_user_by_username('fearppen'))
-    #profile = Profile(user_id=30, username='den12345', name='den12345', education='URFU')
-    #profile_repository.add(profile)
+    # profile = Profile(user_id=1, username='den123', name='den12345', education='URFU')
+    # profile_repository.add(profile)
     # project = Project(title="DigitalPortfolio", user_id=1, rating=1, description="1234", cover_path='repository/project')
     # project_repository.add(project)
     # comment = Comment(project_id=1, text='good', user_id=1, username='fearppen')
@@ -27,5 +27,10 @@ if __name__ == '__main__':
     # profile_file_repository.add(profile_file)
     # project_file = ProjectFile(project_id=1, file_path='.1py4')
     # project_file_repository.add(project_file)
+
     for i in user_repository.get_all():
         print(i)
+
+    for i in profile_repository.get_all():
+        print(i)
+
