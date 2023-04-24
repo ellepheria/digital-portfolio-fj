@@ -94,7 +94,11 @@ def profile_edit():
         profile = profile_repository.get_profile_by_username(user[0])
 
         profile_repository.update(profile.user_id, Profile(**params))
-        return {"status":"success"}
+        user.username = params.username
+
+        token = create_access_token(identity=[user.username, user.password])
+
+        return {'access_token': token, 'username': user.username}
     else:
         return {"error": "No user with this token"}
 
