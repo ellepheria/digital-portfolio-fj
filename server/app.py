@@ -66,9 +66,9 @@ def login():
         else:
             return {"error": "No user with this username in database"}
 
-@app.route('/get_profile/str:<username>', methods=['GET'])
+@app.route('/get_profile/<username>', methods=['GET'])
 def get_profile(username):
-    profile = user_repository.get_user_by_username(username)
+    profile = profile_repository.get_profile_by_username(username)
     return {
         'username': profile.username,
         'name': profile.name,
@@ -89,7 +89,7 @@ def profile_edit():
     if user is not None:
         params = request.json
 
-        profile = profile_repository.get_profile_by_username(params.username)
+        profile = profile_repository.get_profile_by_username(user[0])
 
         profile_repository.update(profile.user_id, Profile(**params))
         return {"status":"success"}

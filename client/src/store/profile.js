@@ -51,7 +51,7 @@ export default {
         },
         async getCurrentProfileData({ commit }, username) {
             try {
-                const { data } = await $http.get(baseURI + `get_user/${username}`);
+                const { data } = await $http.get(baseURI + `get_profile/${username}`);
                 if (data) {
                     commit('UPDATE', data);
                     return data;
