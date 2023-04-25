@@ -15,9 +15,8 @@
 .preview-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
-    min-height: 770px;
+    height: 770px;
     width: 502px;
 }
 
@@ -27,15 +26,134 @@
     background: #C3C3C3;
     height: 548px;
     border-radius: 40px;
+    position: relative;
+}
+
+.cover-container {
+    background: #eee;
+    height: 200px;
+    width: 100%;
+    border-radius: 40px 40px 0 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.cover {
+    height: 100%;
+    width: 100%;
+    border-radius: 40px 40px 0 0;
+    cursor: pointer;
+}
+
+.cover-input {
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.profile-picture-container {
+    border-radius: 50%;
+    height: 130px;
+    width: 130px;
+    justify-content: center;
+    position: absolute;
+    left: 185.5px;
+    top: 142.5px;
+}
+
+.profile-picture-input {
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.profile-picture {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.text-fields {
+    margin-top: 82px;
+    display: flex;
+    flex-direction: column;
+}
+
+.text-field {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 160%;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+button {
+    margin-top: 40px;
 }
 
 .change-password-button {
     width: 100%;
+    height: 50px;
+    border-radius: 80px;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 160%;
+    color: #FFFFFF;
+    background: #2CCDD1;
 }
 
 .save-cancel-block {
     display: flex;
     justify-content: space-between;
+}
+
+.save-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 153px;
+    height: 50px;
+    background: #2CCDD1;
+    color: #FFFFFF;
+    border-radius: 80px;
+    border: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 160%;
+}
+
+.cancel-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 153px;
+    height: 50px;
+    background: #FF0000;
+    color: #FFFFFF;
+    border-radius: 80px;
+    border: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 160%;
 }
 
 .form-container {
@@ -52,6 +170,11 @@
     height: 50px;
     text-align: center;
     border: none;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 160%;
 }
 
 .first-container {

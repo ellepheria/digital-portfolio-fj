@@ -1,4 +1,6 @@
 import * as ui from "@/UI"
+import $http from "@/api";
+import {baseURI} from "@/api";
 
 export default {
     name: "ProfileEditPage",
@@ -15,12 +17,22 @@ export default {
             technologies: '',
             social_networks: '',
             type_of_activity: '',
+            cover: '',
+            profilePhoto: '',
+            dragOver: false,
         }
     },
     methods: {
         async saveNewProfileData() {
-            const data = this.getThisData();
+            const data = this.getThisProfileData();
             this.$store.dispatch('profile/editData', data);
+            await this.uploadProfileFiles().then(res => console.log(res));
+        },
+        async uploadProfileFiles() {
+            const formData = new FormData();
+            formData.append('cover', this.cover);
+            formData.append('profile_picture', this.profilePhoto)
+            await $http.post(baseURI + 'upload_profile_files', formData);
         },
         getCurrentProfileData() {
             const data = this.$store.getters['profile/getCurrentData'];
@@ -38,6 +50,64 @@ export default {
                 data[key] = this[key];
             }
             return data;
+        },
+        getThisProfileData() {
+            const vuexData = this.$store.getters['profile/getCurrentData'];
+            const data = {};
+            for (let key in vuexData) {
+                data[key] = this[key];
+            }
+            console.log(data)
+            return data;
+        },
+        fileUpload(event) {
+            this.cover = event.target.files[0];
+            console.log(this.cover);
+        },
+        getCoverSrc() {
+            return URL.createObjectURL(this.cover);
+        },
+        getProfilePhotoSrc() {
+            return URL.createObjectURL(this.profilePhoto);
+        },
+        dragLeaveHandler(event) {
+            event.preventDefault();
+            this.dragOver = false;
+        },
+        dragOverHandler(event) {
+            event.preventDefault();
+            this.dragOver = true;
+        },
+        coverUpload(event) {
+            event.preventDefault();
+            console.log(event);
+            this.cover = event.target.files[0];
+        },
+        dragCoverUpload(event) {
+            event.preventDefault();
+            this.cover = event.dataTransfer.files[0];
+        },
+        profilePictureUpload(event) {
+            event.preventDefault();
+            console.log(event);
+            this.profilePhoto = event.target.files[0];
+        },
+        dragProfilePictureUpload(event) {
+            event.preventDefault();
+            this.profilePhoto = event.dataTransfer.files[0];
+        },
+    },
+    computed: {
+        coverUploaded() {
+            return !!this.cover;
+        },
+        profilePhotoUploaded() {
+            return !!this.profilePhoto;
+        }
+    },
+    beforeCreate() {
+        if (!this.$store.getters['auth/isAuthenticated']) {
+            this.$router.push('/auth');
         }
     },
     async created() {

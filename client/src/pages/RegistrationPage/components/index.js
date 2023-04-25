@@ -1,36 +1,13 @@
 import * as ui from "@/UI";
 import RegistrationForm from "@/modules/RegistrationForm";
+import {getUsername} from "@/helpers";
 
 export default {
     name: "RegistrationPage",
     components: {RegistrationForm, ...ui},
-    data() {
-        return {
-            email: '',
-            username: '',
-            password: '',
-            confirmPassword: '',
+    beforeCreate() {
+        if (this.$store.getters['auth/isAuthenticated']) {
+            this.$router.push(`${getUsername()}`)
         }
-    },
-    methods: {
-        async registrationFormSubmit() {
-            const email = this.email;
-            const username = this.username;
-            const password = this.password;
-
-            const { data } = await this.$store.dispatch('auth/register', {
-                email,
-                username,
-                password,
-            });
-
-            if (!data) {
-                return; //тут надо обрабатывать ошибки
-            }
-
-            this.$store.dispatch('profile/clearProfileState');
-            this.$store.dispatch('profile/setLocalData', {username: this.username})
-            return this.$router.push({ path: `/${username}/edit` });
-        },
     },
 }

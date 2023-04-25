@@ -1,6 +1,6 @@
 import $http from "@/api";
 import { baseURI } from "@/api";
-import { getUsername, setUsername } from "@/helpers";
+import {getUsername, setToken, setUsername} from "@/helpers";
 
 export default {
     namespaced: true,
@@ -42,6 +42,7 @@ export default {
                 const { data } = await $http.post(baseURI + 'profile_edit', newData);
                 if (data) {
                     commit('UPDATE', newData);
+                    setToken(data['access_token'])
                     setUsername(newData.username);
                 }
             } catch (e) {

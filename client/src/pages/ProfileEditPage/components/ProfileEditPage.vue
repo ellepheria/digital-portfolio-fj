@@ -4,19 +4,53 @@
     <div class="main">
       <div class="preview-container">
         <div class="card-preview">
-          <img src="@/assets/ground.jpg" height="200" width="502">
-          <span class="name-data">{{name}}</span>
-          <span class="type_of_activity-data">{{type_of_activity}}</span>
-          <span class="about-data">{{about}}</span>
+          <div class="cover-container">
+            <input
+                type="file"
+                accept="image"
+                class="cover-input"
+                draggable="true"
+                @dragleave="dragLeaveHandler"
+                @dragover="dragOverHandler"
+                @drop="dragCoverUpload"
+                @change="coverUpload">
+            <span v-if="!dragOver && !coverUploaded">Вставьте изображение для обложки</span>
+            <span v-if="dragOver && !coverUploaded">Отпустите фото, чтобы загрузить</span>
+            <img
+                v-if="coverUploaded"
+                :src="getCoverSrc()"
+                class="cover"
+            >
+          </div>
+          <div class="profile-picture-container">
+            <input
+                type="file"
+                accept="image"
+                class="profile-picture-input"
+                draggable="true"
+                @drop="dragProfilePictureUpload"
+                @change="profilePictureUpload">
+            <img
+                v-if="profilePhotoUploaded"
+                :src="getProfilePhotoSrc()"
+                class="profile-picture">
+            <img
+                v-if="!profilePhotoUploaded"
+                src="@/assets/defaultProfilePicture.png"
+                class="profile-picture">
+          </div>
+          <div class="text-fields">
+            <span class="name-data text-field">{{ username }}</span>
+            <span class="type_of_activity-data text-field">{{ type_of_activity }}</span>
+          </div>
+          <span class="about-data text-field">{{ about }}</span>
         </div>
-        <div class="buttons">
-          <div class="change-password-block">
-            <button class="change-password-button button">Смена пароля</button>
-          </div>
-          <div class="save-cancel-block">
-            <button class="save-button button" type="submit">Сохранить</button>
-            <button class="cancel-button button" @click="getCurrentProfileData">Отменить</button>
-          </div>
+        <div class="change-password-block">
+          <button class="change-password-button button">Смена пароля</button>
+        </div>
+        <div class="save-cancel-block">
+          <button class="save-button button" @click="saveNewProfileData">Сохранить</button>
+          <button class="cancel-button button" @click="getCurrentProfileData">Отмена</button>
         </div>
       </div>
       <div class="form-container">
@@ -39,7 +73,8 @@
                   type="text"
                   class="form-field first-block"
                   v-model="type_of_activity"
-                  placeholder="Род деятельности">
+                  placeholder="Род деятельности"
+                  required>
             </div>
             <div class="block">
               <input
