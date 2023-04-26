@@ -5,9 +5,9 @@ from sqlalchemy import Column, Integer, Text, ForeignKey
 class ProfileFile(Base):
     __tablename__ = "profile_files"
 
-    profile_id = Column(
-        Integer,
-        ForeignKey("profiles.user_id"),
+    username = Column(
+        Text,
+        ForeignKey("users.username"),
         primary_key=True,
     )
 
@@ -22,4 +22,4 @@ class ProfileFile(Base):
     )
 
     def __str__(self):
-        return f'profile_id: {self.profile_id}, photo_path: {self.photo_path}, cover_path: {self.cover_path}'
+        return f'username: {self.username}, photo_path: {self.photo_path}, cover_path: {self.cover_path}'

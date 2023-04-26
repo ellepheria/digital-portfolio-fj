@@ -18,7 +18,7 @@ class Project(Base):
 
     user_id = Column(
         Integer,
-        ForeignKey("profiles.user_id"),
+        ForeignKey("users.user_id"),
         nullable=False,
     )
 

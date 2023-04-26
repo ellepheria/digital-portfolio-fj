@@ -1,6 +1,5 @@
 from server.repository.comment_repository import CommentRepository
 from server.repository.liked_project_repository import LikedProjectRepository
-from server.repository.profile_repository import ProfileRepository
 from server.repository.profile_file_repository import ProfileFileRepository
 from server.repository.project_file_repository import ProjectFileRepository
 from server.repository.project_repository import ProjectRepository

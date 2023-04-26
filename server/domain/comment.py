@@ -24,13 +24,13 @@ class Comment(Base):
 
     user_id = Column(
         Integer,
-        ForeignKey("profiles.user_id"),
+        ForeignKey("users.user_id"),
         nullable=False,
     )
 
     username = Column(
         Text,
-        ForeignKey("profiles.username"),
+        ForeignKey("users.username"),
         nullable=False,
     )
 

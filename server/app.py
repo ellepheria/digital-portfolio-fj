@@ -1,19 +1,16 @@
 import re
-from flask import Flask, jsonify, request
+from flask import Flask, request
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from server.domain import db_session
-from server.domain.user import User
-from server.domain.profile import Profile
-from server.repository.user_repository import UserRepository
-from server.repository.profile_repository import ProfileRepository
+from server.domain.__all_models import *
+from server.repository.__all_repository import *
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 jwt = JWTManager(app)
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_SECRET_KEY"] = "digital-portfolio-fj"
 user_repository = UserRepository()
-profile_repository = ProfileRepository()
 
 
 @app.route('/register', methods=['POST'])
@@ -21,14 +18,12 @@ def register():
     params = request.json
 
     user = User(**params)
+    print(params)
 
-    token = create_access_token(identity=[user.username, user.password])
+    token = create_access_token(identity=[user.username, user.email, user.password])
+    user.name = params["username"]
 
     user_repository.add(user)
-
-    new_user = user_repository.get_user_by_username(params['username'])
-    profile = Profile(user_id=new_user.id, username=params['username'], name=params['username'])
-    profile_repository.add(profile)
 
     return {'access_token': token}
 
@@ -69,18 +64,18 @@ def login():
 
 @app.route('/get_profile/<username>', methods=['GET'])
 def get_profile(username):
-    profile = profile_repository.get_profile_by_username(username)
+    profile = user_repository.get_user_by_username(username)
     return {
         'username': profile.username,
         'name': profile.name,
         'surname': profile.surname,
         'about': profile.about,
-        'technologies' : profile.technologies,
-        'type_of_activity' : profile.type_of_activity,
-        'age' : profile.age,
-        'phone_number' : profile.phone_number,
-        'education' : profile.education,
-        'social_networks' : profile.social_networks
+        'technologies': profile.technologies,
+        'type_of_activity': profile.type_of_activity,
+        'age': profile.age,
+        'phone_number': profile.phone_number,
+        'education': profile.education,
+        'social_networks': profile.social_networks
     }
 
 
@@ -91,14 +86,19 @@ def profile_edit():
     if user is not None:
         params = request.json
 
-        profile = profile_repository.get_profile_by_username(user[0])
+        profile = user_repository.get_user_by_username(user[0])
+        new_user = User(**params)
+        new_user.email = user[1]
+        new_user.password = user[2]
 
-        profile_repository.update(profile.user_id, Profile(**params))
-        user.username = params.username
+        print(new_user)
 
-        token = create_access_token(identity=[user.username, user.password])
+        user_repository.update(new_user, profile.user_id)
+        user[0] = params["username"]
 
-        return {'access_token': token, 'username': user.username}
+        token = create_access_token(identity=[user[0], user[1], user[2]])
+
+        return {'access_token': token, 'username': user[0]}
     else:
         return {"error": "No user with this token"}
 
@@ -106,4 +106,3 @@ def profile_edit():
 if __name__ == '__main__':
     db_session.global_init()
     app.run(debug=True)
-
