@@ -91,8 +91,6 @@ def profile_edit():
         new_user.email = user[1]
         new_user.password = user[2]
 
-        print(new_user)
-
         user_repository.update(new_user, profile.user_id)
         user[0] = params["username"]
 
