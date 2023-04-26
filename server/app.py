@@ -43,7 +43,7 @@ def login():
             if params['password'] != user.password:
                 return {"error": "No user with this password"}
             else:
-                token = create_access_token(identity=[user.username, user.password])
+                token = create_access_token(identity=[user.username, user.email, user.password])
                 return {'access_token': token, 'username': user.username}
         else:
             return {"error": "No user with this email in database"}
@@ -56,7 +56,7 @@ def login():
             if params['password'] != user.password:
                 return {"error": "No user with this password"}
             else:
-                token = create_access_token(identity=[user.username, user.password])
+                token = create_access_token(identity=[user.username, user.email, user.password])
                 return {'access_token': token, 'username': user.username}
         else:
             return {"error": "No user with this username in database"}
@@ -96,7 +96,7 @@ def profile_edit():
         user_repository.update(new_user, profile.user_id)
         user[0] = params["username"]
 
-        token = create_access_token(identity=[user[0], user[1], user[2]])
+        token = create_access_token(identity=[new_user.username, new_user.email, new_user.password])
 
         return {'access_token': token, 'username': user[0]}
     else:

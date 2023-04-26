@@ -1,5 +1,5 @@
 import $http from "@/api";
-import { baseURI } from "@/api";
+import {baseURI} from "@/api";
 import {getUsername, setToken, setUsername} from "@/helpers";
 
 export default {
@@ -37,21 +37,21 @@ export default {
         }
     },
     actions: {
-        async editData ({ commit }, newData) {
+        async editData({commit}, newData) {
             try {
-                const { data } = await $http.post(baseURI + 'profile_edit', newData);
-                if (data) {
-                    commit('UPDATE', newData);
-                    setToken(data['access_token'])
-                    setUsername(newData.username);
-                }
+                await $http.post(baseURI + 'profile_edit', newData)
+                    .then((res) => {
+                        commit('UPDATE', newData);
+                        setToken('local', res.data.access_token, $http);
+                        setUsername(res.data.username);
+                    });
             } catch (e) {
                 console.log(e);
             }
         },
-        async getCurrentProfileData({ commit }, username) {
+        async getCurrentProfileData({commit}, username) {
             try {
-                const { data } = await $http.get(baseURI + `get_profile/${getUsername()}`);
+                const {data} = await $http.get(baseURI + `get_profile/${getUsername()}`);
                 if (data) {
                     commit('UPDATE', data);
                     return data;
@@ -61,10 +61,10 @@ export default {
             }
             return;
         },
-        setLocalData({ commit }, data) {
-          commit('UPDATE', data);
+        setLocalData({commit}, data) {
+            commit('UPDATE', data);
         },
-        clearProfileState({ commit }) {
+        clearProfileState({commit}) {
             commit('CLEAR');
         },
     }

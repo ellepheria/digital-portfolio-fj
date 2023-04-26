@@ -29,8 +29,9 @@ export const getToken = ($http) => {
     return token;
 }
 
-export const setUsername = (username) =>
+export const setUsername = (username) => {
     localStorage.setItem('username', username);
+}
 
 export const getUsername = () => localStorage.getItem('username');
 
