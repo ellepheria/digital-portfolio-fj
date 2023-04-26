@@ -31,19 +31,19 @@
                 @drop="dragProfilePictureUpload"
                 @change="profilePictureUpload">
             <img
-                v-if="profilePhotoUploaded"
+                v-if="profilePictureUploaded"
                 :src="getProfilePhotoSrc()"
                 class="profile-picture">
             <img
-                v-if="!profilePhotoUploaded"
+                v-if="!profilePictureUploaded"
                 src="@/assets/defaultProfilePicture.png"
                 class="profile-picture">
           </div>
           <div class="text-fields">
-            <span class="name-data text-field">{{ username }}</span>
-            <span class="type_of_activity-data text-field">{{ type_of_activity }}</span>
+            <p class="name-data text-field">{{ username }}</p>
+            <p class="type_of_activity-data text-field">{{ type_of_activity }}</p>
           </div>
-          <span class="about-data text-field">{{ about }}</span>
+          <p class="about-data text-field">{{ about }}</p>
         </div>
         <div class="change-password-block">
           <button class="change-password-button button">Смена пароля</button>
@@ -127,5 +127,4 @@
 </template>
 
 <script src="./index.js"></script>
-
 <style scoped src="./style.css"></style>

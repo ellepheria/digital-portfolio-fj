@@ -60,10 +60,6 @@ export default {
             console.log(data)
             return data;
         },
-        fileUpload(event) {
-            this.cover = event.target.files[0];
-            console.log(this.cover);
-        },
         getCoverSrc() {
             return URL.createObjectURL(this.cover);
         },
@@ -101,8 +97,11 @@ export default {
         coverUploaded() {
             return !!this.cover;
         },
-        profilePhotoUploaded() {
+        profilePictureUploaded() {
             return !!this.profilePhoto;
+        },
+        isAuth() {
+            return this.$store.getters['auth/isAuthenticated'];
         }
     },
     beforeCreate() {

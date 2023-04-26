@@ -6,7 +6,7 @@ export const ProfileEditRoutes = [
     {
         path: '/:username/edit',
         name: 'ProfileEdit',
-        component: () => import("@/pages/ProfileEditPage/components/ProfileEditPage.vue"),
+        component: () => import("@/pages/ProfileEditPage"),
         meta: {
             title: 'Редактирование профиля'
         }
