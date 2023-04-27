@@ -1,4 +1,6 @@
 import re
+from datetime import timedelta
+
 from flask import Flask, request
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from server.domain import db_session
@@ -10,6 +12,8 @@ app = Flask(__name__)
 CORS(app)
 jwt = JWTManager(app)
 app.config["JWT_SECRET_KEY"] = "digital-portfolio-fj"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 user_repository = UserRepository()
 
 
