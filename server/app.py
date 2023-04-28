@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import timedelta
 
@@ -45,12 +46,12 @@ def login():
         }
         if user := user_repository.get_user_by_email(User(**user_data).email):
             if params['password'] != user.password:
-                return {"error": "No user with this password"}
+                return {'error': 'No user with this password'}
             else:
                 token = create_access_token(identity=[user.username, user.email, user.password])
                 return {'access_token': token, 'username': user.username}
         else:
-            return {"error": "No user with this email in database"}
+            return {'error': 'No user with this email in database'}
     else:
         user_data = {
             'username': params['login'],
@@ -58,12 +59,12 @@ def login():
         }
         if user := user_repository.get_user_by_username(User(**user_data).username):
             if params['password'] != user.password:
-                return {"error": "No user with this password"}
+                return {'error': 'No user with this password'}
             else:
                 token = create_access_token(identity=[user.username, user.email, user.password])
                 return {'access_token': token, 'username': user.username}
         else:
-            return {"error": "No user with this username in database"}
+            return {'error': 'No user with this username in database'}
 
 
 @app.route('/get_profile/<username>', methods=['GET'])
@@ -102,7 +103,40 @@ def profile_edit():
 
         return {'access_token': token, 'username': user[0]}
     else:
-        return {"error": "No user with this token"}
+        return {'error': 'No user with this token'}
+
+@app.route('/upload_profile_files')
+@jwt_required()
+def upload_profile_files():
+    user = get_jwt_identity()
+    if user is not None:
+        cover = request.files['cover']
+        profile_picture = request.files['profile_picture']
+
+        cover_file_name = '{}_cover.png'.format(user.username)
+        profile_picture_name = '{}_profile_picture.png'.format(user.username)
+
+        cover_file = open(cover_file_name, "w")
+        profile_picture_file = open(profile_picture_name, "w")
+
+        cover_file.write(cover)
+        profile_picture_file.write(profile_picture)
+
+        os.replace(cover_file_name, "files/cover/{}".format(cover_file_name))
+        os.replace(profile_picture_name, "files/profile_picture/{}".format(profile_picture_name))
+        return {'status': 'success'}
+    else:
+        return {'error': 'No user with this token'}
+
+@app.route('/get_profile_files/<username>')
+@jwt_required()
+def get_profile_files(username):
+    user = get_jwt_identity()
+    if user is not None:
+        return {'cover': 'files/cover/{}_cover.png'.format(username),
+                'profile_picture': 'files/profile_picture/{}_profile_picture.png'.format(username)}
+    else:
+        return {'error': 'No user with this token'}
 
 
 if __name__ == '__main__':
