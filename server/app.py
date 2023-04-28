@@ -13,22 +13,23 @@ app = Flask(__name__)
 CORS(app)
 jwt = JWTManager(app)
 app.config["JWT_SECRET_KEY"] = "digital-portfolio-fj"
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 user_repository = UserRepository()
-
+profile_file_repository = ProfileFileRepository()
 
 @app.route('/register', methods=['POST'])
 def register():
     params = request.json
 
     user = User(**params)
-    print(params)
+    profile_file = ProfileFile(username=user.username)
 
     token = create_access_token(identity=[user.username, user.email, user.password])
     user.name = params["username"]
 
     user_repository.add(user)
+    profile_file_repository.add(profile_file)
 
     return {'access_token': token}
 
@@ -99,6 +100,11 @@ def profile_edit():
         user_repository.update(new_user, profile.user_id)
         user[0] = params["username"]
 
+        profile_file = ProfileFile(username=user[0])
+
+        profile_file_repository.update(profile_id=user_repository.get_user_by_username(user[0]).id,
+                                       new_profile_file=profile_file)
+
         token = create_access_token(identity=[new_user.username, new_user.email, new_user.password])
 
         return {'access_token': token, 'username': user[0]}
@@ -110,20 +116,21 @@ def profile_edit():
 def upload_profile_files():
     user = get_jwt_identity()
     if user is not None:
-        cover = request.files['cover']
         profile_picture = request.files['profile_picture']
+        cover = request.files['cover']
 
-        cover_file_name = '{}_cover.png'.format(user.username)
-        profile_picture_name = '{}_profile_picture.png'.format(user.username)
+        profile_picture_name = f'files/profile_picture/{user[0]}_profile_picture.png'
+        cover_file_name = f'files/cover/{user[0]}_cover.png'
 
-        cover_file = open(cover_file_name, "w")
-        profile_picture_file = open(profile_picture_name, "w")
+        profile_picture.save(profile_picture_name)
+        cover.save(cover_file_name)
 
-        cover_file.write(cover)
-        profile_picture_file.write(profile_picture)
+        profile_file = ProfileFile(username=user[0],
+                                   photo_path=profile_picture_name,
+                                   cover_path=cover_file_name)
 
-        os.replace(cover_file_name, "files/cover/{}".format(cover_file_name))
-        os.replace(profile_picture_name, "files/profile_picture/{}".format(profile_picture_name))
+        profile_file_repository.add(profile_file)
+
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
@@ -133,8 +140,8 @@ def upload_profile_files():
 def get_profile_files(username):
     user = get_jwt_identity()
     if user is not None:
-        return {'cover': 'files/cover/{}_cover.png'.format(username),
-                'profile_picture': 'files/profile_picture/{}_profile_picture.png'.format(username)}
+        return {'cover': f'files/cover/{user[0]}_cover.png',
+                'profile_picture': f'files/profile_picture/{user[0]}_profile_picture.png'}
     else:
         return {'error': 'No user with this token'}
 
