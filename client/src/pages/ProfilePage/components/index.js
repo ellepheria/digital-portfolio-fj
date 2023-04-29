@@ -1,5 +1,7 @@
 import Header from "@/UI/Header/components/Header.vue";
 import Footer from "@/UI/Footer/components/Footer.vue";
+import $http, {baseURI} from "@/api";
+import {AxiosHeaders} from "axios";
 
 export default {
     name: "ProfilePage",
@@ -11,7 +13,7 @@ export default {
             username: '',
             age: '',
             type_of_activity: '',
-            phone: '',
+            phone_number: '',
             about: '',
             education: '',
             technologies: '',
@@ -22,17 +24,22 @@ export default {
     },
     methods: {
         async getProfileData() {
-            const data = await this.$store.dispatch(
-                'profile/getCurrentProfileData',
-                this.$route.params.username
-            );
+            const data = (await $http.get(
+                baseURI + 'get_profile/' + this.$route.params.username,
+            )).data;
 
             for (let key in data) {
                 this.$data[key] = data[key];
             }
         },
         async getProfileImages() {
-            // get profile images cover and profilePic
+            const data = await $http.get(
+                baseURI + 'get_profile_files/' + this.$route.params.username,
+            );
+            if (data) {
+                this.cover = data.data.cover;
+                this.profilePicture = data.data.profilePicture;
+            };
         },
         getProfilePictureSrc() {
             return URL.createObjectURL(this.profilePicture);

@@ -2,6 +2,8 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    height: 100%;
+    padding: 40px;
 }
 
 .card-container {
@@ -68,5 +70,51 @@
     line-height: 160%;
     text-align: center;
     color: #FFFFFF;
+}
+
+.data-container {
+    height: 100%;
+    width: 1228px;
+    background: #C3C3C3;
+    border-radius: 40px;
+}
+
+.data-field-container {
+    margin: 40px;
+    width: 1148px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 160%;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    color: #FFFFFF;
+    width: 240px;
+}
+
+.field {
+    width: 895px;
+    background: #fff;
+    border-radius: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 160%;
+    color: #5F5F5F;
 }
 
