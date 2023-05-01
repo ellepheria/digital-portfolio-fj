@@ -18,17 +18,20 @@ app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 user_repository = UserRepository()
 profile_file_repository = ProfileFileRepository()
 
+
 @app.route('/register', methods=['POST'])
 def register():
     params = request.json
 
     user = User(**params)
-    profile_file = ProfileFile(username=user.username)
 
     token = create_access_token(identity=[user.username, user.email, user.password])
     user.name = params["username"]
 
     user_repository.add(user)
+    id_ = user_repository.get_user_by_username(params["username"]).user_id
+    profile_file = ProfileFile(user_id=id_)
+
     profile_file_repository.add(profile_file)
 
     return {'access_token': token}
@@ -96,13 +99,11 @@ def profile_edit():
         new_user = User(**params)
         new_user.email = user[1]
         new_user.password = user[2]
+        profile_file = ProfileFile(user_id=profile.user_id)
 
         user_repository.update(new_user, profile.user_id)
         user[0] = params["username"]
-
-        profile_file = ProfileFile(username=user[0])
-
-        profile_file_repository.update(profile_id=user_repository.get_user_by_username(user[0]).id,
+        profile_file_repository.update(user_id=user_repository.get_user_by_username(user[0]).user_id,
                                        new_profile_file=profile_file)
 
         token = create_access_token(identity=[new_user.username, new_user.email, new_user.password])
@@ -110,6 +111,7 @@ def profile_edit():
         return {'access_token': token, 'username': user[0]}
     else:
         return {'error': 'No user with this token'}
+
 
 @app.route('/upload_profile_files')
 @jwt_required()
@@ -134,6 +136,7 @@ def upload_profile_files():
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
+
 
 @app.route('/get_profile_files/<username>')
 @jwt_required()

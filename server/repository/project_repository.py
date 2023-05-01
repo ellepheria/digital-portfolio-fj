@@ -6,7 +6,10 @@ from abc import ABC, abstractmethod
 
 class IProjectRepository(ABC):
     @abstractmethod
-    def get_all_user_projects(self, user_id: int):
+    def get_all_user_projects_by_id(self, user_id: int):
+        pass
+
+    def get_all_user_projects_by_username(self, username: str):
         pass
 
     @abstractmethod
@@ -27,7 +30,7 @@ class IProjectRepository(ABC):
 
 
 class ProjectRepository(IProjectRepository):
-    def get_all_user_projects(self, user_id: int):
+    def get_all_user_projects_by_id(self, user_id: int):
         session = db_session.create_session()
         return session.query(Project).filter(user_id == Project.user_id).all()
 
@@ -39,6 +42,7 @@ class ProjectRepository(IProjectRepository):
         session = db_session.create_session()
         session.add(project)
         session.commit()
+        session.close()
 
     def update(self, new_project: Project, project_id: int):
         session = db_session.create_session()
