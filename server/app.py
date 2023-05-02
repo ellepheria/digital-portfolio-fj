@@ -113,7 +113,7 @@ def profile_edit():
         return {'error': 'No user with this token'}
 
 
-@app.route('/upload_profile_files')
+@app.route('/upload_profile_files', methods=['POST'])
 @jwt_required()
 def upload_profile_files():
     user = get_jwt_identity()
@@ -121,24 +121,25 @@ def upload_profile_files():
         profile_picture = request.files['profile_picture']
         cover = request.files['cover']
 
+        # тут надо сделать так, чтобы файл сохранялся в исходном формате - можно брать тип файла из cover.filename
         profile_picture_name = f'files/profile_picture/{user[0]}_profile_picture.png'
         cover_file_name = f'files/cover/{user[0]}_cover.png'
 
         profile_picture.save(profile_picture_name)
         cover.save(cover_file_name)
 
-        profile_file = ProfileFile(username=user[0],
+        profile_file = ProfileFile(user_id=user_repository.get_user_by_username(user[0]).user_id,
                                    photo_path=profile_picture_name,
                                    cover_path=cover_file_name)
 
-        profile_file_repository.add(profile_file)
+        profile_file_repository.update(profile_file.user_id, profile_file)
 
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
 
 
-@app.route('/get_profile_files/<username>')
+@app.route('/get_profile_files/<username>', methods=['GET'])
 @jwt_required()
 def get_profile_files(username):
     user = get_jwt_identity()
