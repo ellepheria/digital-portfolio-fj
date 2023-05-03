@@ -33,7 +33,7 @@
           Имя:
         </div>
         <div class="name field">
-          {{name}}
+          {{ name }}
         </div>
       </div>
       <div class="data-field-container">
@@ -41,7 +41,7 @@
           Username:
         </div>
         <div class="username field">
-          {{username}}
+          {{ username }}
         </div>
       </div>
       <div class="data-field-container">
@@ -49,7 +49,7 @@
           Род деятельности:
         </div>
         <div class="type_of_activity field">
-          {{type_of_activity}}
+          {{ type_of_activity }}
         </div>
       </div>
       <div class="data-field-container">
@@ -57,7 +57,7 @@
           Фамилия:
         </div>
         <div class="surname field">
-          {{surname}}
+          {{ surname }}
         </div>
       </div>
       <div class="data-field-container">
@@ -65,7 +65,7 @@
           Возраст:
         </div>
         <div class="age field">
-          {{age}}
+          {{ age }}
         </div>
       </div>
       <div class="data-field-container">
@@ -73,7 +73,7 @@
           Телефон:
         </div>
         <div class="phone_number field">
-          {{phone_number}}
+          {{ phone_number }}
         </div>
       </div>
       <div class="data-field-container">
@@ -81,7 +81,7 @@
           О себе:
         </div>
         <div class="about field-area">
-          {{about}}
+          {{ about }}
         </div>
       </div>
       <div class="data-field-container">
@@ -89,7 +89,7 @@
           Образование:
         </div>
         <div class="education field">
-          {{education}}
+          {{ education }}
         </div>
       </div>
       <div class="data-field-container">
@@ -97,7 +97,7 @@
           Используемые технологии:
         </div>
         <div class="technologies field">
-          {{technologies}}
+          {{ technologies }}
         </div>
       </div>
       <div class="data-field-container">
@@ -105,10 +105,15 @@
           Социальные сети:
         </div>
         <div class="social_networks field">
-          {{social_networks}}
+          {{ social_networks }}
         </div>
       </div>
     </div>
+  </div>
+  <div class="portfolio-container">
+    <projects-list>
+      <div class="list-title"></div>
+    </projects-list>
   </div>
   <Footer></Footer>
 </template>
