@@ -13,7 +13,13 @@
       </div>
     </div>
     <div class="cover-container">
-      <img v-if="!!this.$props.cover" :src="this.$props.cover" class="cover-image">
+      <img
+          v-if="!!this.$props.cover"
+          :src="this.$props.cover"
+          height="270"
+          width="480"
+          class="cover-image"
+      >
     </div>
   </div>
 </template>

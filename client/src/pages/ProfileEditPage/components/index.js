@@ -26,17 +26,20 @@ export default {
         async saveNewProfileData() {
             const data = this.getThisProfileData();
             this.$store.dispatch('profile/editData', data);
-            await this.uploadProfileFiles().then(res => console.log(res));
+            await this.uploadProfileFiles().then(res => alert('Данные сохранены успешно'));
         },
         async uploadProfileFiles() {
             const formData = new FormData();
             formData.append('cover', this.cover);
             formData.append('profile_picture', this.profilePhoto)
-            await $http.post(baseURI + 'upload_profile_files', formData);
+            let response = {};
+            await $http.post(baseURI + 'upload_profile_files', formData)
+                .then((res) => response = res)
+                .catch((e) => response = e);
+            return response
         },
         getCurrentProfileData() {
             const data = this.$store.getters['profile/getCurrentData'];
-            console.log(data);
             this.updateProfileData(data);
         },
         updateProfileData(data) {
@@ -57,7 +60,6 @@ export default {
             for (let key in vuexData) {
                 data[key] = this[key];
             }
-            console.log(data)
             return data;
         },
         getCoverSrc() {
@@ -76,7 +78,6 @@ export default {
         },
         coverUpload(event) {
             event.preventDefault();
-            console.log(event);
             this.cover = event.target.files[0];
         },
         dragCoverUpload(event) {
@@ -85,7 +86,6 @@ export default {
         },
         profilePictureUpload(event) {
             event.preventDefault();
-            console.log(event);
             this.profilePhoto = event.target.files[0];
         },
         dragProfilePictureUpload(event) {
