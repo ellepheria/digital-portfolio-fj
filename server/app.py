@@ -117,7 +117,6 @@ def profile_edit():
 def download(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
-'''
 @app.route('/upload_profile_files', methods=['POST'])
 @jwt_required()
 def upload_profile_files():
@@ -144,8 +143,6 @@ def upload_profile_files():
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
-'''
-
 
 @app.route('/get_profile_files/<username>', methods=['GET'])
 def get_profile_files(username):
