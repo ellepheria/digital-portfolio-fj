@@ -2,7 +2,7 @@ import os
 import re
 from datetime import timedelta
 
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from server.domain import db_session
 from server.domain.__all_models import *
@@ -15,6 +15,7 @@ jwt = JWTManager(app)
 app.config["JWT_SECRET_KEY"] = "digital-portfolio-fj"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+UPLOAD_FOLDER = 'server/files'
 user_repository = UserRepository()
 profile_file_repository = ProfileFileRepository()
 
@@ -112,7 +113,11 @@ def profile_edit():
     else:
         return {'error': 'No user with this token'}
 
+@app.route('/download/<filename>')
+def download(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
+'''
 @app.route('/upload_profile_files', methods=['POST'])
 @jwt_required()
 def upload_profile_files():
@@ -139,6 +144,7 @@ def upload_profile_files():
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
+'''
 
 
 @app.route('/get_profile_files/<username>', methods=['GET'])
