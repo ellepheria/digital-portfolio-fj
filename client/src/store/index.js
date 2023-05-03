@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
-import auth from "@/store/auth";
-import profile from "@/store/profile"
+import auth from "@/pages/AuthorizationPage/store";
+import profile from "@/pages/ProfileEditPage/store"
 
 export default createStore({
   state: {
