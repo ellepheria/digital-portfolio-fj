@@ -118,12 +118,14 @@ def profile_edit():
 def upload_profile_files():
     user = get_jwt_identity()
     if user is not None:
-        profile_picture = request.files['profile_picture']
         cover = request.files['cover']
+        profile_picture = request.files['profile_picture']
 
-        # тут надо сделать так, чтобы файл сохранялся в исходном формате - можно брать тип файла из cover.filename
-        profile_picture_name = f'files/profile_picture/{user[0]}_profile_picture.png'
-        cover_file_name = f'files/cover/{user[0]}_cover.png'
+        type_of_cover = cover.filename.split('.')[1]
+        type_of_profile_picture = profile_picture.filename.split(".")[1]
+
+        cover_file_name = f'files/cover/{user[0]}_cover.{type_of_profile_picture}'
+        profile_picture_name = f'files/profile_picture/{user[0]}_profile_picture.{type_of_profile_picture}'
 
         profile_picture.save(profile_picture_name)
         cover.save(cover_file_name)
@@ -140,14 +142,9 @@ def upload_profile_files():
 
 
 @app.route('/get_profile_files/<username>', methods=['GET'])
-@jwt_required()
 def get_profile_files(username):
-    user = get_jwt_identity()
-    if user is not None:
-        return {'cover': f'files/cover/{user[0]}_cover.png',
-                'profile_picture': f'files/profile_picture/{user[0]}_profile_picture.png'}
-    else:
-        return {'error': 'No user with this token'}
+    return {'cover': f'files/cover/{username}_cover.png',
+            'profile_picture': f'files/profile_picture/{username}_profile_picture.png'}
 
 
 if __name__ == '__main__':
