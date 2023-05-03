@@ -124,7 +124,7 @@ def upload_profile_files():
         type_of_cover = cover.filename.split('.')[1]
         type_of_profile_picture = profile_picture.filename.split(".")[1]
 
-        cover_file_name = f'files/cover/{user[0]}_cover.{type_of_profile_picture}'
+        cover_file_name = f'files/cover/{user[0]}_cover.{type_of_cover}'
         profile_picture_name = f'files/profile_picture/{user[0]}_profile_picture.{type_of_profile_picture}'
 
         profile_picture.save(profile_picture_name)
