@@ -6,14 +6,14 @@
         <div class="cover-container">
           <img
               v-if="coverUploaded"
-              :src="getCoverSrc()"
+              :src="cover_path"
               class="cover"
           >
         </div>
         <div class="profile-picture-container">
           <img
               v-if="profilePictureUploaded"
-              :src="getProfilePictureSrc()"
+              :src="profile_picture_path"
               class="profile-picture">
           <img
               v-if="!profilePictureUploaded"

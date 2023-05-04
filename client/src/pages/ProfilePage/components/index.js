@@ -19,8 +19,8 @@ export default {
             education: '',
             technologies: '',
             social_networks: '',
-            cover: '',
-            profilePicture: '',
+            cover_path: '',
+            profile_picture_path: '',
         }
     },
     methods: {
@@ -32,33 +32,19 @@ export default {
             for (let key in data) {
                 this.$data[key] = data[key];
             }
-        },
-        async getProfileImages() {
-            const data = await $http.get(
-                baseURI + 'get_profile_files/' + this.$route.params.username,
-            );
-            if (data) {
-                this.cover = data.data.cover;
-                this.profilePicture = data.data.profilePicture;
-            };
-        },
-        getProfilePictureSrc() {
-            return URL.createObjectURL(this.profilePicture);
-        },
-        getCoverSrc() {
-            return URL.createObjectURL(this.cover);
+            this.profile_picture_path = baseURI + this.profile_picture_path;
+            this.cover_path = baseURI + this.cover_path;
         },
     },
     async created() {
         await this.getProfileData();
-        await this.getProfileImages();
     },
     computed: {
         coverUploaded() {
-            return !!this.cover;
+            return !!this.cover_path;
         },
         profilePictureUploaded() {
-            return !!this.profilePhoto;
+            return !!this.profile_picture_path;
         },
         isAuth() {
             return this.$store.getters['auth/isAuthenticated'];

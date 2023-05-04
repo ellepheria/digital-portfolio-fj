@@ -38,6 +38,7 @@
     height: 100%;
     width: 100%;
     border-radius: 40px 40px 0 0;
+    object-fit: cover;
 }
 
 .profile-picture-container {
@@ -48,12 +49,14 @@
     position: absolute;
     left: 185.5px;
     top: 142.5px;
+
 }
 
 .profile-picture {
     height: 100%;
     width: 100%;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .text-fields {
@@ -121,4 +124,3 @@
 .portfolio-container {
     padding: 0 40px;
 }
-

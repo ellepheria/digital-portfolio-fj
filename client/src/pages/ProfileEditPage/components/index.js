@@ -36,6 +36,7 @@ export default {
             await $http.post(baseURI + 'upload_profile_cover', formData)
                 .then(res => {
                     response = res;
+                    this.cover_path = 'https://ru.wikipedia.org/wiki/%D0%A5%D1%83%D0%B9#/media/%D0%A4%D0%B0%D0%B9%D0%BB:Russian_word_huy.jpg';
                     this.cover_path = baseURI + res.data.cover_path
                 });
             return response;
@@ -47,6 +48,7 @@ export default {
             await $http.post(baseURI + 'upload_profile_picture', formData)
                 .then(res => {
                     response = res;
+                    this.profile_picture_path = 'https://ru.wikipedia.org/wiki/%D0%A5%D1%83%D0%B9#/media/%D0%A4%D0%B0%D0%B9%D0%BB:Russian_word_huy.jpg';
                     this.profile_picture_path = baseURI + res.data.profile_picture_path;
                 });
             return response;
