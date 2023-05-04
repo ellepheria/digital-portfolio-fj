@@ -16,6 +16,8 @@ export default {
             technologies: '',
             social_networks: '',
             type_of_activity: '',
+            cover_path: '',
+            profile_picture_path: '',
         },
     },
     getters: {
@@ -34,6 +36,10 @@ export default {
             for (let key in state.currentData) {
                 state.currentData[key] = '';
             }
+        },
+        ['UPDATE_IMAGES']: (state, images) => {
+            state.currentData.cover_path = images.cover;
+            state.currentData.profile_picture_path = images.profile_picture;
         }
     },
     actions: {
@@ -52,6 +58,8 @@ export default {
         async getCurrentProfileData({commit}, username) {
             try {
                 const {data} = await $http.get(baseURI + `get_profile/${getUsername()}`);
+                data.cover_path = baseURI + data.cover_path;
+                data.profile_picture_path = baseURI + data.profile_picture_path;
                 if (data) {
                     commit('UPDATE', data);
                     return data;
@@ -60,6 +68,9 @@ export default {
                 console.log(e);
             }
             return;
+        },
+        uploadImages({commit}, images) {
+            commit('UPDATE_IMAGES', images);
         },
         setLocalData({commit}, data) {
             commit('UPDATE', data);

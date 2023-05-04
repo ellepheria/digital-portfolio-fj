@@ -8,7 +8,7 @@ from server.domain.__all_models import *
 from server.repository.__all_repository import *
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='files')
 CORS(app)
 jwt = JWTManager(app)
 app.config["JWT_SECRET_KEY"] = "digital-portfolio-fj"
@@ -87,8 +87,8 @@ def get_profile(username):
         'phone_number': profile.phone_number,
         'education': profile.education,
         'social_networks': profile.social_networks,
-        'cover': profile_file.cover_path,
-        'profile_picture': profile_file.photo_path
+        'cover_path': profile_file.cover_path,
+        'profile_picture_path': profile_file.photo_path
     }
 
 
@@ -117,45 +117,48 @@ def profile_edit():
         return {'error': 'No user with this token'}
 
 
-@app.route('/download', methods=['POST'])
-def download():
-    path = request.json['path']
-    file = None
-    with app.open_resource(app.root_path + path, mode="rb") as f:
-        file = f.read()
-
-    if not file:
-        return {'error': 'file not found'}
-
-    res = make_response(file)
-    res.headers['Content-Type'] = 'image'
-    return res
-
-
-@app.route('/upload_profile_files', methods=['POST'])
+@app.route('/upload_profile_cover', methods=['POST'])
 @jwt_required()
-def upload_profile_files():
-    user = get_jwt_identity()
-    if user is not None:
+def upload_profile_cover():
+    user_data = get_jwt_identity()
+    if user_data:
+        user_id = user_repository.get_user_by_username(user_data[0]).user_id
+        current_profile_files = profile_file_repository.get_profile_files(user_id)
         cover = request.files['cover']
-        profile_picture = request.files['profile_picture']
-
         type_of_cover = cover.filename.split('.')[1]
-        type_of_profile_picture = profile_picture.filename.split(".")[1]
-
-        cover_file_name = f'files/cover/{user[0]}_cover.{type_of_cover}'
-        profile_picture_name = f'files/profile_picture/{user[0]}_profile_picture.{type_of_profile_picture}'
-
-        profile_picture.save(profile_picture_name)
+        cover_file_name = f'files/cover/{user_data[0]}_cover.{type_of_cover}'
         cover.save(cover_file_name)
 
-        profile_file = ProfileFile(user_id=user_repository.get_user_by_username(user[0]).user_id,
-                                   photo_path=profile_picture_name,
+        profile_file = ProfileFile(user_id=user_id,
+                                   photo_path=current_profile_files.photo_path,
                                    cover_path=cover_file_name)
 
         profile_file_repository.update(profile_file.user_id, profile_file)
 
-        return {'status': 'success'}
+        return {'cover_path': cover_file_name}
+    else:
+        return {'error': 'No user with this token'}
+
+
+@app.route('/upload_profile_picture', methods=['POST'])
+@jwt_required()
+def upload_profile_picture():
+    user_data = get_jwt_identity()
+    if user_data:
+        user_id = user_repository.get_user_by_username(user_data[0]).user_id
+        current_profile_files = profile_file_repository.get_profile_files(user_id)
+        profile_picture = request.files['profile_picture']
+        type_of_profile_picture = profile_picture.filename.split('.')[1]
+        profile_picture_name = f'files/profile_picture/{user_data[0]}_profile_picture.{type_of_profile_picture}'
+        profile_picture.save(profile_picture_name)
+
+        profile_file = ProfileFile(user_id=user_id,
+                                   photo_path=profile_picture_name,
+                                   cover_path=current_profile_files.cover_path)
+
+        profile_file_repository.update(profile_file.user_id, profile_file)
+
+        return {'profile_picture_path': profile_picture_name}
     else:
         return {'error': 'No user with this token'}
 

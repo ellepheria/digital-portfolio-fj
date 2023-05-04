@@ -18,25 +18,38 @@ export default {
             social_networks: '',
             type_of_activity: '',
             cover: '',
-            profilePhoto: '',
+            profile_picture: '',
+            cover_path: '',
+            profile_picture_path: '',
             dragOver: false,
         }
     },
     methods: {
         async saveNewProfileData() {
             const data = this.getThisProfileData();
-            this.$store.dispatch('profile/editData', data);
-            await this.uploadProfileFiles().then(res => alert('Данные сохранены успешно'));
+            await this.$store.dispatch('profile/editData', data).then(res => alert('Данные сохранены успешно'));
         },
-        async uploadProfileFiles() {
+        async uploadProfileCover() {
             const formData = new FormData();
             formData.append('cover', this.cover);
-            formData.append('profile_picture', this.profilePhoto)
             let response = {};
-            await $http.post(baseURI + 'upload_profile_files', formData)
-                .then((res) => response = res)
-                .catch((e) => response = e);
-            return response
+            await $http.post(baseURI + 'upload_profile_cover', formData)
+                .then(res => {
+                    response = res;
+                    this.cover_path = baseURI + res.data.cover_path
+                });
+            return response;
+        },
+        async uploadProfilePicture() {
+            const formData = new FormData();
+            formData.append('profile_picture', this.profile_picture);
+            let response = {};
+            await $http.post(baseURI + 'upload_profile_picture', formData)
+                .then(res => {
+                    response = res;
+                    this.profile_picture_path = baseURI + res.data.profile_picture_path;
+                });
+            return response;
         },
         getCurrentProfileData() {
             const data = this.$store.getters['profile/getCurrentData'];
@@ -58,15 +71,10 @@ export default {
             const vuexData = this.$store.getters['profile/getCurrentData'];
             const data = {};
             for (let key in vuexData) {
-                data[key] = this[key];
+                if (key != 'cover_path' && key != 'profile_picture_path')
+                    data[key] = this[key];
             }
             return data;
-        },
-        getCoverSrc() {
-            return URL.createObjectURL(this.cover);
-        },
-        getProfilePhotoSrc() {
-            return URL.createObjectURL(this.profilePhoto);
         },
         dragLeaveHandler(event) {
             event.preventDefault();
@@ -76,21 +84,25 @@ export default {
             event.preventDefault();
             this.dragOver = true;
         },
-        coverUpload(event) {
+        async coverUpload(event) {
             event.preventDefault();
             this.cover = event.target.files[0];
+            await this.uploadProfileCover();
         },
-        dragCoverUpload(event) {
+        async dragCoverUpload(event) {
             event.preventDefault();
             this.cover = event.dataTransfer.files[0];
+            await this.uploadProfileCover();
         },
-        profilePictureUpload(event) {
+        async profilePictureUpload(event) {
             event.preventDefault();
-            this.profilePhoto = event.target.files[0];
+            this.profile_picture = event.target.files[0];
+            await this.uploadProfilePicture();
         },
-        dragProfilePictureUpload(event) {
+        async dragProfilePictureUpload(event) {
             event.preventDefault();
-            this.profilePhoto = event.dataTransfer.files[0];
+            this.profile_picture = event.dataTransfer.files[0];
+            await this.uploadProfilePicture();
         },
     },
     computed: {
@@ -98,7 +110,7 @@ export default {
             return !!this.cover;
         },
         profilePictureUploaded() {
-            return !!this.profilePhoto;
+            return !!this.profile_picture;
         },
         isAuth() {
             return this.$store.getters['auth/isAuthenticated'];
@@ -111,6 +123,8 @@ export default {
     },
     async created() {
         const data = await this.$store.dispatch('profile/getCurrentProfileData');
+        data.cover = (await $http.get(data.cover_path)).data;
+        data.profile_picture = (await $http.get(data.profile_picture_path)).data;
         this.updateProfileData(data);
     }
 }

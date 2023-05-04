@@ -18,7 +18,7 @@
             <span v-if="dragOver && !coverUploaded">Отпустите фото, чтобы загрузить</span>
             <img
                 v-if="coverUploaded"
-                :src="getCoverSrc()"
+                :src="cover_path"
                 class="cover"
             >
           </div>
@@ -32,7 +32,7 @@
                 @change="profilePictureUpload">
             <img
                 v-if="profilePictureUploaded"
-                :src="getProfilePhotoSrc()"
+                :src="profile_picture_path"
                 class="profile-picture">
             <img
                 v-if="!profilePictureUploaded"
