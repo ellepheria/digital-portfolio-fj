@@ -1,8 +1,7 @@
-import os
 import re
 from datetime import timedelta
 
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, make_response
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from server.domain import db_session
 from server.domain.__all_models import *
@@ -85,7 +84,7 @@ def get_profile(username):
         'age': profile.age,
         'phone_number': profile.phone_number,
         'education': profile.education,
-        'social_networks': profile.social_networks
+        'social_networks': profile.social_networks,
     }
 
 
@@ -113,9 +112,21 @@ def profile_edit():
     else:
         return {'error': 'No user with this token'}
 
-@app.route('/download/<filename>')
-def download(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+
+@app.route('/download', methods=['POST'])
+def download():
+    path = request.json['path']
+    file = None
+    with app.open_resource(app.root_path + path, mode="rb") as f:
+        file = f.read()
+
+    if not file:
+        return {'error': 'file not found'}
+
+    res = make_response(file)
+    res.headers['Content-Type'] = 'image'
+    return res
+
 
 @app.route('/upload_profile_files', methods=['POST'])
 @jwt_required()
@@ -143,11 +154,6 @@ def upload_profile_files():
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
-
-@app.route('/get_profile_files/<username>', methods=['GET'])
-def get_profile_files(username):
-    return {'cover': f'files/cover/{username}_cover.png',
-            'profile_picture': f'files/profile_picture/{username}_profile_picture.png'}
 
 
 if __name__ == '__main__':
