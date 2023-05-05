@@ -16,6 +16,11 @@ class Project(Base):
         nullable=False,
     )
 
+    short_description = Column(
+        Text,
+        nullable=True
+    )
+
     user_id = Column(
         Integer,
         ForeignKey("users.user_id"),

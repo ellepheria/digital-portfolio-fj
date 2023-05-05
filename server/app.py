@@ -17,6 +17,7 @@ app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 UPLOAD_FOLDER = 'server/files'
 user_repository = UserRepository()
 profile_file_repository = ProfileFileRepository()
+project_repository = ProjectRepository()
 
 
 @app.route('/register', methods=['POST'])
@@ -162,6 +163,46 @@ def upload_profile_picture():
     else:
         return {'error': 'No user with this token'}
 
+@app.route('/create_project', methods=['POST'])
+@jwt_required()
+def create_project():
+    user_data = get_jwt_identity()
+    if user_data:
+        params = request.json
+
+        project = Project(**params)
+        project_repository.add(project)
+
+        return {'project_id': project.id}
+    else:
+        return {'error': 'No user with this token'}
+
+@app.route('/projects/<project_id>/edit', methods=['POST'])
+@jwt_required()
+def project_edit(project_id):
+    user_data = get_jwt_identity()
+    if user_data:
+        params = request.json
+        project = project_repository.get_project(project_id)
+
+        project.title = params['title']
+        project.short_description = params['short_description']
+        project.description = params['description']
+        project.added_links = params['added_links']
+
+        return {'status': 'success'}
+    else:
+        return {'error': 'No user with this token'}
+
+@app.route('projects/<project_id>', methods=['GET'])
+def get_project(project_id):
+    project = project_repository.get_project(project_id)
+    return {
+        'title': project.title,
+        'short_description': project.short_description,
+        'description': project.description,
+        'added_links': project.added_links
+    }
 
 if __name__ == '__main__':
     db_session.global_init()
