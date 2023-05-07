@@ -18,6 +18,7 @@ UPLOAD_FOLDER = 'server/files'
 user_repository = UserRepository()
 profile_file_repository = ProfileFileRepository()
 project_repository = ProjectRepository()
+project_file_repository = ProjectFileRepository()
 
 
 @app.route('/register', methods=['POST'])
@@ -190,19 +191,45 @@ def project_edit(project_id):
         project.description = params['description']
         project.added_links = params['added_links']
 
+        project_repository.update(new_project=project,
+                                  project_id=project.id)
+
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
 
-@app.route('projects/<project_id>', methods=['GET'])
+@app.route('/projects/<project_id>', methods=['GET'])
 def get_project(project_id):
     project = project_repository.get_project(project_id)
+    user = user_repository.get_user(project.user_id)
     return {
         'title': project.title,
         'short_description': project.short_description,
         'description': project.description,
-        'added_links': project.added_links
+        'cover': project.cover_path,
+        'images': project_file_repository.get_all_project_files(project_id),
+        'added_links': project.added_links,
+        'owner': user.username
     }
+
+@app.route('/projects/<project_id>/card', methods=['GET'])
+def get_card(project_id):
+    project = project_repository.get_project(project_id)
+    return {
+        'title': project.title,
+        'short_description': project.short_description,
+        'cover': project.cover_path
+    }
+
+@app.route('/get_user_projects/<username>')
+def get_cards(username):
+    count = request.args.get('count')
+    projects = project_repository.get_all_user_projects_by_username(username)
+
+    if projects.count <= count:
+        pass
+    else:
+        pass
 
 if __name__ == '__main__':
     db_session.global_init()

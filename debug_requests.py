@@ -11,6 +11,7 @@ if __name__ == '__main__':
     profile_file_repository = ProfileFileRepository()
     project_file_repository = ProjectFileRepository()
     user = User(username="den1234", name='den1234', email="den11233@gmail.com", surname="", password="123")
+
     #user_repository.add(user)
     # print(user_repository.get_user_by_username('fearppen'))
     # project = Project(title="DigitalPortfolio", user_id=1, rating=1, description="1234", cover_path='repository/project')
@@ -26,3 +27,4 @@ if __name__ == '__main__':
 
     for i in user_repository.get_all():
         print(i)
+
