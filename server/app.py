@@ -223,13 +223,13 @@ def get_card(project_id):
 
 @app.route('/get_user_projects/<username>')
 def get_cards(username):
-    count = request.args.get('count')
-    projects = project_repository.get_all_user_projects_by_username(username)
+    card_count = request.args.get('count')
+    page = request.args.get('page')
+    user = user_repository.get_user_by_username(username)
+    projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
-    if projects.count <= count:
-        pass
-    else:
-        pass
+    if (len(projects) <= card_count) and (page == 1):
+       pass
 
 if __name__ == '__main__':
     db_session.global_init()
