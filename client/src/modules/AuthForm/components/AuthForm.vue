@@ -1,46 +1,51 @@
 <template>
   <div class="auth-form">
-    <h1 class="form-title">
-      Авторизация
-    </h1>
-    <div class="form-fields">
-      <input
-          v-model="login"
-          type="text"
-          placeholder="Email/Username"
-          class="form-fields__field">
-      <input
-          v-model="password"
-          type="password"
-          placeholder="Введите пароль"
-          class="form-fields__field">
-    </div>
-    <div class="form-buttons">
-      <div class="remember-me-container">
+    <form @submit.prevent="authorizationFormSubmit">
+      <h1 class="form-title">
+        Авторизация
+      </h1>
+      <div class="form-fields">
         <input
-            v-model="rememberMe"
-            type="checkbox"
-            class="remember_me"
-            checked>
-        <div
-            class="remember_me__label"
-            @click="rememberMe=!rememberMe"
-        >Запомнить?
-        </div>
+            v-model="login"
+            type="text"
+            placeholder="Email/Username"
+            required
+            class="form-fields__field">
+        <input
+            v-model="password"
+            type="password"
+            placeholder="Введите пароль"
+            required
+            class="form-fields__field">
       </div>
-      <button class="auth-button" @click="authorizationFormSubmit">
-        Вход
-      </button>
-    </div>
-    <a href="/forgot-password" class="forgot-password">
-      Забыли пароль?
-    </a>
+      <div class="form-buttons">
+        <div class="remember-me-container">
+          <input
+              v-model="rememberMe"
+              type="checkbox"
+              class="remember_me"
+              checked>
+          <div
+              class="remember_me__label"
+              @click="rememberMe=!rememberMe"
+          >Запомнить?
+          </div>
+        </div>
+        <blue-button type="submit" class="auth-button">
+          Вход
+        </blue-button>
+      </div>
+      <a href="/forgot-password" class="forgot-password">
+        Забыли пароль?
+      </a>
+    </form>
   </div>
 </template>
 
 <script>
 import * as ui from "@/UI";
 import { setUsername } from "@/helpers";
+import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
 
 export default {
   name: "AuthForm",
@@ -112,23 +117,6 @@ export default {
   margin-bottom: 50px;
 }
 
-.auth-button {
-  text-align: center;
-  width: 153px;
-  height: 50px;
-  border-radius: 80px;
-  border: none;
-  background: #2ccdd1;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 160%;
-}
-
-.auth-button:hover {
-  cursor: pointer;
-  background: #208875;
-}
-
 .remember-me-container {
   display: flex;
   padding-top: 15px;
@@ -149,6 +137,10 @@ export default {
   width: 97px;
   height: 21px;
   cursor: pointer;
+}
+
+.auth-button {
+  width: 153px;
 }
 
 .forgot-password {

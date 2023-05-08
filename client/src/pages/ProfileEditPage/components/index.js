@@ -107,10 +107,10 @@ export default {
     },
     computed: {
         coverUploaded() {
-            return !!this.cover;
+            return !!this.cover_path;
         },
         profilePictureUploaded() {
-            return !!this.profile_picture;
+            return !!this.profile_picture_path;
         },
         isAuth() {
             return this.$store.getters['auth/isAuthenticated'];
@@ -122,9 +122,12 @@ export default {
         }
     },
     async created() {
-        const data = await this.$store.dispatch('profile/getCurrentProfileData');
-        data.cover = (await $http.get(data.cover_path)).data;
-        data.profile_picture = (await $http.get(data.profile_picture_path)).data;
-        this.updateProfileData(data);
+        await this.$store.dispatch('profile/getCurrentProfileData').then(res => {
+            const data = res;
+            data.cover = ($http.get(data.cover_path)).data;
+            data.profile_picture = ($http.get(data.profile_picture_path)).data;
+            this.updateProfileData(data);
+        });
+
     }
 }

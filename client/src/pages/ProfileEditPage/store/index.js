@@ -58,8 +58,10 @@ export default {
         async getCurrentProfileData({commit}, username) {
             try {
                 const {data} = await $http.get(baseURI + `get_profile/${getUsername()}`);
-                data.cover_path = baseURI + data.cover_path;
-                data.profile_picture_path = baseURI + data.profile_picture_path;
+                data.cover_path = data.cover_path ?
+                    baseURI + data.cover_path : '';
+                data.profile_picture_path = data.profile_picture_path ?
+                    baseURI + data.profile_picture_path : '';
                 if (data) {
                     commit('UPDATE', data);
                     return data;

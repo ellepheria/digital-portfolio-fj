@@ -4,17 +4,23 @@
       Future Job
     </div>
     <div class="buttons not_auth" v-if="!this.$store.getters['auth/isAuthenticated']">
-      <button class="auth-button" @click="this.$router.push('/auth')">
+      <blue-button
+          @clicked="this.$router.push('/auth')"
+          class="auth-button btn">
         Вход
-      </button>
-      <button class="registration-button" @click="this.$router.push('/registration')">
+      </blue-button>
+      <blue-button
+          class="registration-button btn"
+          @clicked="this.$router.push('/registration')"
+      >
         Регистрация
-      </button>
+      </blue-button>
     </div>
     <div class="buttons auth" v-if="this.$store.getters['auth/isAuthenticated']">
-      <button class="auth-button" @click="logout">
-        Выйти
-      </button>
+      <red-button
+          @clicked="logout"
+          class="logout-button btn"
+      >Выйти</red-button>
     </div>
   </div>
 </template>
@@ -39,50 +45,22 @@ export default {
   border-bottom: 3px solid #D9D9D9;
   display: flex;
   justify-content: space-between;
+  background: #FFFFFF;
 }
 
-.auth-button {
-  text-align: center;
+.btn {
   width: 190px;
-  height: 50px;
-  border-radius: 80px;
-  border: none;
-  background: #2ccdd1;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 160%;
   margin-top: 20px;
-  margin-right: 62px;
-}
-
-.auth-button:hover {
-  cursor: pointer;
-  background: #208875;
-}
-
-.registration-button {
-  text-align: center;
-  width: 190px;
-  height: 50px;
-  border-radius: 80px;
-  border: none;
-  background: #2ccdd1;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 160%;
-  margin-top: 20px;
-  margin-right: 62px;
-}
-
-.registration-button:hover {
-  cursor: pointer;
-  background: #208875;
+  margin-right: 50px;
 }
 
 .logo {
   margin: 14px 46px;
   height: 58px;
   width: 253px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
   font-size: 50px;
   line-height: 160%;
   color: #6ACED0;

@@ -1,41 +1,48 @@
 <template>
   <div class="registration-form">
-    <h1 class="form-title">
-      Регистрация
-    </h1>
-    <div class="form-fields">
-      <input
-          v-model="email"
-          type="email"
-          placeholder="Email"
-          class="form-fields__field">
-      <input
-          v-model="username"
-          type="text"
-          placeholder="Username"
-          class="form-fields__field">
-      <input
-          v-model="password"
-          type="password"
-          placeholder="Введите пароль"
-          class="form-fields__field">
-      <input
-          v-model="confirmPassword"
-          type="password"
-          placeholder="Подтвердите пароль"
-          class="form-fields__field">
-    </div>
-    <div class="form-buttons">
-      <button class="registration-button" @click="registrationFormSubmit">
-        Далее
-      </button>
-    </div>
+    <form @submit.prevent="registrationFormSubmit">
+      <h1 class="form-title">
+        Регистрация
+      </h1>
+      <div class="form-fields">
+        <input
+            v-model="email"
+            type="email"
+            placeholder="Email"
+            required
+            class="form-fields__field">
+        <input
+            v-model="username"
+            type="text"
+            placeholder="Username"
+            required
+            class="form-fields__field">
+        <input
+            v-model="password"
+            type="password"
+            placeholder="Введите пароль"
+            required
+            class="form-fields__field">
+        <input
+            v-model="confirmPassword"
+            type="password"
+            placeholder="Подтвердите пароль"
+            required
+            class="form-fields__field">
+      </div>
+      <div class="form-buttons">
+        <blue-button class="registration-button" type="submit">
+          Далее
+        </blue-button>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 import * as ui from "@/UI";
 import { setUsername } from "@/helpers";
+import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
 
 export default {
   name: "RegistrationForm",
@@ -53,6 +60,11 @@ export default {
       const email = this.email;
       const username = this.username;
       const password = this.password;
+
+      if (this.password !== this.confirmPassword) {
+        alert('Пароли должны совпадать');
+        return;
+      }
 
       const { data } = await this.$store.dispatch('auth/register', {
         email,
@@ -110,19 +122,6 @@ export default {
 }
 
 .registration-button {
-  text-align: center;
   width: 100%;
-  height: 50px;
-  border-radius: 80px;
-  border: none;
-  background: #2ccdd1;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 160%;
-}
-
-.registration-button:hover {
-  cursor: pointer;
-  background: #208875;
 }
 </style>
