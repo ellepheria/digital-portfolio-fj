@@ -105,12 +105,9 @@ def profile_edit():
         new_user = User(**params)
         new_user.email = user[1]
         new_user.password = user[2]
-        profile_file = ProfileFile(user_id=profile.user_id)
 
         user_repository.update(new_user, profile.user_id)
         user[0] = params["username"]
-        profile_file_repository.update(user_id=user_repository.get_user_by_username(user[0]).user_id,
-                                       new_profile_file=profile_file)
 
         token = create_access_token(identity=[new_user.username, new_user.email, new_user.password])
 
@@ -164,6 +161,7 @@ def upload_profile_picture():
     else:
         return {'error': 'No user with this token'}
 
+
 @app.route('/create_project', methods=['POST'])
 @jwt_required()
 def create_project():
@@ -177,6 +175,7 @@ def create_project():
         return {'project_id': project.id}
     else:
         return {'error': 'No user with this token'}
+
 
 @app.route('/projects/<project_id>/edit', methods=['POST'])
 @jwt_required()
@@ -198,6 +197,7 @@ def project_edit(project_id):
     else:
         return {'error': 'No user with this token'}
 
+
 @app.route('/projects/<project_id>', methods=['GET'])
 def get_project(project_id):
     project = project_repository.get_project(project_id)
@@ -212,6 +212,7 @@ def get_project(project_id):
         'owner': user.username
     }
 
+
 @app.route('/projects/<project_id>/card', methods=['GET'])
 def get_card(project_id):
     project = project_repository.get_project(project_id)
@@ -221,6 +222,7 @@ def get_card(project_id):
         'cover': project.cover_path
     }
 
+
 @app.route('/get_user_projects/<username>')
 def get_cards(username):
     card_count = request.args.get('count')
@@ -229,7 +231,8 @@ def get_cards(username):
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
     if (len(projects) <= card_count) and (page == 1):
-       pass
+        pass
+
 
 if __name__ == '__main__':
     db_session.global_init()
