@@ -55,69 +55,65 @@
       </div>
       <div class="form-container">
         <form @submit.prevent @submit="saveNewProfileData">
-          <div class="first-container">
-            <div class="block">
-              <input
-                  type="text"
-                  class="form-field first-block"
-                  v-model="name"
-                  placeholder="Имя*"
-                  required>
-              <input
-                  type="text"
-                  class="form-field first-block"
-                  v-model="username"
-                  placeholder="Username"
-                  required>
-              <input
-                  type="text"
-                  class="form-field first-block"
-                  v-model="type_of_activity"
-                  placeholder="Род деятельности"
-                  required>
+          <div class="data-field-container">
+            <div class="name label">
+              Имя:
             </div>
-            <div class="block">
-              <input
-                  type="text"
-                  class="form-field first-block"
-                  v-model="surname"
-                  placeholder="Фамилия">
-              <input
-                  type="text"
-                  class="form-field first-block"
-                  v-model="age"
-                  placeholder="Возраст">
-              <input
-                  type="tel"
-                  class="form-field first-block"
-                  v-model="phone_number"
-                  placeholder="Телефон">
+            <input class="name field" v-model="name" />
+          </div>
+          <div class="data-field-container">
+            <div class="username label">
+              Username:
             </div>
+            <input class="username field" v-model="username" />
           </div>
-          <div class="second-container">
-        <textarea
-            class="about form-field"
-            type="textarea"
-            v-model="about"
-            placeholder="О себе">
-        </textarea>
+          <div class="data-field-container">
+            <div class="type_of_activity label">
+              Род деятельности:
+            </div>
+            <input class="type_of_activity field" v-model="type_of_activity" />
           </div>
-          <div class="third-container">
-            <input
-                type="text"
-                class="form-field second-block"
-                v-model="education"
-                placeholder="Образование">
-            <input
-                type="text"
-                class="form-field second-block"
-                v-model="technologies"
-                placeholder="Технологии">
-            <input
-                type="text"
-                class="form-field second-block"
-                v-model="social_networks"
-                placeholder="Социальные сети">
+          <div class="data-field-container">
+            <div class="surname label">
+              Фамилия:
+            </div>
+            <input class="surname field" v-model="surname" />
+          </div>
+          <div class="data-field-container">
+            <div class="age label">
+              Возраст:
+            </div>
+            <input class="age field" v-model="age" />
+          </div>
+          <div class="data-field-container">
+            <div class="phone_number label">
+              Телефон:
+            </div>
+            <input class="phone_number field" v-model="phone_number" />
+          </div>
+          <div class="data-field-container">
+            <div class="about label">
+              О себе:
+            </div>
+            <textarea class="about field" v-model="about" />
+          </div>
+          <div class="data-field-container">
+            <div class="education label">
+              Образование:
+            </div>
+            <input class="education field" v-model="education" />
+          </div>
+          <div class="data-field-container">
+            <div class="technologies label">
+              Используемые технологии:
+            </div>
+            <input class="technologies field" v-model="technologies" />
+          </div>
+          <div class="data-field-container">
+            <div class="social_networks label">
+              Социальные сети:
+            </div>
+            <input class="social_networks field" v-model="social_networks" />
           </div>
         </form>
       </div>

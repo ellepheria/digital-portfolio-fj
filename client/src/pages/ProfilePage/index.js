@@ -5,10 +5,11 @@ export default ProfilePage;
 export const ProfileRoutes = [
     {
         path: '/:username',
-        name: 'Profile',
+        name: 'ProfilePage',
         component: () => import("@/pages/ProfilePage/components/ProfilePage.vue"),
         meta: {
             title: 'Профиль',
+            layout: 'default'
         }
     }
 ]

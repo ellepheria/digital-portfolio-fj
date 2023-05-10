@@ -9,6 +9,7 @@ export const LikedProjectsRoutes = [
         component: () => import('@/pages/LikedProjectsPage/components/LikedProjectsPage.vue'),
         meta: {
             title: 'Liked Projects',
+            layout: 'LikedProjects'
         },
     },
 ];

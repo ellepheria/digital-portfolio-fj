@@ -80,6 +80,7 @@ def get_profile(username):
 
     return {
         'username': profile.username,
+        'email': profile.email,
         'name': profile.name,
         'surname': profile.surname,
         'about': profile.about,

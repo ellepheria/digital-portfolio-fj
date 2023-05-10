@@ -66,13 +66,14 @@ export default {
         rememberMe,
       });
 
-      if (!data) {
+      if (data.error) {
+        alert('Неверный логин или пароль');
         return; //тут надо обрабатывать ошибки
       } else {
         setUsername(data.username);
       }
 
-      return this.$router.push({ path: `/${data.username}/edit` });
+      return this.$router.push({ path: `/${data.username}` });
     },
   },
 }

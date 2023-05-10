@@ -72,8 +72,9 @@ export default {
         password,
       });
 
-      if (!data) {
-        return; //тут надо обрабатывать ошибки
+      if (data.error) {
+        alert(data.error);
+        return;
       }
 
       setUsername(this.username);

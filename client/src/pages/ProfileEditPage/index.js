@@ -5,10 +5,11 @@ export default ProfileEditPage;
 export const ProfileEditRoutes = [
     {
         path: '/:username/edit',
-        name: 'ProfileEdit',
+        name: 'ProfileEditPage',
         component: () => import("@/pages/ProfileEditPage"),
         meta: {
-            title: 'Редактирование профиля'
+            title: 'Редактирование профиля',
+            layout: 'ProfileEdit'
         }
     }
 ]

@@ -52,7 +52,7 @@
           {{ type_of_activity }}
         </div>
       </div>
-      <div class="data-field-container">
+      <div class="data-field-container" v-if="surname">
         <div class="surname label">
           Фамилия:
         </div>
@@ -60,7 +60,7 @@
           {{ surname }}
         </div>
       </div>
-      <div class="data-field-container">
+      <div class="data-field-container" v-if="age">
         <div class="age label">
           Возраст:
         </div>
@@ -68,7 +68,7 @@
           {{ age }}
         </div>
       </div>
-      <div class="data-field-container">
+      <div class="data-field-container" v-if="phone_number">
         <div class="phone_number label">
           Телефон:
         </div>
@@ -76,7 +76,7 @@
           {{ phone_number }}
         </div>
       </div>
-      <div class="data-field-container">
+      <div class="data-field-container" v-if="about">
         <div class="about label">
           О себе:
         </div>
@@ -84,7 +84,7 @@
           {{ about }}
         </div>
       </div>
-      <div class="data-field-container">
+      <div class="data-field-container" v-if="education">
         <div class="education label">
           Образование:
         </div>
@@ -92,7 +92,7 @@
           {{ education }}
         </div>
       </div>
-      <div class="data-field-container">
+      <div class="data-field-container" v-if="technologies">
         <div class="technologies label">
           Используемые технологии:
         </div>
@@ -100,7 +100,7 @@
           {{ technologies }}
         </div>
       </div>
-      <div class="data-field-container">
+      <div class="data-field-container" v-if="social_networks">
         <div class="social_networks label">
           Социальные сети:
         </div>

@@ -9,6 +9,7 @@ export const ProjectRoutes = [
         component: () => import('@/pages/ProjectPage/components/ProjectPage.vue'),
         meta: {
             title: 'Project',
+            layout: 'Project'
         }
     }
 ];
