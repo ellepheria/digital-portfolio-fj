@@ -1,3 +1,4 @@
+import json
 import re
 from datetime import timedelta
 
@@ -231,8 +232,11 @@ def get_cards(username):
     user = user_repository.get_user_by_username(username)
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
-    if (len(projects) <= card_count) and (page == 1):
-        pass
+    if (len(projects) <= card_count) and (page == 0):
+        return json.dumps(projects[0:len(projects)])
+
+    if len(projects) > card_count:
+        return json.dumps(projects[page*card_count:(page+1)*card_count])
 
 
 if __name__ == '__main__':
