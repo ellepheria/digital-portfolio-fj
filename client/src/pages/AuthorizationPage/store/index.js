@@ -33,10 +33,14 @@ export default {
                     login,
                     password,
                 });
-                const token = data['access_token'];
-                rememberMe ? setToken('local', token, $http) : setToken('session', token, $http);
-                commit('AUTH', token);
-                return { data };
+                if (data.error) {
+                    console.log(data.error);
+                } else {
+                    const token = data['access_token'];
+                    rememberMe ? setToken('local', token, $http) : setToken('session', token, $http);
+                    commit('AUTH', token);
+                    return { data };
+                }
             } catch (e) {
                 console.log(e);
             }
