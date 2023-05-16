@@ -172,6 +172,7 @@ def create_project():
         params = request.json
 
         project = Project(**params)
+        project.user_id = user_repository.get_user_by_username(user_data[0]).user_id
         project_repository.add(project)
 
         return {'project_id': project.id}
@@ -218,10 +219,12 @@ def get_project(project_id):
 @app.route('/projects/<project_id>/card', methods=['GET'])
 def get_card(project_id):
     project = project_repository.get_project(project_id)
+    user = user_repository.get_user(project.user_id)
     return {
         'title': project.title,
         'short_description': project.short_description,
-        'cover': project.cover_path
+        'cover': project.cover_path,
+        'owner': user.username
     }
 
 

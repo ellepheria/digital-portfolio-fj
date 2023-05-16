@@ -23,7 +23,9 @@
       </blue-button>
       <blue-button
           v-if="layout == 'default' || layout == 'ProfileEdit'"
-          class="portfolio btn">
+          class="portfolio btn"
+          @clicked="this.$router.push('/' + getUsername() + '/portfolio')"
+      >
         Портфолио
       </blue-button>
 
@@ -45,6 +47,14 @@
           @clicked="this.$router.push(getUsername() + '/edit')">
         Редактировать
       </blue-button>
+      <blue-button
+        v-if="layout == 'Portfolio'"
+        class="add-project btn"
+        @clicked="addProject">Добавить проект</blue-button>
+      <blue-button
+        v-if="layout == 'Portfolio'"
+        class="portfolio-edit btn"
+        @clicked="portfolioEdit">Редактировать портфолио</blue-button>
     </div>
   </div>
 </template>
@@ -52,6 +62,7 @@
 <script>
 import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
 import {getUsername} from "@/helpers";
+import $http, {baseURI} from "@/api";
 
 export default {
   name: "Header",
@@ -62,6 +73,16 @@ export default {
       this.$store.dispatch('auth/logout');
       this.$store.dispatch('profile/clearProfileState');
       this.$router.push('/auth');
+    },
+    async addProject() {
+      await $http.post(baseURI + 'create_project', {
+        title: 'Project',
+      }).then(res => {
+        this.$router.push('/projects/' + res.data.project_id + '/edit');
+      })
+    },
+    portfolioEdit() {
+
     },
   },
   computed: {
@@ -119,6 +140,14 @@ export default {
 
 .logout-button {
   width: 120px;
+}
+
+.add-project {
+  width: 250px;
+}
+
+.portfolio-edit {
+  width: 370px;
 }
 
 .logo {

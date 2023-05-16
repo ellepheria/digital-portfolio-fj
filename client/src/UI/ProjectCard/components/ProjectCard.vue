@@ -14,8 +14,8 @@
     </div>
     <div class="cover-container">
       <img
-          v-if="!!this.$props.cover"
-          :src="this.$props.cover"
+          v-if="!!this.$props.cover_path"
+          :src="this.$props.cover_path"
           height="270"
           width="480"
           class="cover-image"
@@ -30,7 +30,7 @@ export default {
   props: {
     title: '',
     shortDescription: '',
-    cover: '',
+    cover_path: '',
     number: 0,
   }
 }

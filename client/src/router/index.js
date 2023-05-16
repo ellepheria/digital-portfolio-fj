@@ -6,6 +6,7 @@ import { ProfileRoutes } from "@/pages/ProfilePage";
 import { ProjectRoutes } from "@/pages/ProjectPage";
 import { ProjectEditRoutes } from "@/pages/ProjectEditPage";
 import { LikedProjectsRoutes } from "@/pages/LikedProjectsPage";
+import { PortfolioPageRoutes } from "@/pages/PortfolioPage";
 
 const routes = [
     ...registrationRoutes,
@@ -15,6 +16,7 @@ const routes = [
     ...ProjectRoutes,
     ...ProjectEditRoutes,
     ...LikedProjectsRoutes,
+    ...PortfolioPageRoutes,
 ]
 
 const router = createRouter({
