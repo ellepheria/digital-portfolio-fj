@@ -204,6 +204,8 @@ def project_edit(project_id):
 @app.route('/projects/<project_id>', methods=['GET'])
 def get_project(project_id):
     project = project_repository.get_project(project_id)
+    if not project:
+        return {'error': 'project not found'}
     user = user_repository.get_user(project.user_id)
     return {
         'title': project.title,
