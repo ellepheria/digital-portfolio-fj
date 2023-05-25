@@ -230,8 +230,8 @@ def get_card(project_id):
 
 @app.route('/get_user_projects/<username>')
 def get_cards(username):
-    card_count = request.args.get('count')
-    page = request.args.get('page')
+    card_count = int(request.args.get('count'))
+    page = int(request.args.get('page'))
     user = user_repository.get_user_by_username(username)
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
