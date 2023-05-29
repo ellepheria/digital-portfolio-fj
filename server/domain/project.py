@@ -52,6 +52,19 @@ class Project(Base):
         nullable=True,
     )
 
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'short_description': self.short_description,
+            'description': self.description,
+            'github_link': self.github_link,
+            'rating': self.rating,
+            'cover_path': self.cover_path,
+            'added_links': self.added_links
+        }
+
     def __str__(self):
         return f'id: {self.id}, title: {self.title}, user_id: {self.user_id}, description: {self.description}, ' \
                f'github: {self.github_link}, rating: {self.rating}, cover_path: {self.cover_path}, ' \

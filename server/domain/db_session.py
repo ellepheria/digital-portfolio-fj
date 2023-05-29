@@ -7,7 +7,7 @@ __factory = None
 
 DATABASE = {
     "user": "postgres",
-    "password": "",
+    "password": "posgres",
     "database_name": "db",
     "url": "localhost",
 }

@@ -2,7 +2,7 @@ import json
 import re
 from datetime import timedelta
 
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, jsonify
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from server.domain import db_session
 from server.domain.__all_models import *
@@ -233,10 +233,12 @@ def get_cards(username):
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
     if (len(projects) <= card_count) and (page == 0):
-        return json.dumps(projects[0:len(projects)])
+        # return json.dumps(projects[0:len(projects)])
+        return jsonify(json_list=[project.serialize for project in projects[0:len(projects)]])
 
     if len(projects) > card_count:
-        return json.dumps(projects[page*card_count:(page+1)*card_count])
+        # return json.dumps(projects[page*card_count:(page+1)*card_count])
+        return jsonify(json_list=[project.serialize for project in projects[page * card_count:(page + 1) * card_count]])
 
 
 if __name__ == '__main__':
