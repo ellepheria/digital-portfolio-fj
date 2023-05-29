@@ -172,6 +172,7 @@ def create_project():
         params = request.json
 
         project = Project(**params)
+        project.user_id = user_repository.get_user_by_username(user_data[0]).user_id
         project_repository.add(project)
 
         return {'project_id': project.id}
@@ -203,6 +204,8 @@ def project_edit(project_id):
 @app.route('/projects/<project_id>', methods=['GET'])
 def get_project(project_id):
     project = project_repository.get_project(project_id)
+    if not project:
+        return {'error': 'project not found'}
     user = user_repository.get_user(project.user_id)
     return {
         'title': project.title,
@@ -218,17 +221,19 @@ def get_project(project_id):
 @app.route('/projects/<project_id>/card', methods=['GET'])
 def get_card(project_id):
     project = project_repository.get_project(project_id)
+    user = user_repository.get_user(project.user_id)
     return {
         'title': project.title,
         'short_description': project.short_description,
-        'cover': project.cover_path
+        'cover': project.cover_path,
+        'owner': user.username
     }
 
 
 @app.route('/get_user_projects/<username>')
 def get_cards(username):
-    card_count = request.args.get('count')
-    page = request.args.get('page')
+    card_count = int(request.args.get('count'))
+    page = int(request.args.get('page'))
     user = user_repository.get_user_by_username(username)
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 

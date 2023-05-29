@@ -1,32 +1,14 @@
 <template>
   <Header></Header>
+
   <div class="container">
-    <div class="card-container">
-      <div class="card-preview">
-        <div class="cover-container">
-          <img
-              v-if="coverUploaded"
-              :src="cover_path"
-              class="cover"
-          >
-        </div>
-        <div class="profile-picture-container">
-          <img
-              v-if="profilePictureUploaded"
-              :src="profile_picture_path"
-              class="profile-picture">
-          <img
-              v-if="!profilePictureUploaded"
-              src="@/assets/defaultProfilePicture.png"
-              class="profile-picture">
-        </div>
-        <div class="text-fields">
-          <p class="name-data text-field">{{ username }}</p>
-          <p class="type_of_activity-data text-field">{{ type_of_activity }}</p>
-        </div>
-        <p class="about-data text-field">{{ about }}</p>
-      </div>
-    </div>
+    <profile-card
+        :username="username"
+        :type_of_activity="type_of_activity"
+        :about="about"
+        :profile_picture_path="profile_picture_path"
+        :cover_path="cover_path"
+    ></profile-card>
     <div class="data-container">
       <div class="data-field-container">
         <div class="name label">

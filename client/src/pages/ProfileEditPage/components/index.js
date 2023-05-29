@@ -1,6 +1,8 @@
 import * as ui from "@/UI"
 import $http from "@/api";
 import {baseURI} from "@/api";
+import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
+import RedButton from "@/UI/Buttons/RedButton/RedButton.vue";
 
 export default {
     name: "ProfileEditPage",

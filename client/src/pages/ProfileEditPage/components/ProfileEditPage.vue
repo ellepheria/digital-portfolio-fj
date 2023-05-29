@@ -46,11 +46,16 @@
           <p class="about-data text-field">{{ about }}</p>
         </div>
         <div class="change-password-block">
-          <button class="change-password-button button">Смена пароля</button>
+          <blue-button
+              class="change-password-button">Смена пароля</blue-button>
         </div>
         <div class="save-cancel-block">
-          <button class="save-button button" @click="saveNewProfileData">Сохранить</button>
-          <button class="cancel-button button" @click="getCurrentProfileData">Отмена</button>
+          <red-button
+              class="cancel-button"
+              @clicked="getCurrentProfileData">Отмена</red-button>
+          <blue-button
+            class="save-button"
+            @clicked="saveNewProfileData">Сохранить</blue-button>
         </div>
       </div>
       <div class="form-container">

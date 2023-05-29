@@ -71,9 +71,9 @@ export default {
         return; //тут надо обрабатывать ошибки
       } else {
         setUsername(data.username);
+        return this.$router.push({ path: `/${data.username}` });
       }
-
-      return this.$router.push({ path: `/${data.username}` });
+      return;
     },
   },
 }

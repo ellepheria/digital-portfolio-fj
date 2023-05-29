@@ -1,11 +1,12 @@
 import Header from "@/UI/Header/components/Header.vue";
 import Footer from "@/UI/Footer/components/Footer.vue";
+import ProfileCard from "@/UI/ProfileCard";
 import $http, {baseURI} from "@/api";
 import ProjectsList from "@/modules/ProjectsList/components/ProjectsList.vue";
 
 export default {
     name: "ProfilePage",
-    components: {ProjectsList, Footer, Header},
+    components: {ProjectsList, Footer, Header, ProfileCard},
     data() {
         return {
             name: '',
