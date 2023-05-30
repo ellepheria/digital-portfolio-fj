@@ -2,7 +2,7 @@ import PortfolioPage from "@/pages/PortfolioPage/components/PortfolioPage.vue";
 
 export default PortfolioPage;
 
-const PortfolioPageRoutes = [
+export const PortfolioPageRoutes = [
     {
         path: '/:username/portfolio',
         name: 'Portfolio',
@@ -10,8 +10,6 @@ const PortfolioPageRoutes = [
         meta: {
             title: 'Портфолио',
             layout: 'Portfolio',
-        }
-    }
+        },
+    },
 ]
-
-export {PortfolioPageRoutes};

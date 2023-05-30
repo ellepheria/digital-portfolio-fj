@@ -47,10 +47,11 @@
           @clicked="this.$router.push(getUsername() + '/edit')">
         Редактировать
       </blue-button>
-      <blue-button
-        v-if="layout == 'Portfolio'"
-        class="add-project btn"
-        @clicked="addProject">Добавить проект</blue-button>
+      <router-link to="/add_project">
+        <blue-button
+            v-if="layout == 'Portfolio'"
+            class="add-project btn">Добавить проект</blue-button>
+      </router-link>
       <blue-button
         v-if="layout == 'Portfolio'"
         class="portfolio-edit btn"
@@ -74,12 +75,8 @@ export default {
       this.$store.dispatch('profile/clearProfileState');
       this.$router.push('/auth');
     },
-    async addProject() {
-      await $http.post(baseURI + 'create_project', {
-        title: 'Project',
-      }).then(res => {
-        this.$router.push('/projects/' + res.data.project_id + '/edit');
-      })
+    addProject() {
+      this.$router.push('/add_project');
     },
     portfolioEdit() {
 

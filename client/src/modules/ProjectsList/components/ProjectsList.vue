@@ -14,13 +14,7 @@ export default {
   name: "ProjectsList",
   components: {ProjectCard},
   props: {
-    projectsList: [
-      {
-        title: 'title',
-        short_description: 'short_description',
-        id: 1,
-      }
-    ],
+    projectsList: [],
   }
 }
 </script>

@@ -3,15 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import {BlueButton, RedButton} from '@/UI/Buttons' ;
-import {Footer} from '@/UI/Footer'
-import {Header} from '@/UI/Header'
 
 const app = createApp(App)
 
 app.component('RedButton', RedButton);
 app.component('BlueButton', BlueButton);
-app.component('Footer', Footer);
-app.component('Header', Header);
 
 app.use(store);
 app.use(router);
