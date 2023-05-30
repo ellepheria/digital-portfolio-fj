@@ -173,9 +173,18 @@ def create_project():
 
         project = Project(**params)
         project.user_id = user_repository.get_user_by_username(user_data[0]).user_id
-        project_repository.add(project)
+        projects = project_repository.get_all_user_projects_by_id(project.user_id)
 
-        return {'project_id': project.id}
+        for project in projects:
+            if project.title == params['title']:
+                return {'Error': 'Project with this title already exists'}
+        else:
+            project_repository.add(project)
+
+            for project in projects:
+                if project.title == params['title']:
+                    return {'project_id': project.id}
+
     else:
         return {'error': 'No user with this token'}
 
@@ -184,21 +193,28 @@ def create_project():
 @jwt_required()
 def project_edit(project_id):
     user_data = get_jwt_identity()
-    if user_data:
-        params = request.json
-        project = project_repository.get_project(project_id)
+    params = request.json
+    project = project_repository.get_project(project_id)
+    projects = project_repository.get_all_user_projects_by_id(project.user_id)
+    user = user_repository.get_user(project.user_id)
 
-        project.title = params['title']
-        project.short_description = params['short_description']
-        project.description = params['description']
-        project.added_links = params['added_links']
+    if user_data and params['owner'] == user.username:
+        for project in projects:
+            if project.title != params['title']:
+                project.title = params['title']
+                project.short_description = params['short_description']
+                project.description = params['description']
+                project.added_links = params['added_links']
 
-        project_repository.update(new_project=project,
-                                  project_id=project.id)
+                project_repository.update(new_project=project,
+                                          project_id=project.id)
 
-        return {'status': 'success'}
+                return {'project_id': project.id}
+            else:
+                return {'Error': 'Project with this title already exists'}
+
     else:
-        return {'error': 'No user with this token'}
+        return {'error': 'No user with this token or user not owner'}
 
 
 @app.route('/projects/<project_id>', methods=['GET'])
