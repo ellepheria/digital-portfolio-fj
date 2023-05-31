@@ -1,8 +1,7 @@
-import json
 import re
 from datetime import timedelta
 
-from flask import Flask, request, make_response, jsonify
+from flask import Flask, request, jsonify
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from server.domain import db_session
 from server.domain.__all_models import *
@@ -45,7 +44,6 @@ def login():
     params = request.json
     pattern = r"^[-\w\.]+@([-\w]+\.)+[-\w]{2,4}$"
 
-    # Проверка на email
     if re.match(pattern, params['login']) is not None:
         user_data = {
             'email': params['login'],
@@ -180,6 +178,7 @@ def create_project():
                 return {'Error': 'Project with this title already exists'}
         else:
             project_repository.add(project)
+            projects = project_repository.get_all_user_projects_by_id(project.user_id)
 
             for project in projects:
                 if project.title == params['title']:

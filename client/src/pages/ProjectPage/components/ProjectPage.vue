@@ -28,10 +28,10 @@ export default {
   methods: {
     async getProjectData() {
       const uri = baseURI + 'projects/' + this.$route.params.projectId;
-       const {data} = await $http.get(uri);
-       for (let key in data) {
-         this[key] = data[key];
-       }
+      const {data} = await $http.get(uri);
+      for (let key in data) {
+        this[key] = data[key];
+      }
     }
   },
   async created() {

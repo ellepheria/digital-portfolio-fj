@@ -23,6 +23,11 @@ export default {
       page: 0,
     }
   },
+  computed: {
+    async projectsList() {
+      const { projects } = await this.getProjects()
+    }
+  },
   methods: {
     async getProjects() {
       const username = getUsername();
@@ -31,12 +36,11 @@ export default {
         page: this.page,
       };
       const uri = baseURI + 'get_user_projects/' + username;
-      await $http.get(uri, {params : params})
-          .then(res => console.log(res.data));
+      return await $http.get(uri, {params : params});
     },
   },
   async created() {
-    this.projectsList = await this.getProjects();
+    this.projectsList = (await this.getProjects()).data.json_list;
   }
 }
 </script>
