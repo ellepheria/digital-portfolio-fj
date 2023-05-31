@@ -227,9 +227,9 @@ def get_project(project_id):
         'title': project.title,
         'short_description': project.short_description,
         'description': project.description,
-        'cover': project.cover_path,
-        'images': project_file_repository.get_all_project_files(project_id),
         'added_links': project.added_links,
+        'cover_path': project.cover_path,
+        'images': project_file_repository.get_all_project_files(project_id),
         'owner': user.username
     }
 
@@ -254,13 +254,52 @@ def get_cards(username):
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
     if (len(projects) <= card_count) and (page == 0):
-        # return json.dumps(projects[0:len(projects)])
         return jsonify(json_list=[project.serialize for project in projects[0:len(projects)]])
 
     if len(projects) > card_count:
-        # return json.dumps(projects[page*card_count:(page+1)*card_count])
         return jsonify(json_list=[project.serialize for project in projects[page * card_count:(page + 1) * card_count]])
 
+@app.route('/<project_id>/upload_cover', methods=['POST'])
+@jwt_required()
+def upload_cover(project_id):
+    user_data = get_jwt_identity()
+    if user_data:
+        cover = request.files['cover']
+        type_of_cover = cover.filename.split('.')[1]
+        project_cover_file_name = f'files/projects/{project_id}_project/cover/{project_id}_cover.{type_of_cover}'
+
+        updated_project = Project(cover_path=project_cover_file_name)
+        project_repository.update(new_project=updated_project,
+                                  project_id=project_id)
+
+        return {'cover_path': project_cover_file_name}
+    else:
+        return {'error': 'No user with this token'}
+
+@app.route('/<project_id>/upload_photos', methods=['POST'])
+@jwt_required()
+def upload_photos(project_id):
+    user_data = get_jwt_identity()
+    if user_data:
+        project_files = project_file_repository.get_all_project_files(project_id)
+        project_file_repository.delete(project_files.id)
+
+        for i in range(len(user_data)):
+            photo = request.files[i]
+            type_of_photo = photo.filename.split('.')[1]
+            photo_file_name = f'files/projects/{project_id}_project/photos/{i}_{hash(photo)}.{type_of_photo}'
+
+            # Add file to folder
+            with open(photo_file_name, 'w') as f:
+                f.write(photo)
+
+        updated_project_files = ProjectFile(project_id=project_id,
+                                            file_path=f'files/projects/{project_id}_project/photos/')
+
+        project_file_repository.update(project_file_id=project_files.id,
+                                       new_project_file=updated_project_files)
+    else:
+        return {'error': 'No user with this token'}
 
 if __name__ == '__main__':
     db_session.global_init()
