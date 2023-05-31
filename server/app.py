@@ -300,6 +300,46 @@ def upload_photos(project_id):
     else:
         return {'error': 'No user with this token'}
 
+@app.route('/get_profile_cards', methods=['GET'])
+def get_profile_cards():
+    profile_card_count = int(request.args.get('count'))
+    page = int(request.args.get('page'))
+    users = user_repository.get_all()
+
+    if (len(users) <= profile_card_count) and (page == 0):
+        json = []
+        for user in users[0:len(users)]:
+            profile_file = profile_file_repository.get_profile_files(user.user_id)
+            json.append({
+                'name': user.name,
+                'type_of_activity': user.type_of_activity,
+                'about': user.about,
+                'images': {
+                    'profile_picture_path': profile_file.photo_path,
+                    'cover_path': profile_file.cover_path,
+                },
+                'username': user.username
+            })
+
+        return json
+
+    if len(users) > profile_card_count:
+        json = []
+        for user in users[page * profile_card_count:(page + 1) * profile_card_count]:
+            profile_file = profile_file_repository.get_profile_files(user.user_id)
+            json.append({
+                'name': user.name,
+                'type_of_activity': user.type_of_activity,
+                'about': user.about,
+                'images': {
+                    'profile_picture_path': profile_file.photo_path,
+                    'cover_path': profile_file.cover_path,
+                },
+                'username': user.username
+            })
+
+        return json
+
 if __name__ == '__main__':
     db_session.global_init()
     app.run(debug=True)
