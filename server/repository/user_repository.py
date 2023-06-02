@@ -22,6 +22,14 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
+    def get_users_with_type_of_activities(self, type_of_activities: [str]):
+        pass
+
+    @abstractmethod
+    def get_users_with_technologies(self, technologies: [str]):
+        pass
+
+    @abstractmethod
     def add(self, user: User):
         pass
 
@@ -51,6 +59,24 @@ class UserRepository(IUserRepository):
     def get_user_by_email(self, email: str):
         session = db_session.create_session()
         return session.query(User).filter(email == User.email).first()
+
+    def get_users_with_type_of_activities(self, type_of_activities: [str]):
+        users = self.get_all()
+        result = set()
+        for user in users:
+            for type_of_activity in type_of_activities:
+                if str(user.type_of_activity).find(type_of_activity) != -1:
+                    result.add(user)
+        return list(result)
+
+    def get_users_with_technologies(self, technologies: [str]):
+        users = self.get_all()
+        result = set()
+        for user in users:
+            for technology in technologies:
+                if str(user.technologies).find(technology) != -1:
+                    result.add(user)
+        return list(result)
 
     def add(self, user: User):
         session = db_session.create_session()

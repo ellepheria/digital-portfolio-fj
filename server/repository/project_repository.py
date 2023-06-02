@@ -9,9 +9,6 @@ class IProjectRepository(ABC):
     def get_all_user_projects_by_id(self, user_id: int):
         pass
 
-    def get_all_user_projects_by_username(self, username: str):
-        pass
-
     @abstractmethod
     def get_project(self, project_id: int):
         pass
