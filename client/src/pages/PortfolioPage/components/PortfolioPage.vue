@@ -5,6 +5,7 @@
         :projects-list="projectsList"
     ></projects-list>
   </div>
+  <div ref="observer" class="observer"></div>
   <Footer></Footer>
 </template>
 
@@ -27,11 +28,12 @@ export default {
   },
   methods: {
     async getProjects() {
-      const username = getUsername();
+      const username = this.$route.params.username;
       const params = {
         count: this.count,
         page: this.page,
       };
+      this.page++;
       const uri = baseURI + 'get_user_projects/' + username;
       return await $http.get(uri, {params : params});
     },
@@ -42,6 +44,21 @@ export default {
       projectsList[i]['cover_path'] = baseURI + projectsList[i]['cover_path'];
     }
     this.projectsList = projectsList;
+  },
+  mounted() {
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
+
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        this.getProjects();
+      }
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer);
   }
 }
 </script>
@@ -50,5 +67,10 @@ export default {
 .projects-container {
   margin-left: 40px;
   margin-right: 40px;
+}
+
+.observer {
+  height: 30px;
+  background: grey;
 }
 </style>

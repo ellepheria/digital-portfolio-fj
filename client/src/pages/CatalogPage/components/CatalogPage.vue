@@ -42,7 +42,6 @@ export default {
         count: this.count,
       };
       this.page++;
-      this.count += this.count;
       return await $http.get(url, {params: params});
     }
   }
