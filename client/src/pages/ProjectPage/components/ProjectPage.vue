@@ -1,7 +1,12 @@
 <template>
   <Header></Header>
   <div class="main-container">
-
+    {{title}}
+    {{short_description}}
+    {{description}}
+    {{cover_path}}
+    {{images}}
+    {{owner}}
   </div>
   <Footer></Footer>
 </template>

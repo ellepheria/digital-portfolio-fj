@@ -170,15 +170,16 @@ def create_project():
         params = request.json
 
         project = Project(**params)
-        project.user_id = user_repository.get_user_by_username(user_data[0]).user_id
-        projects = project_repository.get_all_user_projects_by_id(project.user_id)
+        user_id = user_repository.get_user_by_username(user_data[0]).user_id
+        project.user_id = user_id
+        projects = project_repository.get_all_user_projects_by_id(user_id)
 
         for project in projects:
             if project.title == params['title']:
                 return {'Error': 'Project with this title already exists'}
         else:
             project_repository.add(project)
-            projects = project_repository.get_all_user_projects_by_id(project.user_id)
+            projects = project_repository.get_all_user_projects_by_id(user_id)
 
             for project in projects:
                 if project.title == params['title']:
@@ -258,6 +259,7 @@ def get_cards(username):
     if len(projects) > card_count:
         return jsonify(json_list=[project.serialize for project in projects[page * card_count:(page + 1) * card_count]])
 
+
 @app.route('/<project_id>/upload_cover', methods=['POST'])
 @jwt_required()
 def upload_cover(project_id):
@@ -274,6 +276,7 @@ def upload_cover(project_id):
         return {'cover_path': project_cover_file_name}
     else:
         return {'error': 'No user with this token'}
+
 
 @app.route('/<project_id>/upload_photos', methods=['POST'])
 @jwt_required()
@@ -299,6 +302,7 @@ def upload_photos(project_id):
                                        new_project_file=updated_project_files)
     else:
         return {'error': 'No user with this token'}
+
 
 @app.route('/get_profile_cards', methods=['GET'])
 def get_profile_cards():
@@ -339,6 +343,7 @@ def get_profile_cards():
             })
 
         return json
+
 
 if __name__ == '__main__':
     db_session.global_init()

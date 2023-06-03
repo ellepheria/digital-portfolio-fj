@@ -1,8 +1,10 @@
 <template>
   <Header></Header>
-  <projects-list
-      :projects-list="projectsList"
-  ></projects-list>
+  <div class="projects-container">
+    <projects-list
+        :projects-list="projectsList"
+    ></projects-list>
+  </div>
   <Footer></Footer>
 </template>
 
@@ -23,11 +25,6 @@ export default {
       page: 0,
     }
   },
-  computed: {
-    async projectsList() {
-      const { projects } = await this.getProjects()
-    }
-  },
   methods: {
     async getProjects() {
       const username = getUsername();
@@ -40,11 +37,18 @@ export default {
     },
   },
   async created() {
-    this.projectsList = (await this.getProjects()).data.json_list;
+    let projectsList = (await this.getProjects()).data.json_list;
+    for (let i = 0; i < projectsList.length; i++) {
+      projectsList[i]['cover_path'] = baseURI + projectsList[i]['cover_path'];
+    }
+    this.projectsList = projectsList;
   }
 }
 </script>
 
 <style scoped>
-
+.projects-container {
+  margin-left: 40px;
+  margin-right: 40px;
+}
 </style>
