@@ -19,7 +19,7 @@
             class="profile-picture">
       </div>
       <div class="text-fields">
-        <p class="name-data text-field">{{ username }}</p>
+        <p class="name-data text-field">{{ name }}</p>
         <p class="type_of_activity-data text-field">{{ type_of_activity }}</p>
       </div>
       <p class="about-data text-field">{{ about }}</p>
@@ -31,7 +31,7 @@
 export default {
   name: "ProfileCard",
   props: {
-    username: '',
+    name: '',
     about: '',
     type_of_activity: '',
     profile_picture_path: '',

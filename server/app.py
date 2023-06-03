@@ -310,7 +310,7 @@ def get_profile_cards():
     page = int(request.args.get('page'))
     users = user_repository.get_all()
 
-    if (len(users) <= profile_card_count) and (page == 0):
+    if len(users) <= profile_card_count:
         json = []
         for user in users[0:len(users)]:
             profile_file = profile_file_repository.get_profile_files(user.user_id)
