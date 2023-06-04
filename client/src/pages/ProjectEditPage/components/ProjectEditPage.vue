@@ -35,10 +35,10 @@
         <div class="links">
           {{ added_links }}
           <div class="buttons">
-            <RedButton class="cancel-button">
+            <RedButton class="cancel-button" @clicked="getProjectData">
               Отмена
             </RedButton>
-            <BlueButton class="save-button">
+            <BlueButton class="save-button" @clicked="saveProjectData">
               Сохранить
             </BlueButton>
           </div>
@@ -77,7 +77,10 @@ export default {
       const url = baseURI + 'projects/' + this.$route.params.projectId;
       const data = await $http.get(url);
       return data.data;
-    }
+    },
+    async saveProjectData() {
+
+    },
   },
   async created() {
     const data = await this.getProjectData();
@@ -126,6 +129,7 @@ export default {
   width: 624px;
   height: 351px;
 }
+
 .cancel-button {
   width: 238px;
 }
