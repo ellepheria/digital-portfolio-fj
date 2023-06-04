@@ -44,10 +44,6 @@ export default {
 </script>
 
 <style scoped>
-.slider-container {
-  margin: 40px;
-}
-
 .attach {
   width: 100%;
   max-width: 1000px;

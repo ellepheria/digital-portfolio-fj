@@ -1,13 +1,16 @@
 <template>
   <Header></Header>
+  <div class="header">{{title}}</div>
   <div class="main-container">
-    <slider></slider>
-    {{title}}
-    {{short_description}}
-    {{description}}
-    {{cover_path}}
-    {{images}}
-    {{owner}}
+
+    <slider class="slider"></slider>
+
+    <div class="project-data-container">
+      <div class="description">
+        {{description}}
+      </div>
+    </div>
+
   </div>
   <Footer></Footer>
 </template>
@@ -48,5 +51,46 @@ export default {
 </script>
 
 <style scoped>
+.main-container {
+  margin: 80px 120px 100px;
+}
 
+.header {
+  margin-top: 60px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 160%;
+  text-align: center;
+  color: #5F5F5F;
+}
+
+.slider {
+  margin-bottom: 100px;
+}
+
+.project-data-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #C3C3C3;
+  border-radius: 50px;
+}
+
+.description {
+  background: #FFFFFF;
+  width: 100%;
+  border-radius: 40px;
+  min-height: 200px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 120%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
 </style>
