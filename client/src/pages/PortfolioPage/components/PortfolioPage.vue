@@ -35,15 +35,13 @@ export default {
       };
       this.page++;
       const uri = baseURI + 'get_user_projects/' + username;
-      return await $http.get(uri, {params : params});
+      let projectsList = (await $http.get(uri, {params : params}))
+          .data.json_list;
+      for (let i = 0; i < projectsList.length; i++) {
+        projectsList[i]['cover_path'] = baseURI + projectsList[i]['cover_path'];
+      }
+      this.projectsList = [...this.projectsList, ...projectsList];
     },
-  },
-  async created() {
-    let projectsList = (await this.getProjects()).data.json_list;
-    for (let i = 0; i < projectsList.length; i++) {
-      projectsList[i]['cover_path'] = baseURI + projectsList[i]['cover_path'];
-    }
-    this.projectsList = projectsList;
   },
   mounted() {
     const options = {
@@ -71,6 +69,6 @@ export default {
 
 .observer {
   height: 30px;
-  background: grey;
+  background: none;
 }
 </style>
