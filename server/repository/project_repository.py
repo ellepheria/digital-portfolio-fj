@@ -39,7 +39,6 @@ class ProjectRepository(IProjectRepository):
         session = db_session.create_session()
         session.add(project)
         session.commit()
-        session.close()
 
     def update(self, new_project: Project, project_id: int):
         session = db_session.create_session()

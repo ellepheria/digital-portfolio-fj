@@ -1,3 +1,4 @@
+import json
 import re
 from datetime import timedelta
 
@@ -229,7 +230,7 @@ def get_project(project_id):
         'description': project.description,
         'added_links': project.added_links,
         'cover_path': project.cover_path,
-        'images': project_file_repository.get_all_project_files(project_id),
+        'images': json.dumps(project_file_repository.get_all_project_files(project_id)),
         'owner': user.username
     }
 
