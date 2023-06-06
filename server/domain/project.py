@@ -48,7 +48,7 @@ class Project(Base):
     )
 
     added_links = Column(
-        ARRAY(Integer, dimensions=5),
+        Text,
         nullable=True,
     )
 

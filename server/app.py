@@ -176,13 +176,13 @@ def create_project():
         for project in projects:
             if project.title == params['title']:
                 return {'Error': 'Project with this title already exists'}
-        else:
-            project_repository.add(project)
-            projects = project_repository.get_all_user_projects_by_id(project.user_id)
+            else:
+                project_repository.add(project)
+                projects = project_repository.get_all_user_projects_by_id(project.user_id)
 
-            for project in projects:
-                if project.title == params['title']:
-                    return {'project_id': project.id}
+                for project in projects:
+                    if project.title == params['title']:
+                        return {'project_id': project.id}
 
     else:
         return {'error': 'No user with this token'}
