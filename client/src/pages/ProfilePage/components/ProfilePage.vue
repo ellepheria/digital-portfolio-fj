@@ -3,7 +3,7 @@
 
   <div class="container">
     <profile-card
-        :username="username"
+        :name="name"
         :type_of_activity="type_of_activity"
         :about="about"
         :profile_picture_path="profile_picture_path"

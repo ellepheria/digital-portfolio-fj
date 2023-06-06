@@ -1,8 +1,11 @@
 <template>
   <Header></Header>
-  <projects-list
-      :projects-list="projectsList"
-  ></projects-list>
+  <div class="projects-container">
+    <projects-list
+        :projects-list="projectsList"
+    ></projects-list>
+  </div>
+  <div ref="observer" class="observer"></div>
   <Footer></Footer>
 </template>
 
@@ -23,28 +26,49 @@ export default {
       page: 0,
     }
   },
-  computed: {
-    async projectsList() {
-      const { projects } = await this.getProjects()
-    }
-  },
   methods: {
     async getProjects() {
-      const username = getUsername();
+      const username = this.$route.params.username;
       const params = {
         count: this.count,
         page: this.page,
       };
+      this.page++;
       const uri = baseURI + 'get_user_projects/' + username;
-      return await $http.get(uri, {params : params});
+      let projectsList = (await $http.get(uri, {params : params}))
+          .data.json_list;
+      for (let i = 0; i < projectsList.length; i++) {
+        projectsList[i]['cover_path'] = baseURI + projectsList[i]['cover_path'];
+      }
+      this.projectsList = [...this.projectsList, ...projectsList];
     },
   },
-  async created() {
-    this.projectsList = (await this.getProjects()).data.json_list;
+  mounted() {
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
+
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting) {
+        this.getProjects();
+      }
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer);
   }
 }
 </script>
 
 <style scoped>
+.projects-container {
+  margin-left: 40px;
+  margin-right: 40px;
+}
 
+.observer {
+  height: 30px;
+  background: none;
+}
 </style>

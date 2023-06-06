@@ -9,6 +9,7 @@ export const AddProjectRoutes = [
         component: import('@/pages/AddProjectPage/components/AddProjectPage.vue'),
         meta: {
             title: 'Добавление проекта',
+            layout: 'default',
         },
     },
 ];

@@ -1,3 +1,4 @@
+import json
 import re
 from datetime import timedelta
 
@@ -170,20 +171,15 @@ def create_project():
         params = request.json
 
         project = Project(**params)
-        project.user_id = user_repository.get_user_by_username(user_data[0]).user_id
-        projects = project_repository.get_all_user_projects_by_id(project.user_id)
+        user_id = user_repository.get_user_by_username(user_data[0]).user_id
+        project.user_id = user_id
+        projects = project_repository.get_all_user_projects_by_id(user_id)
 
-        for project in projects:
-            if project.title == params['title']:
+        for elem in projects:
+            if elem.title == params['title']:
                 return {'Error': 'Project with this title already exists'}
-            else:
-                project_repository.add(project)
-                projects = project_repository.get_all_user_projects_by_id(project.user_id)
-
-                for project in projects:
-                    if project.title == params['title']:
-                        return {'project_id': project.id}
-
+        project_repository.add(project)
+        return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
 
@@ -228,7 +224,7 @@ def get_project(project_id):
         'description': project.description,
         'added_links': project.added_links,
         'cover_path': project.cover_path,
-        'images': project_file_repository.get_all_project_files(project_id),
+        'images': json.dumps(project_file_repository.get_all_project_files(project_id)),
         'owner': user.username
     }
 
@@ -252,11 +248,12 @@ def get_cards(username):
     user = user_repository.get_user_by_username(username)
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
-    if (len(projects) <= card_count) and (page == 0):
+    if len(projects) <= card_count: # and page==0
         return jsonify(json_list=[project.serialize for project in projects[0:len(projects)]])
 
     if len(projects) > card_count:
         return jsonify(json_list=[project.serialize for project in projects[page * card_count:(page + 1) * card_count]])
+
 
 @app.route('/<project_id>/upload_cover', methods=['POST'])
 @jwt_required()
@@ -274,6 +271,7 @@ def upload_cover(project_id):
         return {'cover_path': project_cover_file_name}
     else:
         return {'error': 'No user with this token'}
+
 
 @app.route('/<project_id>/upload_photos', methods=['POST'])
 @jwt_required()
@@ -300,13 +298,14 @@ def upload_photos(project_id):
     else:
         return {'error': 'No user with this token'}
 
+
 @app.route('/get_profile_cards', methods=['GET'])
 def get_profile_cards():
     profile_card_count = int(request.args.get('count'))
     page = int(request.args.get('page'))
     users = user_repository.get_all()
 
-    if (len(users) <= profile_card_count) and (page == 0):
+    if len(users) <= profile_card_count:
         json = []
         for user in users[0:len(users)]:
             profile_file = profile_file_repository.get_profile_files(user.user_id)
@@ -339,6 +338,7 @@ def get_profile_cards():
             })
 
         return json
+
 
 if __name__ == '__main__':
     db_session.global_init()
