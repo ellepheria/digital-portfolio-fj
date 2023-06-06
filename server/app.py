@@ -217,14 +217,21 @@ def get_project(project_id):
     project = project_repository.get_project(project_id)
     if not project:
         return {'error': 'project not found'}
+
     user = user_repository.get_user(project.user_id)
+    project_file = project_file_repository.get_all_project_files(project_id)
+
+    images = {}
+    for i in range(len(project_file)):
+        images[i] = project_file[i]
+
     return {
         'title': project.title,
         'short_description': project.short_description,
         'description': project.description,
         'added_links': project.added_links,
         'cover_path': project.cover_path,
-        'images': json.dumps(project_file_repository.get_all_project_files(project_id)),
+        'images': images,
         'owner': user.username
     }
 
