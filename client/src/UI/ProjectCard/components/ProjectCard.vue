@@ -1,27 +1,30 @@
 <template>
-  <div class="project-card">
-    <div class="meta-container">
-      <div class="number">{{ this.$props.number.padStart(2, 0) }}</div>
-      <div class="container">
-        <div class="title">{{ this.$props.title }}</div>
-        <div class="description">{{ this.$props.shortDescription }}</div>
+  <router-link :to="'/projects/' + id">
+    <div class="project-card">
+      <div class="meta-container">
+        <div class="number">{{ this.$props.number.padStart(2, 0) }}</div>
+        <div class="container">
+          <div class="title">{{ this.$props.title }}</div>
+          <div class="description">{{ this.$props.shortDescription }}</div>
+        </div>
+      </div>
+      <div class="arrow-container">
+        <div class="arrow">
+          <div></div>
+        </div>
+      </div>
+      <div class="cover-container">
+        <img
+            v-if="!!this.$props.cover_path"
+            :src="this.$props.cover_path"
+            height="270"
+            width="480"
+            class="cover-image"
+        >
       </div>
     </div>
-    <div class="arrow-container">
-      <div class="arrow">
-        <div></div>
-      </div>
-    </div>
-    <div class="cover-container">
-      <img
-          v-if="!!this.$props.cover_path"
-          :src="this.$props.cover_path"
-          height="270"
-          width="480"
-          class="cover-image"
-      >
-    </div>
-  </div>
+  </router-link>
+
 </template>
 
 <script>
@@ -32,11 +35,16 @@ export default {
     shortDescription: '',
     cover_path: '',
     number: 0,
+    id: -1,
   }
 }
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
+
 .project-card {
   display: flex;
   flex-direction: row;

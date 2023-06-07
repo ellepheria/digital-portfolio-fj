@@ -1,7 +1,9 @@
 <template>
   <project-card
-      v-for="project in projectsList"
-      :number="String(project['id'])"
+      v-for="(project, index) in projectsList"
+      :id="project.id"
+      :key="project.id"
+      :number="String(index + 1)"
       :short-description="project['short_description'] || 'null'"
       :title="project['title'] || 'null'"
       :cover_path="project['cover_path']">

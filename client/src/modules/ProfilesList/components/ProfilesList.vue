@@ -1,6 +1,7 @@
 <template>
 <profile-card
   v-for="card in profilesList"
+  :key="card.username"
   :name="card['name']"
   :about="card['about']"
   :cover_path="card['images'].cover_path"

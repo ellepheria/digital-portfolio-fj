@@ -1,5 +1,6 @@
 <template>
   <Header></Header>
+  <SearchInput v-model="searchVal" class="search"></SearchInput>
   <div class="user-cards-container">
     <profiles-list
         :profiles-list="userCards"
@@ -15,15 +16,18 @@ import Header from "@/UI/Header/components/Header.vue";
 import Footer from "@/UI/Footer/components/Footer.vue";
 import $http, {baseURI} from "@/api";
 import ProfilesList from "@/modules/ProfilesList/components/ProfilesList.vue";
+import SearchInput from 'vue-search-input'
+import {ref} from "vue";
 
 export default {
   name: "CatalogPage",
-  components: {ProfilesList, Footer, Header},
+  components: {ProfilesList, Footer, Header, SearchInput},
   data() {
     return {
       page: 0,
       count: 12,
       userCards: [],
+      searchVal: 'Поиск...'
     };
   },
   mounted() {
@@ -61,11 +65,18 @@ export default {
 </script>
 
 <style scoped>
-.user-cards-container{
+.user-cards-container {
   margin: 40px;
 }
+
 .observer {
   height: 30px;
   background: none;
+}
+.search {
+  border-radius: 80px;
+}
+input {
+  border-radius: 80px;
 }
 </style>
