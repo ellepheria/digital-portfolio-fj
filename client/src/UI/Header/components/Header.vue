@@ -6,49 +6,49 @@
       </div>
     </router-link>
     <div class="buttons not_auth" v-if="!isAuth">
-      <blue-button
-          @clicked="this.$router.push('/auth')"
-          class="auth-button btn">
-        Вход
-      </blue-button>
-      <blue-button
-          class="registration-button btn"
-          @clicked="this.$router.push('/registration')">
-        Регистрация
-      </blue-button>
+      <router-link to="/auth">
+        <blue-button
+            class="auth-button btn">
+          Вход
+        </blue-button>
+      </router-link>
+      <router-link to="/registration">
+        <blue-button
+            class="registration-button btn">
+          Регистрация
+        </blue-button>
+      </router-link>
     </div>
     <div class="buttons auth" v-if="isAuth">
-      <blue-button
-          v-if="layout == 'default' || layout == 'ProfileEdit'"
-          class="liked_projects btn">
-        Понравившиеся проекты
-      </blue-button>
-      <blue-button
-          v-if="layout == 'default' || layout == 'ProfileEdit'"
-          class="portfolio btn"
-          @clicked="this.$router.push('/' + getUsername() + '/portfolio')"
-      >
-        Портфолио
-      </blue-button>
-
+      <router-link :to="'/' + getUsername() + '/portfolio'">
+        <blue-button
+            v-if="layout == 'default' || layout == 'ProfileEdit'"
+            class="portfolio btn">
+          Портфолио
+        </blue-button>
+      </router-link>
       <red-button
           v-if="layout == 'ProfileEdit'"
           @clicked="logout"
           class="logout-button btn"
       >Выход
       </red-button>
-      <blue-button
-          v-if="!ownProfile"
-          class="profile"
-          @clicked="this.$router.push(getUsername())">
-        Профиль
-      </blue-button>
-      <blue-button
-          v-if="layout == 'default' && ownProfile"
-          class="profile_edit btn"
-          @clicked="this.$router.push(getUsername() + '/edit')">
-        Редактировать
-      </blue-button>
+      <router-link :to="'/' + getUsername()">
+        <blue-button
+            v-if="!ownProfile"
+            class="profile"
+            @clicked="this.$router.push(getUsername())">
+          Профиль
+        </blue-button>
+      </router-link>
+      <router-link :to="'/' + getUsername() + '/edit'">
+        <blue-button
+            v-if="layout == 'default' && ownProfile"
+            class="profile_edit btn"
+            @clicked="this.$router.push(getUsername() + '/edit')">
+          Редактировать
+        </blue-button>
+      </router-link>
       <router-link to="/add_project">
         <blue-button
             v-if="layout == 'Portfolio'"
