@@ -1,13 +1,14 @@
 <template>
   <Header></Header>
   <SearchInput v-model="searchVal" class="search"></SearchInput>
-  <div class="user-cards-container">
+  <div class="catalog-container">
     <profiles-list
+        class="user-cards-container"
         :profiles-list="userCards"
     >
     </profiles-list>
-    <div ref="observer" class="observer"></div>
   </div>
+  <div ref="observer" class="observer"></div>
   <Footer></Footer>
 </template>
 
@@ -30,15 +31,19 @@ export default {
       searchVal: 'Поиск...'
     };
   },
+  created() {
+    this.getUserCards();
+  },
   mounted() {
     const options = {
       rootMargin: "0px",
       threshold: 1.0,
     };
 
-    const callback = (entries, observer) => {
+    const callback = async (entries, observer) => {
       if (entries[0].isIntersecting) {
-        this.getUserCards();
+        await this.getUserCards();
+        console.log('yes')
       }
     };
 
@@ -65,13 +70,19 @@ export default {
 </script>
 
 <style scoped>
-.user-cards-container {
-  margin: 40px;
+.catalog-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-
+.user-cards-container {
+  margin-top: 70px;
+  width: 1680px;
+}
 .observer {
-  height: 30px;
-  background: none;
+  height: 50px;
+  background: #111111;
+  opacity: 0;
 }
 .search {
   border-radius: 80px;

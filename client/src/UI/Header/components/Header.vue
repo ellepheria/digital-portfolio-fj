@@ -1,8 +1,10 @@
 <template>
   <div class="nav-bar">
-    <div class="logo">
-      Future Job
-    </div>
+    <router-link to="/catalog">
+      <div class="logo">
+        Future Job
+      </div>
+    </router-link>
     <div class="buttons not_auth" v-if="!isAuth">
       <blue-button
           @clicked="this.$router.push('/auth')"
@@ -104,6 +106,10 @@ export default {
   display: flex;
   justify-content: space-between;
   background: #FFFFFF;
+}
+
+a {
+  text-decoration: none;
 }
 
 .btn {
