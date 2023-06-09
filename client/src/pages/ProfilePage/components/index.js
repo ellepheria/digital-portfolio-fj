@@ -21,9 +21,27 @@ export default {
             social_networks: '',
             cover_path: '',
             profile_picture_path: '',
+            projectsList: [],
+            page: 0,
+            count: 6,
         }
     },
     methods: {
+        async getProjects() {
+            const username = this.$route.params.username;
+            const params = {
+                count: this.count,
+                page: this.page,
+            };
+            this.page++;
+            const uri = baseURI + 'get_user_projects/' + username;
+            let projectsList = (await $http.get(uri, {params : params}))
+                .data.json_list;
+            for (let i = 0; i < projectsList.length; i++) {
+                projectsList[i]['cover_path'] = baseURI + projectsList[i]['cover_path'];
+            }
+            this.projectsList = [...this.projectsList, ...projectsList];
+        },
         async getProfileData() {
             const data = (await $http.get(
                 baseURI + 'get_profile/' + this.$route.params.username,
@@ -38,6 +56,7 @@ export default {
     },
     async created() {
         await this.getProfileData();
+        await this.getProjects();
     },
     computed: {
         coverUploaded() {
@@ -49,5 +68,20 @@ export default {
         isAuth() {
             return this.$store.getters['auth/isAuthenticated'];
         }
+    },
+    mounted() {
+        const options = {
+            rootMargin: "0px",
+            threshold: 1.0,
+        };
+
+        const callback = (entries, observer) => {
+            if (entries[0].isIntersecting) {
+                this.getProjects();
+            }
+        };
+
+        const observer = new IntersectionObserver(callback, options);
+        observer.observe(this.$refs.observer);
     }
 }

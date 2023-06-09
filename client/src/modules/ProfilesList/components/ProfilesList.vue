@@ -9,6 +9,7 @@
           :cover_path="card['images'].cover_path"
           :profile_picture_path="card['images'].profile_picture_path"
           :type_of_activity="card['type_of_activity']"
+          :username="card.username"
       >
       </profile-card>
   </div>
@@ -36,5 +37,6 @@ export default {
 }
 .project-card {
   flex: 0 0 33.333333%;
+  width: 450px;
 }
 </style>

@@ -93,9 +93,12 @@
     </div>
   </div>
   <div class="portfolio-container">
-    <projects-list>
-      <div class="list-title"></div>
+    <div class="list-title">Портфолио пользователя</div>
+    <projects-list
+        :projects-list="projectsList"
+    >
     </projects-list>
+    <div ref="observer" class="observer"></div>
   </div>
   <Footer></Footer>
 </template>

@@ -43,7 +43,6 @@ export default {
     const callback = async (entries, observer) => {
       if (entries[0].isIntersecting) {
         await this.getUserCards();
-        console.log('yes')
       }
     };
 

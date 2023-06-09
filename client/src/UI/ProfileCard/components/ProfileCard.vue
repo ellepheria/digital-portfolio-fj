@@ -1,31 +1,33 @@
 <template>
   <div class="card-block">
-    <div class="card-container">
-      <div class="card-preview">
-        <div class="cover-container">
-          <img
-              v-if="coverUploaded"
-              :src="cover_path"
-              class="cover"
-          >
+    <router-link :to="'/' + username">
+      <div class="card-container">
+        <div class="card-preview">
+          <div class="cover-container">
+            <img
+                v-if="coverUploaded"
+                :src="cover_path"
+                class="cover"
+            >
+          </div>
+          <div class="profile-picture-container">
+            <img
+                v-if="profilePictureUploaded"
+                :src="profile_picture_path"
+                class="profile-picture">
+            <img
+                v-if="!profilePictureUploaded"
+                src="@/assets/defaultProfilePicture.png"
+                class="profile-picture">
+          </div>
+          <div class="text-fields">
+            <p class="name-data text-field">{{ name }}</p>
+            <p class="type_of_activity-data text-field">{{ type_of_activity }}</p>
+          </div>
+          <p class="about-data text-field">{{ about }}</p>
         </div>
-        <div class="profile-picture-container">
-          <img
-              v-if="profilePictureUploaded"
-              :src="profile_picture_path"
-              class="profile-picture">
-          <img
-              v-if="!profilePictureUploaded"
-              src="@/assets/defaultProfilePicture.png"
-              class="profile-picture">
-        </div>
-        <div class="text-fields">
-          <p class="name-data text-field">{{ name }}</p>
-          <p class="type_of_activity-data text-field">{{ type_of_activity }}</p>
-        </div>
-        <p class="about-data text-field">{{ about }}</p>
       </div>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -38,6 +40,7 @@ export default {
     type_of_activity: '',
     profile_picture_path: '',
     cover_path: '',
+    username: '',
   },
   computed: {
     profilePictureUploaded(){
@@ -51,6 +54,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .card-block {
   display: flex;
   justify-content: center;
@@ -58,8 +64,8 @@ export default {
 .card-container {
   display: flex;
   flex-direction: column;
-  height: 770px;
-  width: 450px;
+  height: 650px;
+  width: 502px;
 }
 
 .card-preview {
