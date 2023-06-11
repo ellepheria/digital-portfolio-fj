@@ -4,11 +4,15 @@
   <div class="main-container">
     <div class="slider-container">
       <swiper
+          :modules="[Pagination]"
           :slides-per-view="1"
           :space-between="50"
           @swiper="onSwiper"
           @slideChange="onSlideChange"
           class="slider"
+          :loop="true"
+          :grab-cursor="true"
+          :pagination="true"
       >
         <swiper-slide
             v-for="image in images"
@@ -22,6 +26,9 @@
       <div class="description">
         {{ description }}
       </div>
+      <div class="links">
+        {{ added_links }}
+      </div>
     </div>
 
   </div>
@@ -34,8 +41,10 @@ import Footer from "@/UI/Footer/components/Footer.vue";
 import $http, {baseURI} from "@/api";
 import Slider from "@/modules/Slider/components/Slider.vue";
 import {Swiper, SwiperSlide} from 'swiper/vue';
+import {Pagination} from "swiper";
 
 import 'swiper/css';
+import 'swiper/css/pagination'
 
 export default {
   name: "ProjectPage",
@@ -51,13 +60,16 @@ export default {
       title: '',
       short_description: '',
       description: '',
-      added_links: {},
+      added_links: '',
       cover_path: '',
       images: {},
       owner: '',
     };
   },
   methods: {
+    Pagination() {
+      return Pagination
+    },
     getPath(image_path) {
       return baseURI + image_path;
     },
@@ -99,6 +111,7 @@ export default {
 
 .slider-container {
   padding: 50px;
+  margin-bottom: 140px;
   width: 100%;
   height: 1005px;
   background: #C3C3C3;
@@ -122,11 +135,13 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 520px;
+  justify-content: space-between;
   background: #C3C3C3;
   border-radius: 50px;
 }
 
-.description {
+.description, .links {
   background: #FFFFFF;
   width: 100%;
   border-radius: 40px;

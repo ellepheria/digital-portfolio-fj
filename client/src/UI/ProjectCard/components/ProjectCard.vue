@@ -16,7 +16,7 @@
       <div class="cover-container">
         <img
             v-if="!!this.$props.cover_path"
-            :src="this.$props.cover_path"
+            :src="getPath(this.$props.cover_path)"
             height="270"
             width="480"
             class="cover-image"
@@ -28,8 +28,15 @@
 </template>
 
 <script>
+import {baseURI} from "@/api";
+
 export default {
   name: "ProjectCard",
+  methods: {
+    getPath(image_path) {
+      return baseURI + image_path;
+    }
+  },
   props: {
     title: '',
     shortDescription: '',

@@ -6,14 +6,14 @@
           <div class="cover-container">
             <img
                 v-if="coverUploaded"
-                :src="cover_path"
+                :src="getPath(cover_path)"
                 class="cover"
             >
           </div>
           <div class="profile-picture-container">
             <img
                 v-if="profilePictureUploaded"
-                :src="profile_picture_path"
+                :src="getPath(profile_picture_path)"
                 class="profile-picture">
             <img
                 v-if="!profilePictureUploaded"
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import {baseURI} from "@/api";
+
 export default {
   name: "ProfileCard",
   props: {
@@ -41,6 +43,11 @@ export default {
     profile_picture_path: '',
     cover_path: '',
     username: '',
+  },
+  methods: {
+    getPath(image_path) {
+      return baseURI + image_path;
+    }
   },
   computed: {
     profilePictureUploaded(){

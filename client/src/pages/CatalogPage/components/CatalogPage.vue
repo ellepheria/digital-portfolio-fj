@@ -58,10 +58,6 @@ export default {
       };
       this.page++;
       const cards = (await $http.get(url, {params: params})).data;
-      for (let i = 0; i < cards.length; i++) {
-        cards[i]['images'].cover_path = baseURI + cards[i]['images'].cover_path;
-        cards[i]['images'].profile_picture_path = baseURI + cards[i]['images'].profile_picture_path;
-      }
       this.userCards = [...this.userCards, ...cards];
     }
   }

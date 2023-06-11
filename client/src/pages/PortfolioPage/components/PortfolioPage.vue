@@ -1,7 +1,11 @@
 <template>
   <Header></Header>
   <div class="projects-container">
+    <div class="projects-not-added" v-if="projectsList.length < 1">
+      Проекты еще не добавлены
+    </div>
     <projects-list
+        v-if="projectsList.length > 0"
         :projects-list="projectsList"
     ></projects-list>
   </div>
@@ -37,10 +41,7 @@ export default {
       const uri = baseURI + 'get_user_projects/' + username;
       let projectsList = (await $http.get(uri, {params : params}))
           .data.json_list;
-      for (let i = 0; i < projectsList.length; i++) {
-        projectsList[i]['cover_path'] = baseURI + projectsList[i]['cover_path'];
-      }
-      this.projectsList = [...this.projectsList, ...projectsList];
+      this.projectsList = [...this.projectsList, ...projectsList].sort((a, b) => a.id - b.id);
     },
   },
   mounted() {
