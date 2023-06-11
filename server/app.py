@@ -255,8 +255,9 @@ def get_cards(username):
     user = user_repository.get_user_by_username(username)
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
-    if len(projects) <= card_count: # and page==0
-        return jsonify(json_list=[project.serialize for project in projects[0:len(projects)]])
+    if len(projects) <= card_count and page==0:
+        # return jsonify(projects.query.paginate(page=page+1, per_page=card_count).items)
+        return jsonify(json_list=[project.serialize for project in projects])
 
     if len(projects) > card_count:
         return jsonify(json_list=[project.serialize for project in projects[page * card_count:(page + 1) * card_count]])
@@ -312,9 +313,9 @@ def get_profile_cards():
     page = int(request.args.get('page'))
     users = user_repository.get_all()
 
-    if len(users) <= profile_card_count:
+    if len(users) <= profile_card_count and page == 0:
         json = []
-        for user in users[0:len(users)]:
+        for user in users[0 : len(users)]:
             profile_file = profile_file_repository.get_profile_files(user.user_id)
             json.append({
                 'name': user.name,
@@ -331,7 +332,7 @@ def get_profile_cards():
 
     if len(users) > profile_card_count:
         json = []
-        for user in users[page * profile_card_count:(page + 1) * profile_card_count]:
+        for user in users[(page * profile_card_count) : ((page + 1) * profile_card_count)]:
             profile_file = profile_file_repository.get_profile_files(user.user_id)
             json.append({
                 'name': user.name,
