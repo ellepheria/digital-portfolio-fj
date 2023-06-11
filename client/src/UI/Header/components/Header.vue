@@ -52,12 +52,14 @@
       <router-link to="/add_project">
         <blue-button
             v-if="layout == 'Portfolio'"
-            class="add-project btn">Добавить проект</blue-button>
+            class="add-project btn">Добавить проект
+        </blue-button>
       </router-link>
       <blue-button
-        v-if="layout == 'Portfolio'"
-        class="portfolio-edit btn"
-        @clicked="portfolioEdit">Редактировать портфолио</blue-button>
+          v-if="layout == 'Portfolio'"
+          class="portfolio-edit btn"
+          @clicked="portfolioEdit">Редактировать портфолио
+      </blue-button>
     </div>
   </div>
 </template>

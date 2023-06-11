@@ -1,13 +1,26 @@
 <template>
   <Header></Header>
-  <div class="header">{{title}}</div>
+  <div class="header">{{ title }}</div>
   <div class="main-container">
-
-    <slider class="slider"></slider>
-
+    <div class="slider-container">
+      <swiper
+          :slides-per-view="1"
+          :space-between="50"
+          @swiper="onSwiper"
+          @slideChange="onSlideChange"
+          class="slider"
+      >
+        <swiper-slide
+            v-for="image in images"
+            class="slide"
+        >
+          <img :src="getPath(image)" alt="image" class="image">
+        </swiper-slide>
+      </swiper>
+    </div>
     <div class="project-data-container">
       <div class="description">
-        {{description}}
+        {{ description }}
       </div>
     </div>
 
@@ -20,10 +33,19 @@ import Header from "@/UI/Header/components/Header.vue";
 import Footer from "@/UI/Footer/components/Footer.vue";
 import $http, {baseURI} from "@/api";
 import Slider from "@/modules/Slider/components/Slider.vue";
+import {Swiper, SwiperSlide} from 'swiper/vue';
+
+import 'swiper/css';
 
 export default {
   name: "ProjectPage",
-  components: {Slider, Footer, Header},
+  components: {
+    Slider,
+    Footer,
+    Header,
+    Swiper,
+    SwiperSlide,
+  },
   data() {
     return {
       title: '',
@@ -36,13 +58,22 @@ export default {
     };
   },
   methods: {
+    getPath(image_path) {
+      return baseURI + image_path;
+    },
+    onSwiper() {
+
+    },
+    onSlideChange() {
+
+    },
     async getProjectData() {
       const uri = baseURI + 'projects/' + this.$route.params.projectId;
       const {data} = await $http.get(uri);
       for (let key in data) {
         this[key] = data[key];
       }
-    }
+    },
   },
   async created() {
     await this.getProjectData();
@@ -66,8 +97,24 @@ export default {
   color: #5F5F5F;
 }
 
+.slider-container {
+  padding: 50px;
+  width: 100%;
+  height: 1005px;
+  background: #C3C3C3;
+  border-radius: 50px;
+}
+
 .slider {
-  margin-bottom: 100px;
+  margin: 50px auto;
+  width: 1440px;
+  height: 810px;
+  border-radius: 50px;
+}
+
+.image {
+  width: 1440px;
+  height: 810px;
 }
 
 .project-data-container {

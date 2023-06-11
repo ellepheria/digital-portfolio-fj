@@ -223,7 +223,7 @@ def get_project(project_id):
 
     images = {}
     for i in range(len(project_file)):
-        images[i] = project_file[i]
+        images[i] = project_file[i].file_path
 
     return {
         'title': project.title,
