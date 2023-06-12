@@ -78,21 +78,24 @@ def get_profile(username):
     profile = user_repository.get_user_by_username(username)
     profile_file = profile_file_repository.get_profile_files(profile.user_id)
 
-    return {
-        'username': profile.username,
-        'email': profile.email,
-        'name': profile.name,
-        'surname': profile.surname,
-        'about': profile.about,
-        'technologies': profile.technologies,
-        'type_of_activity': profile.type_of_activity,
-        'age': profile.age,
-        'phone_number': profile.phone_number,
-        'education': profile.education,
-        'social_networks': profile.social_networks,
-        'cover_path': profile_file.cover_path,
-        'profile_picture_path': profile_file.photo_path
-    }
+    if profile.age.is_integer():
+        return {
+            'username': profile.username,
+            'email': profile.email,
+            'name': profile.name,
+            'surname': profile.surname,
+            'about': profile.about,
+            'technologies': profile.technologies,
+            'type_of_activity': profile.type_of_activity,
+            'age': profile.age,
+            'phone_number': profile.phone_number,
+            'education': profile.education,
+            'social_networks': profile.social_networks,
+            'cover_path': profile_file.cover_path,
+            'profile_picture_path': profile_file.photo_path
+        }
+    else:
+        return {'error': 'age is not integer'}
 
 
 @app.route('/profile_edit', methods=['POST'])
