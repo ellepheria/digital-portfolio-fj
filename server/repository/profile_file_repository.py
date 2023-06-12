@@ -25,22 +25,22 @@ class IProfileFileRepository(ABC):
 class ProfileFileRepository(IProfileFileRepository):
 
     def get_profile_files(self, user_id: int):
-        session = db_session.create_session()
-        return session.query(ProfileFile).filter(user_id == ProfileFile.user_id).first()
+        with db_session.create_session() as session:
+            return session.query(ProfileFile).filter(user_id == ProfileFile.user_id).first()
 
     def update(self, user_id: int, new_profile_file: ProfileFile):
-        session = db_session.create_session()
-        profile_file = session.query(ProfileFile).filter(user_id == ProfileFile.user_id).first()
-        profile_file.photo_path = new_profile_file.photo_path
-        profile_file.cover_path = new_profile_file.cover_path
-        session.commit()
+        with db_session.create_session() as session:
+            profile_file = session.query(ProfileFile).filter(user_id == ProfileFile.user_id).first()
+            profile_file.photo_path = new_profile_file.photo_path
+            profile_file.cover_path = new_profile_file.cover_path
+            session.commit()
 
     def delete(self, user_id: int):
-        session = db_session.create_session()
-        session.delete(session.query(ProfileFile).filter(user_id == ProfileFile.user_id).first())
-        session.commit()
+        with db_session.create_session() as session:
+            session.delete(session.query(ProfileFile).filter(user_id == ProfileFile.user_id).first())
+            session.commit()
 
     def add(self, new_profile_file: ProfileFile):
-        session = db_session.create_session()
-        session.add(new_profile_file)
-        session.commit()
+        with db_session.create_session() as session:
+            session.add(new_profile_file)
+            session.commit()

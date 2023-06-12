@@ -34,7 +34,8 @@ def global_init():
                            f"{DATABASE['user']}:"
                            f"{DATABASE['password']}@"
                            f"{DATABASE['url']}/"
-                           f"{DATABASE['database_name']}", echo=True)
+                           f"{DATABASE['database_name']}",
+                           echo=True)
 
     Base.metadata.create_all(engine)
     __factory = orm.sessionmaker(bind=engine)

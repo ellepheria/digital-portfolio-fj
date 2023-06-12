@@ -255,7 +255,7 @@ def get_cards(username):
     user = user_repository.get_user_by_username(username)
     projects = project_repository.get_all_user_projects_by_id(user.user_id)
 
-    if len(projects) <= card_count and page==0:
+    if len(projects) <= card_count and page == 0:
         # return jsonify(projects.query.paginate(page=page+1, per_page=card_count).items)
         return jsonify(json_list=[project.serialize for project in projects])
 
