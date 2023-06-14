@@ -193,20 +193,19 @@ def project_edit(project_id):
     user = user_repository.get_user(project.user_id)
 
     if user_data and params['owner'] == user.username:
-        for project in projects:
-            if project.title != params['title']:
-                project.title = params['title']
-                project.short_description = params['short_description']
-                project.description = params['description']
-                project.added_links = params['added_links']
-
-                project_repository.update(new_project=project,
-                                          project_id=project.id)
-
-                return {'project_id': project.id}
-            else:
+        for p in projects:
+            if p.title == params['title'] and p.id != project_id:
                 return {'Error': 'Project with this title already exists'}
 
+        project.title = params['title']
+        project.short_description = params['short_description']
+        project.description = params['description']
+        project.added_links = params['added_links']
+
+        project_repository.update(new_project=project,
+                                  project_id=project.id)
+
+        return {'project_id': project.id}
     else:
         return {'error': 'No user with this token or user not owner'}
 
@@ -307,10 +306,11 @@ def upload_photos(project_id):
         return {'error': 'No user with this token'}
 
 
-@app.route('/search_users/<search_query>')
-def search_users(search_query):
+@app.route('/search_users')
+def search_users():
     profile_card_count = int(request.args.get('count'))
     page = int(request.args.get('page'))
+    search_query = request.args.get('search_query')
     users = set()
     users.add(user_repository.get_user_by_username(search_query))
     users.add(user_repository.get_users_with_names(search_query))
