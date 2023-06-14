@@ -311,12 +311,22 @@ def search_users():
     profile_card_count = int(request.args.get('count'))
     page = int(request.args.get('page'))
     search_query = request.args.get('search_query')
-    users = set()
-    users.add(user_repository.get_user_by_username(search_query))
-    users.add(user_repository.get_users_with_names(search_query))
-    users.add(user_repository.get_users_with_technologies(search_query))
-    users.add(user_repository.get_users_with_type_of_activities(search_query))
-    users.add(user_repository.get_users_with_description(search_query))
+    users = list()
+    user_by_username = user_repository.get_user_by_username(search_query)
+    if user_by_username is not None:
+        users.append(user_by_username)
+    user_by_names = user_repository.get_users_with_names(search_query)
+    if len(user_by_names) > 0:
+        users.append(*user_by_names)
+    users_by_technologies = user_repository.get_users_with_technologies(search_query)
+    if len(users_by_technologies) > 0:
+        users.append(*users_by_technologies)
+    users_by_activities = user_repository.get_users_with_type_of_activities(search_query)
+    if len(users_by_activities) > 0:
+        users.append(*users_by_activities)
+    users_by_description = user_repository.get_users_with_description(search_query)
+    if len(users_by_description) > 0:
+        users.append(*users_by_description)
     users = [user for user in users if user is not None]
 
     return get_profile_cards_by_pages(users, profile_card_count, page)

@@ -66,7 +66,7 @@ class UserRepository(IUserRepository):
         for user in users:
             if str(user.type_of_activity).find(type_of_activity) != -1:
                 result.add(user)
-        return list(result)
+        return result
 
     def get_users_with_technologies(self, technology: str):
         users = self.get_all()
@@ -74,7 +74,7 @@ class UserRepository(IUserRepository):
         for user in users:
             if str(user.technologies).find(technology) != -1:
                 result.add(user)
-        return list(result)
+        return result
 
     def get_users_with_names(self, name: str):
         users = self.get_all()
@@ -83,7 +83,7 @@ class UserRepository(IUserRepository):
             if str(user.name).find(name) != -1:
                 result.add(user)
 
-        return list(result)
+        return result
 
     def get_users_with_description(self, description: str):
         users = self.get_all()
@@ -92,7 +92,7 @@ class UserRepository(IUserRepository):
             if str(user.about).find(description) != -1:
                 result.add(user)
 
-        return list(result)
+        return result
 
     def add(self, user: User):
         with db_session.create_session() as session:
