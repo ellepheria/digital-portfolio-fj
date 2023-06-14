@@ -264,6 +264,7 @@ def get_cards(username):
 
     if len(projects) > card_count:
         return jsonify(json_list=[project.serialize for project in projects[page * card_count:(page + 1) * card_count]])
+    return {'error': 'нет проектов'}
 
 
 @app.route('/<project_id>/upload_cover', methods=['POST'])
@@ -349,6 +350,7 @@ def get_profile_cards():
             })
 
         return json
+    return {'error': 'нет профилей'}
 
 
 if __name__ == '__main__':
