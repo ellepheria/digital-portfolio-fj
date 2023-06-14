@@ -1,4 +1,3 @@
-import json
 import re
 from datetime import timedelta
 
@@ -78,24 +77,21 @@ def get_profile(username):
     profile = user_repository.get_user_by_username(username)
     profile_file = profile_file_repository.get_profile_files(profile.user_id)
 
-    if profile.age.is_integer():
-        return {
-            'username': profile.username,
-            'email': profile.email,
-            'name': profile.name,
-            'surname': profile.surname,
-            'about': profile.about,
-            'technologies': profile.technologies,
-            'type_of_activity': profile.type_of_activity,
-            'age': profile.age,
-            'phone_number': profile.phone_number,
-            'education': profile.education,
-            'social_networks': profile.social_networks,
-            'cover_path': profile_file.cover_path,
-            'profile_picture_path': profile_file.photo_path
-        }
-    else:
-        return {'error': 'age is not integer'}
+    return {
+        'username': profile.username,
+        'email': profile.email,
+        'name': profile.name,
+        'surname': profile.surname,
+        'about': profile.about,
+        'technologies': profile.technologies,
+        'type_of_activity': profile.type_of_activity,
+        'age': profile.age,
+        'phone_number': profile.phone_number,
+        'education': profile.education,
+        'social_networks': profile.social_networks,
+        'cover_path': profile_file.cover_path,
+        'profile_picture_path': profile_file.photo_path
+    }
 
 
 @app.route('/profile_edit', methods=['POST'])
@@ -311,12 +307,31 @@ def upload_photos(project_id):
         return {'error': 'No user with this token'}
 
 
+@app.route('/search_users/<search_query>')
+def search_users(search_query):
+    profile_card_count = int(request.args.get('count'))
+    page = int(request.args.get('page'))
+    users = set()
+    users.add(user_repository.get_user_by_username(search_query))
+    users.add(user_repository.get_users_with_names(search_query))
+    users.add(user_repository.get_users_with_technologies(search_query))
+    users.add(user_repository.get_users_with_type_of_activities(search_query))
+    users.add(user_repository.get_users_with_description(search_query))
+    users = [user for user in users if user is not None]
+
+    return get_profile_cards_by_pages(users, profile_card_count, page)
+
+
 @app.route('/get_profile_cards', methods=['GET'])
 def get_profile_cards():
     profile_card_count = int(request.args.get('count'))
     page = int(request.args.get('page'))
     users = user_repository.get_all()
 
+    return get_profile_cards_by_pages(users, profile_card_count, page)
+
+
+def get_profile_cards_by_pages(users, profile_card_count, page):
     if len(users) <= profile_card_count and page == 0:
         json = []
         for user in users[0 : len(users)]:

@@ -33,5 +33,5 @@ if __name__ == '__main__':
     # project_file_repository.add(project_file)
 
     #print(project2.serialize)
-    for i in user_repository.get_users_with_type_of_activities(['aaa', "бэк"]):
+    for i in user_repository.get_users_with_names('ауууу'):
         print(i)
