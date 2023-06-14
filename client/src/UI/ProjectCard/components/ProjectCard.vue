@@ -184,4 +184,7 @@ a {
   background: #fff;
   margin: 20px 0;
 }
+.cover-image {
+  border-radius: 40px;
+}
 </style>

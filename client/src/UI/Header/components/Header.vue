@@ -119,16 +119,13 @@ a {
   margin-right: 50px;
 }
 
-.liked_projects {
-  width: 350px;
-}
-
 .portfolio {
   width: 170px;
 }
 
 .profile {
   width: 170px;
+  margin-right: 50px;
 }
 
 .profile_edit {

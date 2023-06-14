@@ -39,7 +39,6 @@
 import Header from "@/UI/Header/components/Header.vue";
 import Footer from "@/UI/Footer/components/Footer.vue";
 import $http, {baseURI} from "@/api";
-import Slider from "@/modules/Slider/components/Slider.vue";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import {Pagination} from "swiper";
 
@@ -49,7 +48,6 @@ import 'swiper/css/pagination'
 export default {
   name: "ProjectPage",
   components: {
-    Slider,
     Footer,
     Header,
     Swiper,

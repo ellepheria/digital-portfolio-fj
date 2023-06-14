@@ -1,4 +1,4 @@
-<template xmlns:BlueButton="http://www.w3.org/1999/xlink">
+<template>
   <Header></Header>
   <div class="form-container">
     <form @submit.prevent="addProject" class="form">
@@ -31,7 +31,7 @@
       </div>
       <div class="third-block">
         <div class="slider-container">
-          <slider></slider>
+
         </div>
         <div class="links-container">
           <input type="text" class="added_links">
@@ -61,11 +61,10 @@ import Footer from "@/UI/Footer/components/Footer.vue";
 import RedButton from "@/UI/Buttons/RedButton/RedButton.vue";
 import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
 import $http, {baseURI} from "@/api";
-import Slider from "@/modules/Slider/components/Slider.vue";
 
 export default {
   name: "AddProjectPage",
-  components: {Slider, BlueButton, RedButton, Footer, Header},
+  components: {BlueButton, RedButton, Footer, Header},
   data() {
     return {
       title: '',

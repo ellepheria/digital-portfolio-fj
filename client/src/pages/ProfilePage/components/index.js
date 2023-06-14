@@ -47,8 +47,6 @@ export default {
             for (let key in data) {
                 this.$data[key] = data[key];
             }
-            this.profile_picture_path = this.profile_picture_path ? baseURI + this.profile_picture_path : '';
-            this.cover_path = this.cover_path ? baseURI + this.cover_path : '';
         },
     },
     async created() {
