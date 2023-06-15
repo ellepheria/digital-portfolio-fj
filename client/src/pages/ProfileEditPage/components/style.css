@@ -4,21 +4,18 @@
     justify-content: space-between;
     flex-direction: column;
 }
-
 .main {
     display: flex;
     justify-content: space-between;
     height: 100%;
     padding: 80px 50px;
 }
-
 .preview-container {
     display: flex;
     flex-direction: column;
     height: 770px;
     width: 502px;
 }
-
 .card-preview {
     display: flex;
     flex-direction: column;
@@ -27,7 +24,6 @@
     border-radius: 40px;
     position: relative;
 }
-
 .cover-container {
     background: #eee;
     height: 200px;
@@ -40,7 +36,6 @@
     align-items: center;
     cursor: pointer;
 }
-
 .cover {
     height: 100%;
     width: 100%;
@@ -48,14 +43,12 @@
     cursor: pointer;
     object-fit: cover;
 }
-
 .cover-input {
     opacity: 0;
     height: 100%;
     width: 100%;
     position: absolute;
 }
-
 .profile-picture-container {
     border-radius: 50%;
     height: 130px;
@@ -65,14 +58,12 @@
     left: 185.5px;
     top: 142.5px;
 }
-
 .profile-picture-input {
     opacity: 0;
     height: 100%;
     width: 100%;
     position: absolute;
 }
-
 .profile-picture {
     height: 100%;
     width: 100%;
@@ -80,13 +71,11 @@
     cursor: pointer;
     object-fit: cover;
 }
-
 .text-fields {
     margin-top: 82px;
     display: flex;
     flex-direction: column;
 }
-
 .text-field {
     font-family: 'Inter';
     font-style: normal;
@@ -96,35 +85,28 @@
     text-align: center;
     color: #FFFFFF;
 }
-
 button {
     margin-top: 40px;
 }
-
 .change-password-button {
     width: 100%;
 }
-
 .save-cancel-block {
     display: flex;
     justify-content: space-between;
 }
-
 .save-button {
     width: 153px;
 }
-
 .cancel-button {
     width: 153px;
 }
-
 .form-container {
     height: 100%;
     width: 1228px;
     background: #C3C3C3;
     border-radius: 40px;
 }
-
 .data-field-container {
     margin: 40px;
     width: 1148px;
@@ -133,7 +115,6 @@ button {
     flex-direction: row;
     justify-content: space-between;
 }
-
 .label {
     font-family: 'Inter';
     font-style: normal;
@@ -146,7 +127,6 @@ button {
     color: #FFFFFF;
     width: 240px;
 }
-
 .field {
     width: 895px;
     height: 50px;
@@ -161,11 +141,9 @@ button {
     line-height: 160%;
     color: #5F5F5F;
 }
-
 .field:focus {
     border: red;
 }
-
 .about {
     min-height: 150px;
     border-radius: 80px;

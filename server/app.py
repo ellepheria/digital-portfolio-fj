@@ -268,6 +268,11 @@ def upload_cover(project_id):
     user_data = get_jwt_identity()
     if user_data:
         cover = request.files['cover']
+
+        project = project_repository.get_project(project_id)
+        if project.cover_path:
+            os.remove(project.cover_path)
+
         type_of_cover = cover.filename.split('.')[1]
 
         path = f'files/projects/{project_id}_project/cover'
@@ -276,7 +281,7 @@ def upload_cover(project_id):
         except OSError as e:
             print(e)
 
-        project_cover_file_name = f'files/projects/{project_id}_project/cover/{project_id}_cover.{type_of_cover}'
+        project_cover_file_name = f'files/projects/{project_id}_project/cover/{hash(cover)}_cover.{type_of_cover}'
         cover.save(project_cover_file_name)
 
         updated_project = project_repository.get_project(project_id)
@@ -320,7 +325,7 @@ def upload_photos(project_id):
             updated_project_files = ProjectFile(project_id=project_id, file_path=photo_file_name)
 
             project_file_repository.add(updated_project_files)
-        #     добавить в овтет массив картинок
+        #     добавить в ответ массив картинок
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}

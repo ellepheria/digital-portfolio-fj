@@ -8,6 +8,7 @@
         :about="about"
         :profile_picture_path="profile_picture_path"
         :cover_path="cover_path"
+        :username="username"
     ></profile-card>
     <div class="data-container">
       <div class="data-field-container">

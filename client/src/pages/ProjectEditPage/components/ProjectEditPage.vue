@@ -20,8 +20,22 @@
               class="short-description">
         </div>
         <div class="cover-container">
-          <img v-if="coverUploaded" :src="getImagePath(this.cover_path)" alt="" class="cover">
-          <img v-if="!coverUploaded" src="@/assets/img.png" alt="" class="cover">
+          <input
+              type="file"
+              accept="image"
+              class="cover-input"
+              draggable="true"
+              @dragleave="dragLeaveHandler"
+              @dragover="dragOverHandler"
+              @drop="dragCoverUpload"
+              @change="coverUpload">
+          <span v-if="!dragOver && !coverUploaded">Вставьте изображение для обложки</span>
+          <span v-if="dragOver && !coverUploaded">Отпустите фото, чтобы загрузить</span>
+          <img
+              v-if="coverUploaded"
+              :src="getImagePath(this.cover_path)"
+              class="cover"
+          >
         </div>
       </div>
       <div class="second-block">
@@ -61,11 +75,6 @@
     </form>
   </div>
   <input
-      @change.prevent="uploadImage"
-      ref="upload-cover"
-      type="file"
-      class="upload-cover">
-  <input
       @change.prevent="uploadImages"
       multiple
       ref="upload-photo"
@@ -95,11 +104,22 @@ export default {
       cover_path: '',
       userIsOwner: false,
       addedImages: {},
+      dragOver: false,
+      cover: '',
     };
   },
   methods: {
-    async uploadImage(e) {
-
+    async uploadCover(e) {
+      const formData = new FormData();
+      formData.append('cover', this.cover);
+      const uri = baseURI + '/' + this.$route.params.projectId + '/upload_cover'
+      let response = {};
+      await $http.post(uri, formData)
+          .then(res => {
+            response = res;
+            this.cover_path = res.data.cover_path
+          });
+      return response;
     },
     async uploadImages(e) {
       const fileList = e.target.files;
@@ -132,7 +152,25 @@ export default {
     },
     getImagePath(imagePath) {
       return baseURI + imagePath;
-    }
+    },
+    dragLeaveHandler(event) {
+      event.preventDefault();
+      this.dragOver = false;
+    },
+    dragOverHandler(event) {
+      event.preventDefault();
+      this.dragOver = true;
+    },
+    async coverUpload(event) {
+      event.preventDefault();
+      this.cover = event.target.files[0];
+      await this.uploadCover();
+    },
+    async dragCoverUpload(event) {
+      event.preventDefault();
+      this.cover = event.dataTransfer.files[0];
+      await this.uploadCover();
+    },
   },
   async created() {
     const data = await this.getProjectData();
@@ -140,9 +178,6 @@ export default {
       this[key] = data[key];
     if (data.owner == getUsername())
       this.userIsOwner = true;
-  },
-  async mounted() {
-
   },
   computed: {
     coverUploaded() {
@@ -164,14 +199,12 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 }
-
 .first-block {
   display: flex;
   flex-direction: row;
   width: 936px;
   justify-content: space-between;
 }
-
 .data-container {
   display: flex;
   flex-direction: column;
@@ -180,65 +213,64 @@ export default {
   width: 936px;
   margin: 45px 40px;
 }
-
 .cover-container {
   width: 624px;
   height: 351px;
   margin-top: 40px;
   margin-bottom: 40px;
   border-radius: 40px;
+  position: relative;
 }
-
 .cover {
   width: 624px;
   height: 351px;
   border-radius: 40px;
 }
-
+.cover-input {
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+span {
+  width: 100%;
+}
 .title {
   border-radius: 20px;
   height: 50px;
   width: 936px;
 }
-
 .short-description {
   border-radius: 40px;
   height: 251px;
   width: 936px;
 }
-
 .second-block {
   margin: 0 40px;
 }
-
 .description {
   border-radius: 40px;
   height: 150px;
   width: 100%;
 }
-
 .third-block {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
 .forth-block {
   margin: 45px 40px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
 .add-photo-button {
   width: 433px;
 }
-
 .save-button {
   width: 238px;
   margin-left: 45px;
 }
-
 .cancel-button {
   width: 238px;
 }
