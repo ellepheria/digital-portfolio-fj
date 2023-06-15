@@ -6,7 +6,7 @@ export const PortfolioPageRoutes = [
     {
         path: '/:username/portfolio',
         name: 'Portfolio',
-        component: import('@/pages/PortfolioPage/components/PortfolioPage.vue'),
+        component: () => import('@/pages/PortfolioPage/components/PortfolioPage.vue'),
         meta: {
             title: 'Портфолио',
             layout: 'Portfolio',

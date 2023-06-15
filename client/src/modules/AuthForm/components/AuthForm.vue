@@ -31,7 +31,7 @@
           >Запомнить?
           </div>
         </div>
-        <blue-button type="submit" class="auth-button">
+        <blue-button @clicked="authorizationFormSubmit" class="auth-button">
           Вход
         </blue-button>
       </div>
@@ -45,7 +45,6 @@
 <script>
 import * as ui from "@/UI";
 import { setUsername } from "@/helpers";
-import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
 
 export default {
   name: "AuthForm",
@@ -59,6 +58,7 @@ export default {
   },
   methods: {
     async authorizationFormSubmit() {
+      console.log('dspjd')
       const { login, password, rememberMe } = this;
       const { data } = await this.$store.dispatch('auth/login', {
         login,

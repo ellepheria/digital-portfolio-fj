@@ -23,7 +23,7 @@ export default {
   },
   components: {ProjectCard},
   props: {
-    projectsList: [],
+    projectsList: Array,
   }
 }
 </script>

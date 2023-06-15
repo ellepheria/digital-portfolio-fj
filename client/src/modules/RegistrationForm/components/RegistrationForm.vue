@@ -1,6 +1,6 @@
 <template>
   <div class="registration-form">
-    <form @submit.prevent="registrationFormSubmit">
+    <form>
       <h1 class="form-title">
         Регистрация
       </h1>
@@ -31,7 +31,7 @@
             class="form-fields__field">
       </div>
       <div class="form-buttons">
-        <blue-button class="registration-button" type="submit">
+        <blue-button class="registration-button" @clicked="registrationFormSubmit">
           Далее
         </blue-button>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <button class="blue-button" :type="type" @click="$emit('clicked')">
+  <button class="blue-button" :type="type" @click.prevent="$emit('clicked')">
     <slot></slot>
   </button>
 </template>

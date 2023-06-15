@@ -22,7 +22,7 @@ export default {
   name: "ProfilesList",
   components: {ProfileCard},
   props: {
-    profilesList: [],
+    profilesList: Array,
   }
 }
 </script>

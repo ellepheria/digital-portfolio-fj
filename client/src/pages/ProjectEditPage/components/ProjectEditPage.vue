@@ -1,7 +1,7 @@
 <template>
   <Header></Header>
   <div class="form-container">
-    <form @submit.prevent="saveProjectData" class="form">
+    <form class="form">
       <div class="first-block">
         <div class="data-container">
           <div class="title-label">
@@ -40,7 +40,9 @@
       </div>
       <div class="forth-block">
         <div class="add-photo-button">
-          <BlueButton class="add-photo-button">
+          <BlueButton
+              @clicked="this.$refs['upload-photo'].click()"
+              class="add-photo-button">
             Добавить фотографии проекта
           </BlueButton>
         </div>
@@ -50,6 +52,7 @@
           </RedButton>
           <BlueButton
               class="save-button"
+              @clicked.prevent="saveProjectData"
               type="submit">
             Сохранить
           </BlueButton>
@@ -57,6 +60,12 @@
       </div>
     </form>
   </div>
+  <input
+      @change="uploadImages"
+      multiple
+      ref="upload-photo"
+      type="file"
+      class="upload-photo">
   <Footer></Footer>
 </template>
 
@@ -80,9 +89,20 @@ export default {
       images: [],
       cover_path: '',
       userIsOwner: false,
+      addedImages: {},
     };
   },
   methods: {
+    async uploadImages(e) {
+      const fileList = e.target.files;
+      const formData = new FormData();
+      for (let index = 0; index < fileList.length; index++) {
+        formData.append(`${index}`, fileList[index])
+      }
+      const uri = baseURI + this.$route.params.projectId + '/upload_photos'
+      await $http.post(uri, formData)
+          .then(res => console.log(res));
+    },
     async getProjectData() {
       const url = baseURI + 'projects/' + this.$route.params.projectId;
       const data = await $http.get(url);
@@ -110,8 +130,6 @@ export default {
     const data = await this.getProjectData();
     for (let key in data)
       this[key] = data[key];
-    console.log(data.owner)
-    console.log(getUsername())
     if (data.owner == getUsername())
       this.userIsOwner = true;
   },
@@ -162,6 +180,7 @@ export default {
   margin-bottom: 40px;
   border-radius: 40px;
 }
+
 .cover {
   width: 624px;
   height: 351px;

@@ -5,7 +5,7 @@ export default CatalogPage;
 export const CatalogRoutes = [
     {
         path: '/catalog',
-        component: import("@/pages/CatalogPage/components/CatalogPage.vue"),
+        component: () => import("@/pages/CatalogPage/components/CatalogPage.vue"),
         name: 'Catalog',
         meta: {
             title: 'Каталог',

@@ -1,60 +1,51 @@
 <template>
   <div class="nav-bar">
-    <router-link to="/catalog">
-      <div class="logo">
+      <div class="logo" @click="this.$router.push('/catalog')">
         Future Job
       </div>
-    </router-link>
     <div class="buttons not_auth" v-if="!isAuth">
-      <router-link to="/auth">
-        <blue-button
-            class="auth-button btn">
-          Вход
-        </blue-button>
-      </router-link>
-      <router-link to="/registration">
-        <blue-button
-            class="registration-button btn">
-          Регистрация
-        </blue-button>
-      </router-link>
+      <blue-button
+          @clicked="this.$router.push('/auth')"
+          class="auth-button btn">
+        Вход
+      </blue-button>
+      <blue-button
+          @clicked="this.$router.push('/registration')"
+          class="registration-button btn">
+        Регистрация
+      </blue-button>
     </div>
     <div class="buttons auth" v-if="isAuth">
-      <router-link :to="'/' + getUsername() + '/portfolio'">
-        <blue-button
-            v-if="layout == 'default' || layout == 'ProfileEdit'"
-            class="portfolio btn">
-          Портфолио
-        </blue-button>
-      </router-link>
+      <blue-button
+          v-if="layout == 'default' || layout == 'ProfileEdit'"
+          @clicked="this.$router.push('/' + getUsername() + '/portfolio')"
+          class="portfolio btn">
+        Портфолио
+      </blue-button>
       <red-button
           v-if="layout == 'ProfileEdit'"
           @clicked="logout"
           class="logout-button btn"
       >Выход
       </red-button>
-      <router-link :to="'/' + getUsername()">
-        <blue-button
-            v-if="!ownProfile"
-            class="profile"
-            @clicked="this.$router.push(getUsername())">
-          Профиль
-        </blue-button>
-      </router-link>
-      <router-link :to="'/' + getUsername() + '/edit'">
-        <blue-button
-            v-if="layout == 'default' && ownProfile"
-            class="profile_edit btn"
-            @clicked="this.$router.push(getUsername() + '/edit')">
-          Редактировать
-        </blue-button>
-      </router-link>
-      <router-link to="/add_project">
-        <blue-button
-            v-if="layout == 'Portfolio'"
-            class="add-project btn">Добавить проект
-        </blue-button>
-      </router-link>
+      <blue-button
+          v-if="!ownProfile"
+          class="profile"
+          @clicked="this.$router.push(getUsername())">
+        Профиль
+      </blue-button>
+      <blue-button
+          v-if="layout == 'default' && ownProfile"
+          class="profile_edit btn"
+          @clicked="this.$router.push(getUsername() + '/edit')">
+        Редактировать
+      </blue-button>
+
+      <blue-button
+          v-if="layout == 'Portfolio'"
+          @clicked="this.$router.push('/add_project')"
+          class="add-project btn">Добавить проект
+      </blue-button>
       <blue-button
           v-if="layout == 'Portfolio'"
           class="portfolio-edit btn"
@@ -162,5 +153,6 @@ a {
   font-size: 50px;
   line-height: 160%;
   color: #6ACED0;
+  cursor: pointer;
 }
 </style>

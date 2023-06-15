@@ -62,13 +62,6 @@ export default {
                 this[key] = data[key];
             }
         },
-        getThisData() {
-            let data = {};
-            for (let key in this.$data) {
-                data[key] = this[key];
-            }
-            return data;
-        },
         getThisProfileData() {
             const vuexData = this.$store.getters['profile/getCurrentData'];
             const data = {};
