@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import timedelta
 
@@ -24,7 +25,6 @@ project_file_repository = ProjectFileRepository()
 @app.route('/register', methods=['POST'])
 def register():
     params = request.json
-
     user = User(**params)
 
     token = create_access_token(identity=[user.username, user.email, user.password])
@@ -35,7 +35,6 @@ def register():
     profile_file = ProfileFile(user_id=id_)
 
     profile_file_repository.add(profile_file)
-
     return {'access_token': token}
 
 
@@ -178,6 +177,7 @@ def create_project():
             if elem.title == params['title']:
                 return {'Error': 'Project with this title already exists'}
         project_repository.add(project)
+
         return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
@@ -269,9 +269,19 @@ def upload_cover(project_id):
     if user_data:
         cover = request.files['cover']
         type_of_cover = cover.filename.split('.')[1]
-        project_cover_file_name = f'files/projects/{project_id}_project/cover/{project_id}_cover.{type_of_cover}'
 
-        updated_project = Project(cover_path=project_cover_file_name)
+        path = f'files/projects/{project_id}_project/cover'
+        try:
+            os.makedirs(path)
+        except OSError as e:
+            print(e)
+
+        project_cover_file_name = f'files/projects/{project_id}_project/cover/{project_id}_cover.{type_of_cover}'
+        cover.save(project_cover_file_name)
+
+        updated_project = project_repository.get_project(project_id)
+        updated_project.cover_path = project_cover_file_name
+
         project_repository.update(new_project=updated_project,
                                   project_id=project_id)
 
@@ -286,22 +296,32 @@ def upload_photos(project_id):
     user_data = get_jwt_identity()
     if user_data:
         project_files = project_file_repository.get_all_project_files(project_id)
-        project_file_repository.delete(project_files.id)
+        files = request.files
+        if project_files:
+            for file in project_files:
+                os.remove(file.file_path)
+                project_file_repository.delete(file.id)
 
-        for i in range(len(user_data)):
-            photo = request.files[i]
+        path = f'files/projects/{project_id}_project/photos/'
+        try:
+            os.makedirs(path)
+        except OSError as e:
+            print(e)
+
+        for i in range(len(files)):
+            print(i)
+            photo = files[f'{i}']
             type_of_photo = photo.filename.split('.')[1]
             photo_file_name = f'files/projects/{project_id}_project/photos/{i}_{hash(photo)}.{type_of_photo}'
 
             # Add file to folder
-            with open(photo_file_name, 'w') as f:
-                f.write(photo)
+            photo.save(photo_file_name)
 
-        updated_project_files = ProjectFile(project_id=project_id,
-                                            file_path=f'files/projects/{project_id}_project/photos/')
+            updated_project_files = ProjectFile(project_id=project_id, file_path=photo_file_name)
 
-        project_file_repository.update(project_file_id=project_files.id,
-                                       new_project_file=updated_project_files)
+            project_file_repository.add(updated_project_files)
+        #     добавить в овтет массив картинок
+        return {'status': 'success'}
     else:
         return {'error': 'No user with this token'}
 

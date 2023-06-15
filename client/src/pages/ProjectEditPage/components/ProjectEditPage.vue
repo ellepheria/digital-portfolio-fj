@@ -61,7 +61,12 @@
     </form>
   </div>
   <input
-      @change="uploadImages"
+      @change.prevent="uploadImage"
+      ref="upload-cover"
+      type="file"
+      class="upload-cover">
+  <input
+      @change.prevent="uploadImages"
       multiple
       ref="upload-photo"
       type="file"
@@ -93,6 +98,9 @@ export default {
     };
   },
   methods: {
+    async uploadImage(e) {
+
+    },
     async uploadImages(e) {
       const fileList = e.target.files;
       const formData = new FormData();

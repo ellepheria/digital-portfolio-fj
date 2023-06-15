@@ -126,6 +126,7 @@ export default {
 .image {
   width: 1440px;
   height: 810px;
+  object-fit: contain;
 }
 
 .project-data-container {
