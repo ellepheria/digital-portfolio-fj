@@ -1,77 +1,69 @@
 <template>
-  <Header></Header>
-  <div class="form-container">
-    <form @submit.prevent="addProject" class="form">
-      <div class="first-block">
+  <div class="container">
+    <Header></Header>
+    <div class="form-container">
+      <form class="form">
+        <div class="form-title">Добавление проекта</div>
         <div class="data-container">
-          <div class="title-label">
+          <div class="title-label label">
             Название проекта
           </div>
           <input
               v-model="title"
               class="title"
               type="text">
-          <div class="short-description-label">
+          <div class="short-description-label label">
             Краткое описание
           </div>
           <input
-              v-model="shortDescription"
+              v-model="short_description"
               type="text"
               class="short-description">
-        </div>
-        <div class="cover-container">
-          a
-        </div>
-      </div>
-      <div class="second-block">
-        <input
-            v-model="description"
-            type="text"
-            class="description">
-      </div>
-      <div class="third-block">
-        <div class="slider-container">
-
-        </div>
-        <div class="links-container">
-          <input type="text" class="added_links">
-        </div>
-      </div>
-      <div class="forth-block">
-        <div class="add-photo-button">
-          <BlueButton>
-            Добавить фотографии проекта
-          </BlueButton>
+          <div class="description-label label">
+            Описание проекта
+          </div>
+          <input
+              v-model="description"
+              type="text"
+              class="description">
         </div>
         <div class="buttons">
-          <RedButton>Назад</RedButton>
           <BlueButton
-              type="submit">Добавить
+              class="save-button"
+              @clicked="addProject"
+              type="submit">
+            Добавить проект
           </BlueButton>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
+    <Footer></Footer>
   </div>
-  <Footer></Footer>
+
 </template>
 
 <script>
+import $http, {baseURI} from "@/api";
 import Header from "@/UI/Header/components/Header.vue";
 import Footer from "@/UI/Footer/components/Footer.vue";
 import RedButton from "@/UI/Buttons/RedButton/RedButton.vue";
 import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
-import $http, {baseURI} from "@/api";
+import {getUsername} from "@/helpers";
+
 
 export default {
-  name: "AddProjectPage",
-  components: {BlueButton, RedButton, Footer, Header},
+  name: "ProjectEditPage",
+  components: {
+    BlueButton,
+    RedButton,
+    Footer,
+    Header,
+  },
   data() {
     return {
       title: '',
-      shortDescription: '',
+      short_description: '',
       description: '',
-      images: [],
-      added_links: {},
     };
   },
   methods: {
@@ -80,16 +72,13 @@ export default {
       const url = baseURI + 'create_project';
       const payload = {
         title: this.title,
-        short_description: this.shortDescription,
+        short_description: this.short_description,
         description: this.description,
-        added_links: [],
       }
       await $http.post(url, payload)
-          .then(res => response = res);
-      console.log(response);
+          .then(res => this.$router.push('/' + getUsername() + '/portfolio'));
     },
   },
-  computed: {},
   created() {
     this.title = 'Project';
   },
@@ -97,72 +86,81 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+}
+input {
+  text-align: center;
+  border: none;
+}
+.label {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 160%;
+  color: #EAEAEA;
+}
+.form-title {
+  width: 100%;
+  text-align: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 160%;
+  color: #FFFFFF;
+}
 .form-container {
   width: 1680px;
-  height: 1259px;
   background: #C3C3C3;
   border-radius: 50px;
   margin: 45px auto;
+  padding-top: 45px;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-
-.first-block {
-  display: flex;
-  flex-direction: row;
-  width: 936px;
-  justify-content: space-between;
-}
-
 .data-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 346px;
-  width: 936px;
-  margin: 45px 40px;
+  width: 95%;
+  margin: 0 40px;
 }
-
-.cover-container {
-  width: 624px;
-  height: 351px;
-  margin: 40px 40px 45px;
-}
-
 .title {
   border-radius: 20px;
-  height: 50px;
-  width: 936px;
+  height: 90px;
+  width: 100%;
 }
-
+.short-description-label {
+  margin-top: 20px;
+}
 .short-description {
   border-radius: 40px;
   height: 251px;
-  width: 936px;
+  width: 100%;
 }
-
-.second-block {
-  margin: 0 40px;
+.description-label {
+  margin-top: 20px;
 }
-
 .description {
   border-radius: 40px;
   height: 150px;
   width: 100%;
 }
-
-.third-block {
+.buttons {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
+  margin: 40px 45px;
 }
-
-.forth-block {
-  margin: 45px 40px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.save-button {
+  width: 238px;
+  margin-left: 45px;
 }
 </style>

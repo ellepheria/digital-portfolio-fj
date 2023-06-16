@@ -2,7 +2,7 @@
   <Header :project-edit="userIsOwner"></Header>
   <div class="header">{{ title }}</div>
   <div class="main-container">
-    <div class="slider-container">
+    <div class="slider-container" v-if="!isEmpty(this.images)">
       <swiper
           :modules="[Pagination]"
           :slides-per-view="1"
@@ -22,7 +22,7 @@
         </swiper-slide>
       </swiper>
     </div>
-    <div class="project-data-container">
+    <div class="project-data-container" >
       <div class="description">
         {{ description }}
       </div>
@@ -70,6 +70,11 @@ export default {
     },
   },
   methods: {
+    isEmpty(obj) {
+      for (let key in obj)
+        return false;
+      return true;
+    },
     Pagination() {
       return Pagination
     },
@@ -88,6 +93,10 @@ export default {
       for (let key in data) {
         this[key] = data[key];
       }
+      if (!this.added_links || this.added_links == '{}')
+        this.added_links = 'Ссылки не добавлены.';
+      if (!this.description)
+        this.description = 'Описание не добавлено.';
     },
   },
   async created() {
@@ -149,8 +158,6 @@ export default {
   font-weight: 400;
   font-size: 24px;
   line-height: 120%;
-  display: flex;
-  align-items: center;
   text-align: center;
 }
 </style>
