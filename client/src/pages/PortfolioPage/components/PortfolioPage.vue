@@ -41,7 +41,7 @@ export default {
       const uri = baseURI + 'get_user_projects/' + username;
       let projectsList = (await $http.get(uri, {params : params}))
           .data.json_list;
-      this.projectsList = [...this.projectsList, ...projectsList].sort((a, b) => a.id - b.id);
+      this.projectsList = [...this.projectsList, ...projectsList.sort((a, b) => a.id - b.id)];
     },
   },
   mounted() {

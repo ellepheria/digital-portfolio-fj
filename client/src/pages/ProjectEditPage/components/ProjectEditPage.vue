@@ -182,6 +182,9 @@ export default {
   computed: {
     coverUploaded() {
       return !!this.cover_path;
+    },
+    imagesUploaded() {
+      return !!this.images;
     }
   }
 }
