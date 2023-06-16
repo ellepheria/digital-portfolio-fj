@@ -87,7 +87,7 @@
           </RedButton>
           <BlueButton
               class="save-button"
-              @clicked.prevent="saveProjectData"
+              @clicked="saveProjectData"
               type="submit">
             Сохранить
           </BlueButton>

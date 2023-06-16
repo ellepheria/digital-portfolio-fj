@@ -194,7 +194,7 @@ def project_edit(project_id):
 
     if user_data and params['owner'] == user.username:
         for p in projects:
-            if p.title == params['title'] and p.id != project_id:
+            if p.title == params['title'] and p.id != int(project_id):
                 return {'Error': 'Project with this title already exists'}
 
         project.title = params['title']
