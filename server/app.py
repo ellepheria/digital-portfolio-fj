@@ -313,12 +313,12 @@ def upload_photos(project_id):
         except OSError as e:
             print(e)
 
+        images = {}
         for i in range(len(files)):
-            print(i)
             photo = files[f'{i}']
             type_of_photo = photo.filename.split('.')[1]
             photo_file_name = f'files/projects/{project_id}_project/photos/{i}_{hash(photo)}.{type_of_photo}'
-
+            images[f'{i}'] = photo_file_name
             # Add file to folder
             photo.save(photo_file_name)
 
@@ -326,7 +326,7 @@ def upload_photos(project_id):
 
             project_file_repository.add(updated_project_files)
         #     добавить в ответ массив картинок
-        return {'status': 'success'}
+        return images
     else:
         return {'error': 'No user with this token'}
 

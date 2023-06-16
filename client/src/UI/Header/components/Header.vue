@@ -31,7 +31,7 @@
       <blue-button
           v-if="!ownProfile"
           class="profile"
-          @clicked="this.$router.push(getUsername())">
+          @clicked="this.$router.push('/' + getUsername())">
         Профиль
       </blue-button>
       <blue-button
@@ -40,17 +40,18 @@
           @clicked="this.$router.push(getUsername() + '/edit')">
         Редактировать
       </blue-button>
-
       <blue-button
           v-if="layout == 'Portfolio'"
           @clicked="this.$router.push('/add_project')"
           class="add-project btn">Добавить проект
       </blue-button>
-      <blue-button
-          v-if="layout == 'Portfolio'"
-          class="portfolio-edit btn"
-          @clicked="portfolioEdit">Редактировать портфолио
-      </blue-button>
+      <BlueButton
+          v-if="projectEdit"
+          @clicked="onProjectEdit"
+          class="project-edit-button"
+      >
+        Редактировать
+      </BlueButton>
     </div>
   </div>
 </template>
@@ -63,6 +64,9 @@ import $http, {baseURI} from "@/api";
 export default {
   name: "Header",
   components: {BlueButton},
+  props: {
+    projectEdit: false,
+  },
   methods: {
     getUsername,
     logout() {
@@ -73,8 +77,8 @@ export default {
     addProject() {
       this.$router.push('/add_project');
     },
-    portfolioEdit() {
-
+    onProjectEdit() {
+      this.$router.push(this.$route.params.projectId + '/edit')
     },
   },
   computed: {
@@ -100,49 +104,35 @@ export default {
   justify-content: space-between;
   background: #FFFFFF;
 }
-
 a {
   text-decoration: none;
 }
-
 .btn {
   margin-top: 30px;
   margin-right: 50px;
 }
-
 .portfolio {
   width: 170px;
 }
-
 .profile {
   width: 170px;
   margin-right: 50px;
 }
-
 .profile_edit {
   width: 210px;
 }
-
 .auth-button {
   width: 100px;
 }
-
 .registration-button {
   width: 190px;
 }
-
 .logout-button {
   width: 120px;
 }
-
 .add-project {
   width: 250px;
 }
-
-.portfolio-edit {
-  width: 370px;
-}
-
 .logo {
   margin: 14px 46px;
   height: 58px;
@@ -154,5 +144,9 @@ a {
   line-height: 160%;
   color: #6ACED0;
   cursor: pointer;
+}
+.project-edit-button {
+  width: 230px;
+  margin-right: 50px;
 }
 </style>

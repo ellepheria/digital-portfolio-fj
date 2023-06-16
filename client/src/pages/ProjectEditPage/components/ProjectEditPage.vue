@@ -4,14 +4,14 @@
     <form class="form">
       <div class="first-block">
         <div class="data-container">
-          <div class="title-label">
+          <div class="title-label label">
             Название проекта
           </div>
           <input
               v-model="title"
               class="title"
               type="text">
-          <div class="short-description-label">
+          <div class="short-description-label label">
             Краткое описание
           </div>
           <input
@@ -39,6 +39,9 @@
         </div>
       </div>
       <div class="second-block">
+        <div class="description-label label">
+          Описание проекта
+        </div>
         <input
             v-model="description"
             type="text"
@@ -46,14 +49,32 @@
       </div>
       <div class="third-block">
         <div class="slider-container">
-
+          <div class="slider-label">Добавленные фотографии проекта</div>
+          <swiper
+              :slides-per-view="1"
+              :space-between="50"
+              @swiper="onSwiper"
+              @slideChange="onSlideChange"
+              class="slider"
+              :loop="false"
+              :grab-cursor="true"
+              :pagination="true"
+          >
+            <swiper-slide
+                v-for="image in images"
+                class="slide"
+            >
+              <img :src="getPath(image)" alt="image" class="image">
+            </swiper-slide>
+          </swiper>
         </div>
-        <div class="links-container">
+        <div class="added_links-container">
+          <div class="added-links-label">Дополительные ссылки</div>
           <input type="text" class="added_links">
         </div>
       </div>
       <div class="forth-block">
-        <div class="add-photo-button">
+        <div class="add-photo-container">
           <BlueButton
               @clicked="this.$refs['upload-photo'].click()"
               class="add-photo-button">
@@ -90,10 +111,20 @@ import Header from "@/UI/Header/components/Header.vue";
 import Footer from "@/UI/Footer/components/Footer.vue";
 import RedButton from "@/UI/Buttons/RedButton/RedButton.vue";
 import BlueButton from "@/UI/Buttons/BlueButton/BlueButton.vue";
+import {Swiper, SwiperSlide} from 'swiper/vue';
+
+import 'swiper/css';
 
 export default {
   name: "ProjectEditPage",
-  components: {BlueButton, RedButton, Footer, Header},
+  components: {
+    BlueButton,
+    RedButton,
+    Footer,
+    Header,
+    SwiperSlide,
+    Swiper,
+  },
   data() {
     return {
       title: '',
@@ -102,13 +133,19 @@ export default {
       added_links: '',
       images: [],
       cover_path: '',
-      userIsOwner: false,
       addedImages: {},
       dragOver: false,
       cover: '',
     };
   },
   methods: {
+    getPath(image_path) {
+      return baseURI + image_path;
+    },
+    onSwiper() {
+    },
+    onSlideChange() {
+    },
     async uploadCover(e) {
       const formData = new FormData();
       formData.append('cover', this.cover);
@@ -129,7 +166,8 @@ export default {
       }
       const uri = baseURI + this.$route.params.projectId + '/upload_photos'
       await $http.post(uri, formData)
-          .then(res => console.log(res));
+          .then(res => this.images = res.data);
+      console.log(this.images)
     },
     async getProjectData() {
       const url = baseURI + 'projects/' + this.$route.params.projectId;
@@ -176,8 +214,6 @@ export default {
     const data = await this.getProjectData();
     for (let key in data)
       this[key] = data[key];
-    if (data.owner == getUsername())
-      this.userIsOwner = true;
   },
   computed: {
     coverUploaded() {
@@ -185,15 +221,27 @@ export default {
     },
     imagesUploaded() {
       return !!this.images;
-    }
+    },
   }
 }
 </script>
 
 <style scoped>
+input {
+  text-align: center;
+  border: none;
+}
+.label {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 160%;
+  color: #EAEAEA;
+}
 .form-container {
   width: 1680px;
-  height: 1259px;
+  height: 1205px;
   background: #C3C3C3;
   border-radius: 50px;
   margin: 45px auto;
@@ -260,6 +308,64 @@ span {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 45px 40px;
+}
+.slider-container {
+  width: 624px;
+  height: 408px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.slider-label {
+  width: 100%;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 120%;
+  color: #FFFFFF;
+}
+.slider {
+  width: 624px;
+  height: 351px;
+  border-radius: 40px;
+}
+.image {
+  width: 624px;
+  height: 351px;
+  object-fit: contain;
+}
+.added_links-container {
+  width: 929px;
+  height: 408px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.added-links-label {
+  width: 100%;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 120%;
+  color: #FFFFFF;
+}
+.added_links {
+  width: 929px;
+  height: 351px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 .forth-block {
   margin: 45px 40px;
@@ -269,6 +375,7 @@ span {
 }
 .add-photo-button {
   width: 433px;
+  margin-left: 99px;
 }
 .save-button {
   width: 238px;
@@ -276,5 +383,8 @@ span {
 }
 .cancel-button {
   width: 238px;
+}
+.upload-photo {
+  opacity: 0;
 }
 </style>

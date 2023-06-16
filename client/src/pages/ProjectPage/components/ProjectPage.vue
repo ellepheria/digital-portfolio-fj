@@ -1,5 +1,5 @@
 <template>
-  <Header></Header>
+  <Header :project-edit="userIsOwner"></Header>
   <div class="header">{{ title }}</div>
   <div class="main-container">
     <div class="slider-container">
@@ -30,7 +30,6 @@
         {{ added_links }}
       </div>
     </div>
-
   </div>
   <Footer></Footer>
 </template>
@@ -44,6 +43,7 @@ import {Pagination} from "swiper";
 
 import 'swiper/css';
 import 'swiper/css/pagination'
+import {getUsername} from "@/helpers";
 
 export default {
   name: "ProjectPage",
@@ -63,6 +63,11 @@ export default {
       images: {},
       owner: '',
     };
+  },
+  computed: {
+    userIsOwner() {
+      return this.owner == getUsername();
+    },
   },
   methods: {
     Pagination() {
@@ -95,7 +100,6 @@ export default {
 .main-container {
   margin: 80px 120px 100px;
 }
-
 .header {
   margin-top: 60px;
   font-family: 'Inter';
@@ -106,29 +110,25 @@ export default {
   text-align: center;
   color: #5F5F5F;
 }
-
 .slider-container {
-  padding: 50px;
+  padding: 50px 0px;
   margin-bottom: 140px;
   width: 100%;
   height: 1005px;
   background: #C3C3C3;
   border-radius: 50px;
 }
-
 .slider {
   margin: 50px auto;
   width: 1440px;
   height: 810px;
   border-radius: 50px;
 }
-
 .image {
   width: 1440px;
   height: 810px;
   object-fit: contain;
 }
-
 .project-data-container {
   padding: 40px;
   display: flex;
@@ -139,7 +139,6 @@ export default {
   background: #C3C3C3;
   border-radius: 50px;
 }
-
 .description, .links {
   background: #FFFFFF;
   width: 100%;
