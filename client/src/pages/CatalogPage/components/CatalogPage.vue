@@ -150,6 +150,7 @@ export default {
   font-size: 26px;
   line-height: 120%;
   color: #FFFFFF;
+  cursor: pointer;
 }
 .catalog-container {
   width: 100%;

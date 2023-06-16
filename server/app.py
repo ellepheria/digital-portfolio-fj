@@ -122,9 +122,13 @@ def upload_profile_cover():
     if user_data:
         user_id = user_repository.get_user_by_username(user_data[0]).user_id
         current_profile_files = profile_file_repository.get_profile_files(user_id)
+
+        if current_profile_files.cover_path:
+            os.remove(current_profile_files.cover_path)
+
         cover = request.files['cover']
         type_of_cover = cover.filename.split('.')[1]
-        cover_file_name = f'files/cover/{user_data[0]}_cover.{type_of_cover}'
+        cover_file_name = f'files/cover/{user_data[0]}_{hash(cover)}_cover.{type_of_cover}'
         cover.save(cover_file_name)
 
         profile_file = ProfileFile(user_id=user_id,
@@ -145,9 +149,13 @@ def upload_profile_picture():
     if user_data:
         user_id = user_repository.get_user_by_username(user_data[0]).user_id
         current_profile_files = profile_file_repository.get_profile_files(user_id)
+
+        if current_profile_files.photo_path:
+            os.remove(current_profile_files.photo_path)
+
         profile_picture = request.files['profile_picture']
         type_of_profile_picture = profile_picture.filename.split('.')[1]
-        profile_picture_name = f'files/profile_picture/{user_data[0]}_profile_picture.{type_of_profile_picture}'
+        profile_picture_name = f'files/profile_picture/{user_data[0]}_{hash(profile_picture)}_profile_picture.{type_of_profile_picture}'
         profile_picture.save(profile_picture_name)
 
         profile_file = ProfileFile(user_id=user_id,
